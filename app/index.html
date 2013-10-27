@@ -32,7 +32,12 @@
             <div class="jumbotron">
                 <h1>I live at</h1>
                 <form>
-                    <input type="text" id="address" class="input-lg form-control" placeholder="1234 Main St, Cambridge, MA">
+                    <div class="input-group">
+                        <input type="text" id="address" class="input-lg form-control" placeholder="1234 Main St, Cambridge, MA">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default btn-lg" type="submit" style="padding: 10px 16px; font-size: 18px;"><i class="glyphicon glyphicon-play"></i></button>
+                        </span>
+                    </div>
                 </form>
                 <a class="btn btn-default current-location">I'm at home right now</a>
             </div>
