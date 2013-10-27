@@ -15,10 +15,8 @@
         <!-- endbuild -->
         <!-- build:js scripts/vendor/modernizr.js -->
         <script src="bower_components/modernizr/modernizr.js"></script>
-        <script src="bower_components/geojson-google-maps/GeoJSON.js"></script>
         <!-- endbuild -->
         <script src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
-        <script src="scripts/maps.google.polygon.containsLatLng.js"></script>
     </head>
     <body>
         <!--[if lt IE 10]>
@@ -28,12 +26,7 @@
 
         <div class="container">
             <div class="header">
-                <ul class="nav nav-pills pull-right">
-                    <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
-                <h3 class="text-muted">cambridge_voting_locations</h3>
+                <h3 class="text-muted">Cambridge Voting Locations</h3>
             </div>
 
             <div class="jumbotron">
@@ -58,6 +51,7 @@
         <!-- build:js scripts/vendor.js -->
         <!-- bower:js -->
         <script src="bower_components/jquery/jquery.js"></script>
+        <script src="scripts/vendor/maps.google.polygon.containsLatLng.js"></script>
         <!-- endbower -->
         <!-- endbuild -->
 
