@@ -1,0 +1,61 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Cambridge Voting Locations</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+        <link rel="stylesheet" href="styles/2d9d0f4a.main.css">
+        <script src="scripts/vendor/f7f27360.modernizr.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
+    </head>
+    <body>
+        <!--[if lt IE 10]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+
+        <div class="container">
+            <div class="header">
+                <h3 class="text-muted">Cambridge Voting Locations</h3>
+            </div>
+
+            <div class="jumbotron">
+                <h1>I live at</h1>
+                <form>
+                    <input type="text" id="address" class="input-lg form-control" placeholder="1234 Main St, Cambridge, MA">
+                </form>
+                <a class="btn btn-default current-location">I'm at home right now</a>
+            </div>
+
+            <div class="row">
+                <div id="map" class="col-xs-8"></div>
+                <div id="directions" class="col-xs-4"></div>
+            </div>
+
+            <div class="footer">
+                <p>♥ from Code for Boston</p>
+            </div>
+
+        </div>
+
+        <script src="scripts/8f1d6e6e.vendor.js"></script>
+
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='//www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-XXXXX-X');ga('send','pageview');
+        </script>
+
+        <script data-main="scripts/8a1a7544.app" src="bower_components/requirejs/require.js"></script>
+</body>
+</html>
