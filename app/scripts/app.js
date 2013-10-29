@@ -81,10 +81,52 @@ require(['jquery', 'polling_location_finder'], function($, findPollingLocationFo
         var address = $('#address').val();
         var geocoder = new google.maps.Geocoder();
 
+        // clear details pane
+        $('#directions').empty();
+
+
+        // go right to the first result if there's only one, or display a list if there are multiples
+        function displaySearchResults(results) {
+            var addressClickHandler = function() {
+                var location = $(this).data('location');
+                $('#directions').empty();
+                findPollingLocationFor(location);
+            };
+            if (results.length === 1) {
+                findPollingLocationFor(results[0].geometry.location);
+            } else {
+                var $ul = $('<ul>').appendTo('#directions');
+                for (var i = 0; i < results.length; i++) {
+                    var result = results[i];
+                    var link = $('<a>').text(result.formatted_address).data('location', result.geometry.location).on('click', addressClickHandler);
+                    $('<li>').append(link).appendTo($ul);
+                }
+            }
+        }
+
+        // only valid Cambridge street addresses, please
+        function addressIsCambridgeStreetAddress(address) {
+            var isInCambridge = !!~address.formatted_address.indexOf('Cambridge, MA');
+            var isStreetAddress = !!~$.inArray('street_address', address.types);
+            return isInCambridge && isStreetAddress;
+        }
+
         geocoder.geocode({ address: address }, function(results, status) {
-            // TODO if there are multiple results, default to Cambridge-specific results
-            var result = results[0];
-            findPollingLocationFor(result.geometry.location);
+            // if there are multiple results, look for Cambridge-specific street results
+            results = $.grep(results, addressIsCambridgeStreetAddress);
+            // if there are no results, try searching for Cambridge
+            if (!results.length) {
+                geocoder.geocode({ address: address + ' Cambridge, MA' }, function(results, status) {
+                    results = $.grep(results, addressIsCambridgeStreetAddress);
+                    if (!results.length) {
+                        $('#directions').text("Sorry, we couldn't find your location. Please use your entire street address; only Cambridge, MA addresses are allowed.");
+                    } else {
+                        displaySearchResults(results);
+                    }
+                });
+            } else {
+                displaySearchResults(results);
+            }
         });
     });
 });
