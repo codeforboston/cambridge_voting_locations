@@ -45,7 +45,7 @@ define(['geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'json!vendor/
             // show step-by-step directions
             var request = {
                 origin: coords,
-                destination: pollingLocation.position,
+                destination: pollingLocation.geojsonProperties.Address + ', Cambridge, MA',
                 travelMode: google.maps.TravelMode.WALKING
             };
             directionsService.route(request, function(result, status) {
