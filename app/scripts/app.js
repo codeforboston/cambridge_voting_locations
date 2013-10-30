@@ -106,12 +106,20 @@ require(['jquery', 'polling_location_finder'], function($, findPollingLocationFo
 
         // only valid Cambridge street addresses, please
         function addressIsCambridgeStreetAddress(address) {
-            var isInCambridge = !!~address.formatted_address.indexOf('Cambridge, MA');
-            var isStreetAddress = !!~$.inArray('street_address', address.types);
-            return isInCambridge && isStreetAddress;
+            var zipCodeComponent = address.address_components[address.address_components.length - 1],
+                zipCode = zipCodeComponent && zipCodeComponent.short_name;
+            var isInCambridge = ~$.inArray(zipCode, ['02138', '02139', '02140', '02141', '02142', '02238']),
+                isStreetAddress = ~$.inArray('street_address', address.types);
+            return isInCambridge & isStreetAddress;
         }
 
-        geocoder.geocode({ address: address }, function(results, status) {
+        geocoder.geocode({
+            address: address,
+            componentRestrictions: {
+                administrativeArea: 'Massachusetts',
+                country: 'US'
+            }
+        }, function(results, status) {
             // if there are multiple results, look for Cambridge-specific street results
             results = $.grep(results, addressIsCambridgeStreetAddress);
             // if there are no results, try searching for Cambridge
