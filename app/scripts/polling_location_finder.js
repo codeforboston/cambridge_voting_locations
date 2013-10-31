@@ -22,7 +22,7 @@ define(['geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'json!vendor/
         // if we've already drawn a user precinct, erase it
         if (userPrecinct) {
             userPrecinct.setMap(null);
-            userPrecinct;
+            userPrecinct = undefined;
         }
         // find out which ward they're in using Point in Polygon
         var pollingLocation, wardPrecinct;
