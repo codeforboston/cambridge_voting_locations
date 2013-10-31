@@ -19,39 +19,44 @@
         <script src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
     </head>
     <body>
-        <!--[if lt IE 10]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
+        <header class="global">
+            <hgroup>
+                <h1>Vote Cambridge</h1>
+                <h3>We'll show you where to go</h3>
+            </hgroup>
+            <!-- <nav> -->
+            <!--     <a href="http://www.cambridgema.gov/election">Cambridge election information</a> --> 
+            <!-- </nav> -->
+        </header>
 
-
-        <div class="container">
-            <div class="header">
-                <h3 class="text-muted">Cambridge Voting Locations</h3>
+        <section class="content container">
+            <header>
+                <h2>Where do you live?</h2>
+            </header>
+            <div class="input row">
+                <div class="address col-sm-8 col-lg-6">
+                    <form class="clearfix">
+                        <label for="address"><span class="icon-home"></i> Home Address</label>
+                        <input type="text" id="address" class="input-md form-control" placeholder="1234 Main St, Cambridge, MA">
+                        <button class="btn btn-default btn-md" type="submit">Find</button>
+                    </form>
+                </div>
+                <div class="location col-sm-4 col-lg-6">
+                    <a class="btn btn-default current-location">
+                        <span class="icon-location"></span> Current location
+                    </a>
+                </div>
             </div>
 
-            <div class="jumbotron">
-                <h1>I live at</h1>
-                <form>
-                    <div class="input-group">
-                        <input type="text" id="address" class="input-lg form-control" placeholder="1234 Main St, Cambridge, MA">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default btn-lg" type="submit" style="padding: 10px 16px; font-size: 18px;"><i class="glyphicon glyphicon-play"></i></button>
-                        </span>
-                    </div>
-                </form>
-                <a class="btn btn-default current-location">I'm at home right now</a>
-            </div>
+            <div id="map"></div>
+            <div id="directions"></div>
+        </section>
 
-            <div class="row">
-                <div id="map" class="col-xs-8"></div>
-                <div id="directions" class="col-xs-4"></div>
-            </div>
-
-            <div class="footer">
-                <p>♥ from Code for Boston</p>
-            </div>
-
-        </div>
+        <footer class="global">
+            <p>
+                An open source application by Code for Boston, a Code for America Brigade.  <a href="http://github.com/codeforboston/cambridge_voting_locations">Get the source code.</a>
+            </p>
+        </footer>
 
         <!-- build:js scripts/vendor.js -->
         <!-- bower:js -->
