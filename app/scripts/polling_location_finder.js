@@ -25,12 +25,18 @@ define(['geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'json!vendor/
             userPrecinct = null;
         }
         // find out which ward they're in using Point in Polygon
-        var pollingLocation = null;
+        var pollingLocation = null, wardPrecinct = null;
         for (var i = 0; i < precincts.length; i++) {
             if (precincts[i].containsLatLng(coords)) {
                 userPrecinct = precincts[i];
-                // polling locations are stored in the same order, so we can use the same index
-                pollingLocation = pollingLocations[i];
+                wardPrecinct = userPrecinct.geojsonProperties.WardPrecinct;
+                //Search for the polling location that matches the precinct and ward
+                for (var j = 0; j < pollingLocations.length; j++) {
+                    if (pollingLocations[j].geojsonProperties.W_P == wardPrecinct) {
+                        pollingLocation = pollingLocations[j];
+                        break;
+                    }
+                }
                 break;
             }
         }
