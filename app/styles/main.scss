@@ -166,7 +166,10 @@ footer.global {
             height: 0;
         }
     }
-
 }
 
-
+@media (max-width: $screen-phone) {
+    #map {
+        height: 250px;
+    }
+}
