@@ -1,0 +1,71 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Cambridge Voting Locations</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+        <link rel="stylesheet" href="styles/d4e1fbea.main.css">
+        <script src="scripts/vendor/f7f27360.modernizr.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
+    </head>
+    <body>
+        <header class="global">
+            <hgroup>
+                <h1>Vote Cambridge</h1>
+                <h3>We'll show you where to go</h3>
+            </hgroup>
+            <!-- <nav> -->
+            <!--     <a href="http://www.cambridgema.gov/election">Cambridge election information</a> --> 
+            <!-- </nav> -->
+        </header>
+
+        <section class="content container">
+            <header>
+                <h2>Where do you live?</h2>
+            </header>
+            <div class="input row">
+                <div class="address col-sm-8 col-lg-6">
+                    <form class="clearfix">
+                        <label for="address"><span class="icon-home"> Home Address</span></label>
+                        <input type="text" id="address" class="input-md form-control" placeholder="1234 Main St, Cambridge, MA">
+                        <button class="btn btn-default btn-md" type="submit">Find</button>
+                    </form>
+                </div>
+                <div class="location col-sm-4 col-lg-6">
+                    <a class="btn btn-default current-location">
+                        <span class="icon-location"></span> Current location
+                    </a>
+                </div>
+            </div>
+
+            <div id="map"></div>
+            <div id="directions"></div>
+        </section>
+
+        <footer class="global">
+            <p>
+                An open source application by Code for Boston, a Code for America Brigade.  <a href="http://github.com/codeforboston/cambridge_voting_locations">Get the source code.</a>
+            </p>
+        </footer>
+
+        <script src="scripts/8f1d6e6e.vendor.js"></script>
+
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='//www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-XXXXX-X');ga('send','pageview');
+        </script>
+
+        <script data-main="scripts/0d6ab843.app" src="bower_components/requirejs/require.js"></script>
+</body>
+</html>
