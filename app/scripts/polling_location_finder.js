@@ -30,7 +30,7 @@ define(['geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'json!vendor/
             if (precincts[i].containsLatLng(coords)) {
                 userPrecinct = precincts[i];
                 wardPrecinct = userPrecinct.geojsonProperties.WardPrecinct;
-                if(wardPrecinct==="3-2A"){
+                if (wardPrecinct === "3-2A") {
                     wardPrecinct = "3-2";
                 }
                 //Search for the polling location that matches the precinct and ward
