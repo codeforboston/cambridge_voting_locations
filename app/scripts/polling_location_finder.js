@@ -18,18 +18,23 @@ define(['geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'json!vendor/
     // keep track of user precinct across calls so we can erase previous precincts if necessary
     var userPrecinct;
 
-    return function(coords) {
-        // if we've already drawn a user precinct, erase it
+    function clearPreviousResults() {
         if (userPrecinct) {
             userPrecinct.setMap(null);
             userPrecinct = undefined;
         }
-        // clear directions
         directionsDisplay.setDirections({routes: []});
-        // find out which ward they're in using Point in Polygon
+
+        $('.result').removeClass('success');
+        $('#notice').empty();
+    }
+
+    return function(latLng) {
+        clearPreviousResults();
+        // find out which ward/precinct they're in using Point in Polygon
         var pollingLocation, wardPrecinct;
         for (var i = 0, len1 = precincts.length; i < len1; i++) {
-            if (precincts[i].containsLatLng(coords)) {
+            if (precincts[i].containsLatLng(latLng)) {
                 userPrecinct = precincts[i];
                 wardPrecinct = userPrecinct.geojsonProperties.WardPrecinct;
                 if (wardPrecinct === "3-2A") {
@@ -46,16 +51,16 @@ define(['geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'json!vendor/
             }
         }
         if (!userPrecinct) {
-            // TODO handle what happens if they don't live in any precinct
-            document.getElementById('directions').innerHTML = "We can't find your precinct! Sorry. Try again?";
+            document.getElementById('notice').innerHTML = "We can't find your precinct! Sorry. Try again?";
         } else {
+            $('.result').addClass('success');
             // highlight the precinct on the map
             userPrecinct.setMap(map);
             map.fitBounds(userPrecinct.getBounds());
 
             // show step-by-step directions
             var request = {
-                origin: coords,
+                origin: latLng,
                 destination: pollingLocation.geojsonProperties.Address + ', Cambridge, MA',
                 travelMode: google.maps.TravelMode.WALKING
             };
