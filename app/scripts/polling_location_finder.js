@@ -24,6 +24,8 @@ define(['geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'json!vendor/
             userPrecinct.setMap(null);
             userPrecinct = undefined;
         }
+        // clear directions
+        directionsDisplay.setDirections({routes: []});
         // find out which ward they're in using Point in Polygon
         var pollingLocation, wardPrecinct;
         for (var i = 0, len1 = precincts.length; i < len1; i++) {
