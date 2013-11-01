@@ -16,21 +16,30 @@ define(['geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'json!vendor/
         });
 
     // keep track of user precinct across calls so we can erase previous precincts if necessary
-    var userPrecinct = null;
+    var userPrecinct;
 
     return function(coords) {
         // if we've already drawn a user precinct, erase it
         if (userPrecinct) {
             userPrecinct.setMap(null);
-            userPrecinct = null;
+            userPrecinct = undefined;
         }
         // find out which ward they're in using Point in Polygon
-        var pollingLocation = null;
-        for (var i = 0; i < precincts.length; i++) {
+        var pollingLocation, wardPrecinct;
+        for (var i = 0, len1 = precincts.length; i < len1; i++) {
             if (precincts[i].containsLatLng(coords)) {
                 userPrecinct = precincts[i];
-                // polling locations are stored in the same order, so we can use the same index
-                pollingLocation = pollingLocations[i];
+                wardPrecinct = userPrecinct.geojsonProperties.WardPrecinct;
+                if (wardPrecinct === "3-2A") {
+                    wardPrecinct = "3-2";
+                }
+                //Search for the polling location that matches the precinct and ward
+                for (var j = 0, len2 = pollingLocations.length; j < len2; j++) {
+                    if (pollingLocations[j].geojsonProperties.W_P === wardPrecinct) {
+                        pollingLocation = pollingLocations[j];
+                        break;
+                    }
+                }
                 break;
             }
         }
