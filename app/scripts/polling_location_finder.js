@@ -15,6 +15,29 @@ define(['geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'json!vendor/
             panel: document.getElementById('directions')
         });
 
+    // left and right screens for hiding/showing the result
+    var leftScreen = $('.left'), rightScreen = $('.right');
+
+    function showResults() {
+        leftScreen
+            .removeClass('current')
+            .addClass('hidden');
+        rightScreen
+            .removeClass('hidden')
+            .addClass('current');
+    }
+
+    function hideResults() {
+        leftScreen
+            .removeClass('hidden')
+            .addClass('current');
+        rightScreen
+            .removeClass('current')
+            .addClass('hidden');
+    }
+
+    $('.back').on('click', hideResults);
+
     // keep track of user precinct across calls so we can erase previous precincts if necessary
     var userPrecinct;
 

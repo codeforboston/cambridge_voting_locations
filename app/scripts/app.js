@@ -67,28 +67,6 @@ require.config({
 require(['jquery', 'polling_location_finder'], function($, findPollingLocationFor) {
     'use strict';
 
-    // left and right screens for hiding/showing the result
-    var leftScreen = $('.left'), rightScreen = $('.right');
-
-    function showResults() {
-        leftScreen
-            .removeClass('current')
-            .addClass('hidden');
-        rightScreen
-            .removeClass('hidden')
-            .addClass('current');
-    }
-
-    function hideResults() {
-        leftScreen
-            .removeClass('hidden')
-            .addClass('current');
-        rightScreen
-            .removeClass('current')
-            .addClass('hidden');
-    }
-
-    $('.back').on('click', hideResults);
 
     $('.current-location').on('click', function() {
         if (navigator.geolocation) {
