@@ -1,21 +1,35 @@
+@import 'colors';
+@import 'screens';
+
 /* Import fontface definitions */
 @import 'icons';
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800|Days+One);
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,600italic,700,800);
 
 $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 @import 'sass-bootstrap/lib/bootstrap';
 
 /* Basic style overrides */
+html {
+    background-image: url('../images/paper.png');
+    // background-repeat: no-repeat;
+    // background-position: center;
+    // background-size: cover;
+    // background-attachment: fixed;
+}
+
 body {
+    color: $dark_gray;
     font-family: 'Open Sans', sans-serif;
     font-weight: 400;
     margin: 0; padding: 0;
 }
 
 h1, h2, h3, h4 {
-    font-family: 'Days One', sans-serif;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
     margin: 0; padding: 0;
     line-height: 100%;
+    color: white;
 }
 
 .container {
@@ -28,148 +42,160 @@ h1, h2, h3, h4 {
     padding: 0;
 }
 
-/* Input styling */
-.input div{
-    padding: 20px 2%;
+/* Screen specific styles */
+
+.screen.left {
+    header {
+        padding: 3% 0;
+        width: 90%;
+        margin: 0 auto;
+        background-size: 70%;
+        text-align: center;
+
+        .logo {
+            width: 100%;
+            max-width: 630px;
+            margin: 0 auto;
+        }
+    }
+
+    h3 {
+        margin: 2% 0;
+        font-size: 24px;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
 }
 
+/* Input styling */
+
+.input{
+    width: 90%;
+    max-width: 900px;
+    padding: 15px 20px;
+    background: rgba(0, 0, 0, 0.3);
+    margin: 0 auto 50px;
+    text-align: center;
+}
+
+label {
+    font-size: 115%;
+    font-weight: 600;
+    text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+button.btn,
 .btn {
-    background: linear-gradient(#e0efff, #c0d0ff);
+    font-family: 'Open Sans', sans-serif;
+    background-image: linear-gradient(lighten($light_blue, 10%), $light_blue);
     box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.5), inset 0 -1px 1px rgba(0, 0, 0, 0.1);
-    transition-property: background, box-shadow;
-    transition-duration: .5s;
+    border-radius: 2px;
+    border-color: rgba(0, 0, 0, 0.4);
+    font-size: 115%;
+    font-weight: 600;
+    text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.4);
     
     &:hover {
-        background: linear-gradient(#e0efff, #c0d0ff);
+        background: linear-gradient(lighten($light_blue, 7%), $light_blue);
         box-shadow: none;
-        transition-property: background, box-shadow;
-        transition-duration: .5s;
+        border-color: rgba(0, 0, 0, 0.7);
     }
     &:active {
-        background: linear-gradient(#c0d0ff, #c0d0ff);
+        background: $light_blue; 
         box-shadow: none;
-        transition-property: background, box-shadow;
-        transition-duration: .5s;
     }
 }
 
 .address {
-    border: solid #ccc;
-    border-width: 0 0 1px 0;
-
-    form {
-        width: 90%;
-        margin: 0 auto;
-    }
-
     input {
-        float: left;
-        width: 85%;
-        border-radius: 4px 0 0 4px;
-        border-right-width: 0;
+        border-radius: 2px;
+        border-color: rgba(0, 0, 0, 0.4);
 
         &:focus {
             box-shadow: none;
+            border-color: $extra_light_blue;
+            border-width: 2px;
+            padding: 5px 11px;
         }
     }
-
     .btn {
-        float: left;
-        width: 15%;
-        border-radius: 0 4px 4px 0;
+        margin-top: 5px;
+        width: 100%;
     }
 
-    &:after {
-        content: 'or';
-        background: white;
-        font-weight: 600;
-        font-size: 20px;
-        line-height: 100%;
-        text-transform: uppercase;
-        text-align: center;
+}
+
+#notice {
+    display: none;
+    background: #fee;
+    color: $dark_red;
+    margin: 15px 0;
+    padding: 10px 5px 5px;
+    border: 2px solid $med_red;
+
+    h1, h2, h3, h4 {
+        color: $dark_red;
+        margin-bottom: 5px;
+    }
+
+    &.error {
         display: block;
-        width: 40px;
-        height: 28px;
-        padding: 5px;
-        position: absolute;
-        left: 6%;
-        bottom: 0;
-        margin-bottom: -15px;
     }
 }
 
+.separator {
+    margin: 2% 0 0;
+    position: relative;
+    font-size: 130%;
+    font-weight: 300;
+    text-transform: uppercase;
+
+    &:before,
+    &:after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        width: 45%;
+        height: 1px;
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    &:before { left: 0; }
+    &:after { right: 0; }
+
+}
+
+
+
 .current-location {
-    margin: 0 5%;
+    margin: 2% 0;
+    width: 100%;
 }
 
 #map {
-    height: 400px;
+    height: 300px;
+    border: solid rgba(0, 0, 0, 0.3);
+    border-width: 2px 0 0;
 }
 
-/*  Header and footer */
-header.global {
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 2%;
-    width: 100%;
-
-    h1 {
-        text-transform: capitalize;
-        line-height: 120%;
-    }
-
-    h3 {
-        font-family: 'Open Sans', sans-serif; 
-        line-height: 125%;
-        font-weight: 400;
-        font-size: 15px;
-        text-transform: uppercase;
-        color: #ddd;
-    }
+.back.btn {
+    position: absolute;
+    top: 8px;
+    left: 15px;
+    padding: 3px 12px;
 }
 
-footer.global {
-    font-weight: 300;
-    color: #444;
-    padding: 1% 2%;
-}
 
-.content header {
-    padding: 2%;
-    background: #eee;
-
-    h2 {
-        font-family: 'Open Sans', sans;
-        font-weight: 600;
-        font-size: 20px;
+#directions {
+    background: rgba(255, 255, 255, 0.5);
+    border: solid rgba(0, 0, 0, 0.3);
+    border-width: 2px 0 0;
+    
+    * {
+        font-family: 'Open Sans', sans-serif;
     }
 }
 
-@media (min-width: $screen-tablet) {
-    // OR separator
-    .address {
-        border-width: 0 1px 0 0;
 
-        &:after {
-            left: 100%;
-            top: 50%;
-            margin: 0 0 0 -20px;
-        }
-    }
-
-    .current-location {
-        margin: 24px 0 0 24px;
-
-        &:before {
-            content: '';
-            width: 0;
-            height: 0;
-        }
-    }
-}
-
-@media (max-width: $screen-phone) {
-    #map {
-        height: 250px;
-    }
+@media (min-width: $screen-sm) {
 }

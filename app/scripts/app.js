@@ -127,7 +127,9 @@ require(['jquery', 'polling_location_finder'], function($, findPollingLocationFo
                 geocoder.geocode({ address: address + ' Cambridge, MA' }, function(results, status) {
                     results = $.grep(results, addressIsCambridgeStreetAddress);
                     if (!results.length) {
-                        $('#notice').text("Sorry, we couldn't find your location. Please use your entire street address; only Cambridge, MA addresses are allowed.");
+                        $('#notice')
+                            .addClass('error')
+                            .html("<h4><span class='icon-exclamation-sign'></span> Sorry, we couldn't find your location.</h4> <p><small>Please use your entire street address; only Cambridge, MA addresses are allowed.</small></p>");
                     } else {
                         displaySearchResults(results);
                     }
