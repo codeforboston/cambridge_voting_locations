@@ -10,7 +10,7 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-        <link rel="stylesheet" href="styles/40620f8c.main.css">
+        <link rel="stylesheet" href="styles/1de1b2e8.main.css">
         <script src="scripts/vendor/f7f27360.modernizr.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
     </head>
@@ -49,8 +49,17 @@
                 <a href="#" class="back btn btn-default"><span class="icon-circle-arrow-left"></span> Back</a>
             </nav>
             <div class="result row">
-                <div id="map" class="col-sm-8">Map</div>
-                <div id="directions" class="col-sm-4">Directions</div>
+                <div id="map" class="col-sm-8"></div>
+                <div class="location-data col-sm-4">
+                    <div id="streetview">
+                        <img src="http://maps.googleapis.com/maps/api/streetview?size=600x300&location=46.414382,10.013988&heading=151.78&pitch=-0.76&sensor=false" alt="">
+                    </div>
+                    <div id="info">
+                        <h4 class="location">123 Foo St</h4>
+                        <p class="notes">Corner of Lorem and Ipsum</p>
+                    </div>
+                    <div id="directions"></div>
+                </div>
             </div>
         </section>
 
@@ -81,6 +90,6 @@
             ga('create','UA-XXXXX-X');ga('send','pageview');
         </script>
 
-        <script data-main="scripts/fa6bde4b.app" src="bower_components/requirejs/require.js"></script>
+        <script data-main="scripts/7d93d3ef.app" src="bower_components/requirejs/require.js"></script>
 </body>
 </html>
