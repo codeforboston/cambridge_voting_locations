@@ -10,54 +10,65 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-        <link rel="stylesheet" href="styles/d4e1fbea.main.css">
+        <link rel="stylesheet" href="styles/40620f8c.main.css">
         <script src="scripts/vendor/f7f27360.modernizr.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
     </head>
     <body>
-        <header class="global">
-            <hgroup>
-                <h1>Vote Cambridge</h1>
-                <h3>We'll show you where to go</h3>
-            </hgroup>
-            <!-- <nav> -->
-            <!--     <a href="http://www.cambridgema.gov/election">Cambridge election information</a> --> 
-            <!-- </nav> -->
-        </header>
-
-        <section class="content container">
+        <section class="screen left">
             <header>
-                <h2>Where do you live?</h2>
+                    <h1>
+                        <img src="images/c82dca0d.logo.png" class="logo" alt="Vote Cambridge">
+                    </h1>
             </header>
-            <div class="input row">
-                <div class="address col-sm-8 col-lg-6">
+            <div class="input">
+                <h3>Find your polling place</h3>
+                <div id="notice"></div>
+                <div class="address">
                     <form class="clearfix">
-                        <label for="address"><span class="icon-home"> Home Address</span></label>
+                        <label for="address"><span class="icon-home"></span> Enter your home address</label>
                         <input type="text" id="address" class="input-md form-control" placeholder="1234 Main St, Cambridge, MA">
-                        <button class="btn btn-default btn-md" type="submit">Find</button>
+                        <button class="btn btn-default" type="submit"><span class="icon-search"></span> Find</button>
                     </form>
                 </div>
-                <div class="location col-sm-4 col-lg-6">
+
+                <div class="separator">
+                    Or
+                </div>
+
+                <div class="location">
                     <a class="btn btn-default current-location">
-                        <span class="icon-location"></span> Current location
+                        <span class="icon-location"></span> Use your current location
                     </a>
                 </div>
             </div>
+        </section>
 
-            <div id="notice"></div>
-
-            <div class="result">
-                <div id="map"></div>
-                <div id="directions"></div>
+        <section class="screen right">
+            <nav>
+                <a href="#" class="back btn btn-default"><span class="icon-circle-arrow-left"></span> Back</a>
+            </nav>
+            <div class="result row">
+                <div id="map" class="col-sm-8">Map</div>
+                <div id="directions" class="col-sm-4">Directions</div>
             </div>
         </section>
 
-        <footer class="global">
-            <p>
-                An open source application by Code for Boston, a Code for America Brigade.  <a href="http://github.com/codeforboston/cambridge_voting_locations">Get the source code.</a>
-            </p>
-        </footer>
-
+        <!-- <footer class="global"> -->
+        <!--     <nav> -->
+        <!--         <ul> -->
+        <!--             <li> -->
+        <!--                 <a href="http://www.cambridgema.gov/election"><span class="icon-info-sign"></span> Election information</a> --> 
+        <!--             </li> -->
+        <!--             <li> -->
+        <!--                 <a href="#"><span class="icon-question-sign"></span> About Vote Cambridge</a> -->
+        <!--             </li> -->
+        <!--         </ul> -->
+        <!--     </nav> -->
+        <!--     <p> -->
+        <!--         An open source application by Code for Boston, a Code for America Brigade.  <a href="http://github.com/codeforboston/cambridge_voting_locations">Get the source code.</a> -->
+        <!--     </p> -->
+        <!-- </footer> -->
         <script src="scripts/8f1d6e6e.vendor.js"></script>
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
@@ -70,6 +81,6 @@
             ga('create','UA-XXXXX-X');ga('send','pageview');
         </script>
 
-        <script data-main="scripts/8a52164d.app" src="bower_components/requirejs/require.js"></script>
+        <script data-main="scripts/fa6bde4b.app" src="bower_components/requirejs/require.js"></script>
 </body>
 </html>
