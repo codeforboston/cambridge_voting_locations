@@ -9,7 +9,7 @@ Data has been culled from [Cambridge GIS](http://www.cambridgema.gov/GIS.aspx) o
 
 Development
 -----------
-The **cambridge_voting_locations** application is developed with [yeoman](http://yeoman.io/), based on top of [node.js](http://nodejs.org/). All development work is done within the `app` directory.
+The **cambridge_voting_locations** application is developed with [yeoman](http://yeoman.io/), based on top of [node.js](http://nodejs.org/).
 
 Within the `cambridge_voting_locations` directory:
 ```sh
@@ -21,3 +21,5 @@ grunt build        # places a production copy of the app in the dist directory
 ```
 
 It also requires Ruby/Compass to compile SASS stylesheets. With Ruby installed, install Compass via `gem install compass`.
+
+All development work is done within the `app` directory. We're using [Yeoman's deployment strategy](http://yeoman.io/deployment.html). Before committing, please run `grunt build` and commit any changes within the `dist` directory as well.
