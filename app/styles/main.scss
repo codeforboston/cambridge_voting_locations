@@ -162,10 +162,7 @@ button.btn,
 
     &:before { left: 0; }
     &:after { right: 0; }
-
 }
-
-
 
 .current-location {
     margin: 2% 0;
@@ -173,9 +170,32 @@ button.btn,
 }
 
 #map {
-    height: 300px;
-    border: solid rgba(0, 0, 0, 0.3);
-    border-width: 2px 0 0;
+    postion: fixed !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.location-data {
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 25%;
+
+    #street_view {
+        height: 10%;
+        overflow: hidden;
+    }
+    #info {
+        height: 15%;
+        background: white;
+
+        h1, h2, h3, h4 {
+            color: $dark_gray;
+        }
+    }
+
 }
 
 .back.btn {
@@ -187,6 +207,7 @@ button.btn,
 
 
 #directions {
+    width: 100%;
     background: rgba(255, 255, 255, 0.5);
     border: solid rgba(0, 0, 0, 0.3);
     border-width: 2px 0 0;
@@ -195,7 +216,6 @@ button.btn,
         font-family: 'Open Sans', sans-serif;
     }
 }
-
 
 @media (min-width: $screen-sm) {
 }
