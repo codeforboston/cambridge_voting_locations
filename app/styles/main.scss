@@ -8,6 +8,11 @@
 $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 @import 'sass-bootstrap/lib/bootstrap';
 
+/*Variables*/
+$panelPadding: 10px;
+$panelRadius: 3px;
+$panelShadow: 0 2px 4px rgba(0,0,0, .3);
+
 /* Basic style overrides */
 html {
     background-image: url('../images/paper.png');
@@ -37,7 +42,12 @@ h1, h2, h3, h4 {
     margin: 0;
     padding: 0;
 }
-
+.logo_small{
+        position: absolute;
+        top: 8px;
+        left: 115px;
+        height:32px;
+    }
 /* Screen specific styles */
 
 .screen.left {
@@ -54,7 +64,6 @@ h1, h2, h3, h4 {
             margin: 0 auto;
         }
     }
-
     h3 {
         margin: 2% 0;
         font-size: 24px;
@@ -255,4 +264,57 @@ button.btn,
 
 
 @media (min-width: $screen-sm) {
+    #map {
+        display:fixed;
+        top: 50px;
+        left: 10px;
+        bottom: 10px;
+        /*width: 70%;*/
+        /*padding: $panelPadding;*/
+        box-shadow: $panelShadow;
+        border-radius: $panelRadius;
+        border-top: none;
+    }
+    
+    .location-data {
+        position: fixed;
+        width:32%;
+        top: 50px;
+        right: 10px;
+        bottom: 10px;
+    }
+
+    #info {
+        /*padding: $panelPadding;*/
+        position:absolute;
+        top: 0;
+        left: auto;
+        right:0;
+        width: 94%;
+        box-shadow: $panelShadow;
+        border-radius: $panelRadius;
+        transform: none;
+
+        header {
+            background: $light_gray;
+            min-height: 15%;
+            padding: 2% 5%;
+            color: $dark_gray;
+            text-align: center;
+            border-top-right-radius: $panelRadius;
+            border-top-left-radius: $panelRadius;
+            border-top: none;
+        }
+    }
+    #info #directions{
+        width:auto;    
+        overflow-y:scroll;
+        height:80%;
+        border-bottom-right-radius: $panelRadius;
+        border-bottom-left-radius: $panelRadius;
+        padding:5px;
+    }
+    #streetview {
+        display:none;
+    }
 }
