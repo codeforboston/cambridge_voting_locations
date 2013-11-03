@@ -11,10 +11,6 @@ $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 /* Basic style overrides */
 html {
     background-image: url('../images/paper.png');
-    // background-repeat: no-repeat;
-    // background-position: center;
-    // background-size: cover;
-    // background-attachment: fixed;
 }
 
 body {
@@ -181,19 +177,22 @@ button.btn,
 .location-data {
     position: static;
 }
-#streetview {
-    position: absolute;
-    top:50px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    transform: translateY(65%);
-    border-top: 3px solid rgba(0, 0, 0, 0.4);
 
-    img {
-        width: 100%;
-    }
-}
+// #streetview {
+//     position: absolute;
+//     top:50px;
+//     left: 0;
+//     right: 0;
+//     bottom: 0;
+//     transform: translateY(65%);
+//     border-top: 3px solid rgba(0, 0, 0, 0.4);
+
+//     img {
+//         width: 100%;
+//         height: 100%;
+//     }
+// }
+
 #info {
     position: absolute;
     top: 50px;
@@ -201,14 +200,15 @@ button.btn,
     right: 0;
     bottom: 0;
     transform: translateY(85%);
-    background: $light_gray;
+    background: white;
     color: $dark_gray;
+    transition: transform .3s ease;
 
     header {
-        background: $dark_blue;
-        height: 15%;
+        background: $light_gray;
+        min-height: 15%;
         padding: 2% 5%;
-        color: $extra_light_blue;
+        color: $dark_gray;
         text-align: center;
         border-top: 3px solid rgba(0, 0, 0, 0.4);
     }
@@ -219,15 +219,22 @@ button.btn,
         font-weight: 300;
         text-transform: uppercase;
         margin-bottom: 5px;
+        text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.25);
     }
 
     .notes {
         font-size: 115%;
     }
+
+    &.up {
+        transform: translateY(0);
+        transition: transform .3s ease;
+    }
 }
 
 #directions {
     width: 100%;
+    background: white;
     
     * {
         font-family: 'Open Sans', sans-serif;

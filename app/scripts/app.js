@@ -67,6 +67,10 @@ require.config({
 require(['jquery', 'polling_location_finder'], function($, findPollingLocationFor) {
     'use strict';
 
+    $('header', '#info').on('click', function () {
+        $('#info').toggleClass('up');
+    });
+
 
     $('.current-location').on('click', function() {
         if (navigator.geolocation) {
