@@ -65,7 +65,7 @@ require.config({
 });
 
 
-require(['jquery', 'polling_location_finder', 'textFit'], function($, findPollingLocationFor, textFit) {
+require(['jquery', 'polling_location_finder'], function($, findPollingLocationFor, textFit) {
     'use strict';
 
     // textFit($('*', '#info header'));

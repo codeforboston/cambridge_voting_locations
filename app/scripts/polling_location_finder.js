@@ -54,7 +54,7 @@ define(['jquery', 'geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'js
         // TODO move UI interaction into its own module
         $('.result').removeClass('success');
         $('#notice').removeClass('error').empty();
-        $('#info .location, #info .notes, #info .directions').empty();
+        $('#info .location, #info .notes, #directions-link').empty();
     }
 
     function getUserPrecinct(latLng) {
@@ -123,9 +123,11 @@ define(['jquery', 'geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'js
 
             // add link to map FIXME put this somewhere.
             $('<a>')
-                .attr('href', getDirections(destination))
-                .text('Directions')
-                .appendTo('#info .directions');
+                .attr({
+                    href: getDirections(destination),
+                    title: 'Open navigation' })
+                .html('<span class="icon-compass"></span>')
+                .appendTo('#directions-link');
         }
     };
 });
