@@ -74,6 +74,8 @@ require(['jquery', 'polling_location_finder'], function($, findPollingLocationFo
                 var currentLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                 findPollingLocationFor(currentLocation);
             });
+        } else {
+            // TODO handle lack of geolocation
         }
     });
 
@@ -130,7 +132,7 @@ require(['jquery', 'polling_location_finder'], function($, findPollingLocationFo
                     if (!results.length) {
                         $('#notice')
                             .addClass('error')
-                            .html("<h4><span class='icon-exclamation-sign'></span> Sorry, we couldn't find your location.</h4> <p><small>Please use your entire street address; only Cambridge, MA addresses are allowed.</small></p>");
+                            .html($('#noLocation').text());
                     } else {
                         displaySearchResults(results);
                     }
