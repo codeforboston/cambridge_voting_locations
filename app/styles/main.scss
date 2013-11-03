@@ -170,32 +170,68 @@ button.btn,
 }
 
 #map {
-    postion: fixed !important;
-    top: 0;
+    position: fixed !important;
+    top:50px;
     left: 0;
     right: 0;
     bottom: 0;
+    border-top: 3px solid rgba(0, 0, 0, 0.4);
 }
 
 .location-data {
-    margin: 0;
-    padding: 0;
+    position: static;
+}
+#streetview {
     position: absolute;
-    top: 25%;
+    top:50px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transform: translateY(65%);
+    border-top: 3px solid rgba(0, 0, 0, 0.4);
 
-    #street_view {
-        height: 10%;
-        overflow: hidden;
+    img {
+        width: 100%;
     }
-    #info {
+}
+#info {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transform: translateY(85%);
+    background: $light_gray;
+    color: $dark_gray;
+
+    header {
+        background: $dark_blue;
         height: 15%;
-        background: white;
-
-        h1, h2, h3, h4 {
-            color: $dark_gray;
-        }
+        padding: 2% 5%;
+        color: $extra_light_blue;
+        text-align: center;
+        border-top: 3px solid rgba(0, 0, 0, 0.4);
     }
 
+    h1, h2, h3, h4 {
+        color: white;
+        font-size: 150%;
+        font-weight: 300;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+    }
+
+    .notes {
+        font-size: 115%;
+    }
+}
+
+#directions {
+    width: 100%;
+    
+    * {
+        font-family: 'Open Sans', sans-serif;
+    }
 }
 
 .back.btn {
@@ -206,16 +242,6 @@ button.btn,
 }
 
 
-#directions {
-    width: 100%;
-    background: rgba(255, 255, 255, 0.5);
-    border: solid rgba(0, 0, 0, 0.3);
-    border-width: 2px 0 0;
-    
-    * {
-        font-family: 'Open Sans', sans-serif;
-    }
-}
 
 @media (min-width: $screen-sm) {
 }

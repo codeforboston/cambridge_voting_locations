@@ -53,16 +53,18 @@
                 <a href="#" class="back btn btn-default"><span class="icon-circle-arrow-left"></span> Back</a>
             </nav>
             <div class="result row">
-                <div id="map" class="col-sm-8"></div>
+                <div id="map"></div>
                 <div class="location-data col-sm-4">
                     <div id="streetview">
-                        <img src="http://maps.googleapis.com/maps/api/streetview?size=600x300&location=46.414382,10.013988&heading=151.78&pitch=-0.76&sensor=false" alt="" />
+                        <img src="http://maps.googleapis.com/maps/api/streetview?size=320x100&location=46.414382,10.013988&heading=151.78&pitch=-0.76&sensor=false" alt="" />
                     </div>
                     <div id="info">
-                        <h4 class="location">123 Foo St</h4>
-                        <p class="notes">Corner of Lorem and Ipsum</p>
+                        <header>
+                            <h4 class="location">123 Foo St</h4>
+                            <p class="notes">Corner of Lorem and Ipsum</p>
+                        </header>
+                        <div id="directions"></div>
                     </div>
-                    <div id="directions"></div>
                 </div>
             </div>
         </section>

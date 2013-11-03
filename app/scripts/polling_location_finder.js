@@ -21,19 +21,19 @@ define(['geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'json!vendor/
     function showResults() {
         leftScreen
             .removeClass('current')
-            .addClass('hidden');
+            .addClass('inactive');
         rightScreen
-            .removeClass('hidden')
+            .removeClass('inactive')
             .addClass('current');
     }
 
     function hideResults() {
         leftScreen
-            .removeClass('hidden')
+            .removeClass('inactive')
             .addClass('current');
         rightScreen
             .removeClass('current')
-            .addClass('hidden');
+            .addClass('inactive');
     }
 
     $('.back').on('click', hideResults);
