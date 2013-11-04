@@ -8,78 +8,81 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Cambridge Voting Locations</title>
         <meta name="description" content="">
-        <meta name="viewport" content="width=device-width">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-        <link rel="stylesheet" href="styles/59dab30a.main.css">
+        <link rel="stylesheet" href="styles/a59f92ec.main.css">
         <script src="scripts/vendor/f7f27360.modernizr.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
     </head>
     <body>
-        <section class="screen left">
-            <header>
-                    <h1>
-                        <img src="images/7e467470.logo.png" class="logo" alt="Vote Cambridge">
-                    </h1>
-            </header>
-            <div class="input">
-                <h3>Find your polling place</h3>
-                <div id="notice"></div>
-                <div class="address">
-                    <form class="clearfix">
-                        <label for="address"><span class="icon-home"></span> Enter your home address</label>
-                        <input type="text" id="address" class="input-md form-control" placeholder="1234 Main St, Cambridge, MA">
-                        <button class="btn btn-default" type="submit"><span class="icon-search"></span> Find</button>
-                    </form>
-                </div>
+        <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <header>
+                            <h1><img src="images/7e467470.logo.png" class="logo" alt="Vote Cambridge"></h1>
+                        </header>
+                        <div class="input">
+                            <h3 id="modalLabel">Find your polling place</h3>
+                            <div id="notice"></div>
+                            <div class="address">
+                                <form class="clearfix">
+                                    <label for="address"><span class="icon-home"></span> Enter home address</label>
+                                    <input type="text" id="address" class="input-md form-control" placeholder="1234 Main St">
+                                    <button class="btn btn-default" type="submit"><span class="icon-search"></span> Find</button>
+                                </form>
+                            </div>
 
-                <div class="separator">
-                    Or
-                </div>
+                            <div class="separator">
+                                Or
+                            </div>
 
-                <div class="location">
-                    <a class="btn btn-default current-location">
-                        <span class="icon-location"></span> Use your current location
-                    </a>
+                            <div class="location">
+                                <a class="btn btn-default current-location">
+                                    <span class="icon-location"></span> Use current location
+                                </a>
+                            </div>
+                        </div>
+                        <footer>
+                            <nav>
+                                <a href="http://www.cambridgema.gov/election"><span class="icon-info-sign"></span> Election information</a> 
+                            </nav>
+                            <div class="cfb">
+                                <p>
+                                    Built as a public technology service by 
+                                    <a href="http://www.meetup.com/Code-for-Boston">
+                                        <img src="images/ec676e22.cfb_logo.png" alt="" class="logo">
+                                    </a>
+                                </p>
+                                <p>
+                                    <a href="http://www.github.com/codeforboston/cambridge_voting_locations">Get the source on Github.</a>
+                                </p>
+                            </div>
+                        </footer>
+                    </div>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <section class="screen right">
+        <div class="result row">
             <nav>
                 <a href="#" class="back btn btn-default"><span class="icon-circle-arrow-left"></span> Back</a>
+                <img src="images/bc1cf784.logo_small.png" class="logo_small" alt="Vote Cambridge">
             </nav>
-            <div class="result row">
-                <div id="map"></div>
-                <div class="location-data col-sm-4">
-                    <div id="streetview">
-                        <img src="http://maps.googleapis.com/maps/api/streetview?size=320x100&location=46.414382,10.013988&heading=151.78&pitch=-0.76&sensor=false" alt="">
-                    </div>
-                    <div id="info">
-                        <header>
-                            <h4 class="location">123 Foo St</h4>
-                            <p class="notes">Corner of Lorem and Ipsum</p>
-                        </header>
-                        <div id="directions"></div>
-                    </div>
+            <div id="map" class="col-sm-8"></div>
+            <div class="location-data col-sm-4">
+                <div id="info">
+                    <header>
+                        <h4 class="location"></h4>
+                        <p class="notes"></p>
+                        <a id="view_directions" class="btn"><span class="icon-info-sign"></span> View directions</a>
+                        <a id="directions-link" class="btn" target="_blank" title="Open navigation"><span class="icon-compass"></span> View in Map app</a>
+                    </header>
+                    <div id="directions"></div>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- <footer class="global"> -->
-        <!--     <nav> -->
-        <!--         <ul> -->
-        <!--             <li> -->
-        <!--                 <a href="http://www.cambridgema.gov/election"><span class="icon-info-sign"></span> Election information</a> --> 
-        <!--             </li> -->
-        <!--             <li> -->
-        <!--                 <a href="#"><span class="icon-question-sign"></span> About Vote Cambridge</a> -->
-        <!--             </li> -->
-        <!--         </ul> -->
-        <!--     </nav> -->
-        <!--     <p> -->
-        <!--         An open source application by Code for Boston, a Code for America Brigade.  <a href="http://github.com/codeforboston/cambridge_voting_locations">Get the source code.</a> -->
-        <!--     </p> -->
-        <!-- </footer> -->
         <script src="scripts/8f1d6e6e.vendor.js"></script>
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
@@ -89,10 +92,10 @@
             e=o.createElement(i);r=o.getElementsByTagName(i)[0];
             e.src='//www.google-analytics.com/analytics.js';
             r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-            ga('create','UA-XXXXX-X');ga('send','pageview');
+            ga('create','UA-37610225-3');ga('send','pageview');
         </script>
 
-        <script data-main="scripts/b603aa7a.app" src="bower_components/requirejs/require.js"></script>
+        <script data-main="scripts/6bfe924c.app" src="bower_components/requirejs/require.js"></script>
 
         <script id="noLocation" type="text/template">
             <h4>

@@ -15,8 +15,7 @@ require.config({
         bootstrapTransition: '../bower_components/sass-bootstrap/js/transition',
         text: '../bower_components/requirejs-text/text',
         geojson: '../bower_components/geojson-google-maps/GeoJSON',
-        json: 'vendor/json',
-        textFit: '../bower_components/textFit/textFit',
+        json: 'vendor/json'
     },
     shim: {
         bootstrapAffix: {
@@ -65,16 +64,10 @@ require.config({
 });
 
 
-require(['jquery', 'polling_location_finder', 'bootstrapModal'], function($, findPollingLocationFor, textFit) {
+require(['jquery', 'polling_location_finder', 'bootstrapModal'], function($, findPollingLocationFor) {
     'use strict';
 
     $('.modal').modal('show');
-
-    // textFit($('*', '#info header'));
-    // $(window).on('resize:end', function() {
-    //     console.log('resized');
-    //     textFit($('*', '#info header'));
-    // });
 
     $('#view_directions').on('click', function () {
         $('#info').toggleClass('up');
