@@ -114,12 +114,13 @@ require(['jquery', 'polling_location_finder', 'bootstrapModal'], function($, fin
             if (results.length === 1) {
                 findPollingLocationFor(results[0].geometry.location);
             } else {
-                var $ul = $('<ul>').appendTo('#directions');
+                var $ul = $('<ul>').addClass('location-choices').appendTo('#directions');
                 for (var i = 0; i < results.length; i++) {
                     var result = results[i];
                     var link = $('<a>').text(result.formatted_address).data('location', result.geometry.location).on('click', addressClickHandler);
                     $('<li>').append(link).appendTo($ul);
                 }
+                $('.modal').modal('hide');
             }
         }
 
