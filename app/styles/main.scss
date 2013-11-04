@@ -328,6 +328,10 @@ footer {
     padding-right: 5px;
     padding-bottom: 30px;
 
+    .location-choices a {
+        cursor: pointer;
+    }
+
     
     * {
         font-family: 'Open Sans', sans-serif;
