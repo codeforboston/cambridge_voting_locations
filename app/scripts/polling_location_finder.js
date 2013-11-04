@@ -16,8 +16,6 @@ define(['jquery', 'geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'js
         });
 
     // TODO move UI interaction into its own module
-    // left and right screens for hiding/showing the result
-    var leftScreen = $('.left'), rightScreen = $('.right');
 
     function showResults() {
         $('.modal').modal('hide');

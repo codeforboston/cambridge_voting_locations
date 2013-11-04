@@ -78,15 +78,11 @@ require(['jquery', 'polling_location_finder', 'bootstrapModal'], function($, fin
 
     $('#view_directions').on('click', function () {
         $('#info').toggleClass('up');
-        var classState = $('#info').hasClass('up');
-        switch (classState) {
-            case true:
-                $('#view_directions').html('<span class="icon-info-sign"></span> View map');
-            break;
-            case false:
-                $('#view_directions').html('<span class="icon-info-sign"></span> View directions');
-            break
-        };
+        if ($('#info').hasClass('up')) {
+            $('#view_directions').html('<span class="icon-info-sign"></span> View map');
+        } else {
+            $('#view_directions').html('<span class="icon-info-sign"></span> View directions');
+        }
     });
 
     function geolocationErrorDisplay() {
