@@ -125,9 +125,9 @@ define(['jquery', 'geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'js
             $('<a>')
                 .attr({
                     href: getDirections(destination),
+                    target: "_blank",
                     title: 'Open navigation' })
-                .html('<span class="icon-compass"></span>')
-                .appendTo('#directions-link');
+                .html('<a id="directions-link" class="btn"><span class="icon-compass"></span> View in Map app</a>').appendTo('#directions-link');
         }
     };
 });

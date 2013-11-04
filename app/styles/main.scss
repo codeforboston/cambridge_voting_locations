@@ -14,15 +14,18 @@ $panelRadius: 3px;
 $panelShadow: 0 2px 4px rgba(0,0,0, .3);
 
 /* Basic style overrides */
-html {
-    background-image: url('../images/paper.png');
-}
-
 body {
     color: $dark_gray;
     font-family: 'Open Sans', sans-serif;
     font-weight: 400;
     margin: 0; padding: 0;
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    clip: rect(0, auto, auto, 0);
+    background-image: url('../images/paper.png');
 }
 
 a {
@@ -56,6 +59,12 @@ h1, h2, h3, h4 {
         left: 115px;
         height:32px;
     }
+
+#directions-link, #view_directions{
+    display:inline-block;
+    margin-right:8px;
+    font-size: 11px;
+}
 /* Screen specific styles */
 
 .screen.left {
@@ -280,7 +289,7 @@ footer {
 }
 
 #directions-link {
-    position: absolute;
+   /* position: absolute;
     right: 0; bottom: 0;
     background: $extra_light_gray;
     font-size: 30px;
@@ -295,13 +304,16 @@ footer {
         &:hover {
             text-decoration: none;
         }
-    }
+    }*/
 }
 
 #directions {
     width: 100%;
     background: white;
+    padding-left: 5px;
+    padding-right: 5px;
     padding-bottom: 30px;
+
     
     * {
         font-family: 'Open Sans', sans-serif;
@@ -369,6 +381,9 @@ footer {
         padding:5px;
     }
     #streetview {
-        display:none;
+        display: none;
+    }
+    #view_directions{
+        display: none;
     }
 }

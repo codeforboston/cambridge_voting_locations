@@ -74,8 +74,17 @@ require(['jquery', 'polling_location_finder'], function($, findPollingLocationFo
     //     textFit($('*', '#info header'));
     // });
 
-    $('header', '#info').on('click', function () {
+    $('#view_directions').on('click', function () {
         $('#info').toggleClass('up');
+        var classState = $('#info').hasClass('up');
+        switch (classState) {
+            case true:
+                $('#view_directions').html('<span class="icon-info-sign"></span> View map');
+            break;
+            case false:
+                $('#view_directions').html('<span class="icon-info-sign"></span> View directions');
+            break
+        };
     });
 
     function geolocationErrorDisplay() {
