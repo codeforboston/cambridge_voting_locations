@@ -19,75 +19,54 @@
         <script src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
     </head>
     <body>
-        <section class="screen left">
-            <header>
-                    <h1>
-                        <img src="images/logo.png" class="logo" alt="Vote Cambridge" />
-                    </h1>
-            </header>
-            <div class="input">
-                <h3>Find your polling place</h3>
-                <div id="notice"></div>
-                <div class="address">
-                    <form class="clearfix">
-                        <label for="address"><span class="icon-home"></span> Enter your home address</label>
-                        <input type="text" id="address" class="input-md form-control" placeholder="1234 Main St">
-                        <button class="btn btn-default" type="submit"><span class="icon-search"></span> Find</button>
-                    </form>
-                </div>
+        <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="input">
+                            <h3 id="modalLabel">Find your polling place</h3>
+                            <div id="notice"></div>
+                            <div class="address">
+                                <form class="clearfix">
+                                    <label for="address"><span class="icon-home"></span> Enter your home address</label>
+                                    <input type="text" id="address" class="input-md form-control" placeholder="1234 Main St">
+                                    <button class="btn btn-default" type="submit"><span class="icon-search"></span> Find</button>
+                                </form>
+                            </div>
 
-                <div class="separator">
-                    Or
-                </div>
+                            <div class="separator">
+                                Or
+                            </div>
 
-                <div class="location">
-                    <a class="btn btn-default current-location">
-                        <span class="icon-location"></span> Use your current location
-                    </a>
-                </div>
-            </div>
-            <footer>
-                <nav>
-                    <a href="http://www.cambridgema.gov/election"><span class="icon-info-sign"></span> Election information</a> 
-                </nav>
-                <div class="cfb">
-                    <p>
-                        Built as a public technology service by 
-                        <a href="http://www.meetup.com/Code-for-Boston">
-                            <img src="images/cfb_logo.png" alt="" class="logo" />
-                        </a>
-                    </p>
-                    <p>
-                        <a href="http://www.github.com/codeforboston/cambridge_voting_locations">Get the source on Github.</a>
-                    </p>
-                </div>
-            </footer>
-        </section>
-
-        <section class="screen right">
-            <nav>
-                <a href="#" class="back btn btn-default"><span class="icon-circle-arrow-left"></span> Back</a>
-                <img src="images/logo_small.png" class="logo_small" alt="Vote Cambridge" />
-
-            </nav>
-            <div class="result row">
-                <div id="map" class="col-sm-8"></div>
-                <div class="location-data col-sm-4">
-                    <!-- <div id="streetview"> -->
-                    <!--     <img src="http://maps.googleapis.com/maps/api/streetview?size=320x100&location=46.414382,10.013988&heading=151.78&pitch=-0.76&sensor=false" alt="" /> -->
-                    <!-- </div> -->
-                    <div id="info">
-                        <header>
-                            <h4 class="location"></h4>
-                            <p class="notes"></p>
-                            <a id="view_directions" class="btn"><span class="icon-info-sign"></span> View directions</a>
-                            <a id="directions-link"></a>
-                        </header>
-                        <div id="directions"></div>
+                            <div class="location">
+                                <a class="btn btn-default current-location">
+                                    <span class="icon-location"></span> Use your current location
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+
+        <div class="result row">
+            <nav>
+                <a href="#" class="back btn btn-default"><span class="icon-circle-arrow-left"></span> Back</a>
+                <img src="images/logo_small.png" class="logo_small" alt="Vote Cambridge" />
+            </nav>
+            <div id="map" class="col-sm-8"></div>
+            <div class="location-data col-sm-4">
+                <div id="info">
+                    <header>
+                        <h4 class="location"></h4>
+                        <p class="notes"></p>
+                        <a id="view_directions" class="btn"><span class="icon-info-sign"></span> View directions</a>
+                        <a id="directions-link"></a>
+                    </header>
+                    <div id="directions"></div>
+                </div>
+            </div>
+        </div>
 
         <!-- build:js scripts/vendor.js -->
         <!-- bower:js -->

@@ -92,11 +92,8 @@ h1, h2, h3, h4 {
 /* Input styling */
 
 .input{
-    width: 90%;
-    max-width: 900px;
     padding: 15px 20px;
     background: rgba(0, 0, 0, 0.3);
-    margin: 0 auto;
     text-align: center;
 }
 
@@ -260,7 +257,7 @@ footer {
         position: relative;
         background: $light_gray;
         min-height: 20%;
-        padding: 10px 40px 5px;
+        padding: 10px 15px 5px;
         color: $dark_gray;
         text-align: center;
         border-top: 3px solid rgba(0, 0, 0, 0.4);

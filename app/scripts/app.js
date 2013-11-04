@@ -65,8 +65,10 @@ require.config({
 });
 
 
-require(['jquery', 'polling_location_finder'], function($, findPollingLocationFor, textFit) {
+require(['jquery', 'polling_location_finder', 'bootstrapModal'], function($, findPollingLocationFor, textFit) {
     'use strict';
+
+    $('.modal').modal('show');
 
     // textFit($('*', '#info header'));
     // $(window).on('resize:end', function() {

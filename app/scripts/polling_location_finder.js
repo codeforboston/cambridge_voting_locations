@@ -20,22 +20,12 @@ define(['jquery', 'geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'js
     var leftScreen = $('.left'), rightScreen = $('.right');
 
     function showResults() {
-        leftScreen
-            .removeClass('current')
-            .addClass('inactive');
-        rightScreen
-            .removeClass('inactive')
-            .addClass('current');
+        $('.modal').modal('hide');
     }
 
     function hideResults(e) {
         e.preventDefault();
-        leftScreen
-            .removeClass('inactive')
-            .addClass('current');
-        rightScreen
-            .removeClass('current')
-            .addClass('inactive');
+        $('.modal').modal('show');
     }
 
     $('.back').on('click', hideResults);
