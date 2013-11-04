@@ -78,14 +78,20 @@ require(['jquery', 'polling_location_finder'], function($, findPollingLocationFo
         $('#info').toggleClass('up');
     });
 
+    function geolocationErrorDisplay() {
+        $('#notice')
+            .addClass('error')
+            .html("We weren't able to determine your current location. Try typing in your address?");
+    }
+
     $('.current-location').on('click', function() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(position) {
                 var currentLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                 findPollingLocationFor(currentLocation);
-            });
+            }, geolocationErrorDisplay);
         } else {
-            // TODO handle lack of geolocation
+            geolocationErrorDisplay();
         }
     });
 
