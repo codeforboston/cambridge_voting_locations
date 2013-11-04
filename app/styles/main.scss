@@ -65,21 +65,14 @@ h1, h2, h3, h4 {
     margin-right:8px;
     font-size: 11px;
 }
-/* Screen specific styles */
+/* Modal specific styles */
 
-.screen.left {
-    header {
-        padding: 3% 0;
-        width: 90%;
-        margin: 0 auto;
-        background-size: 70%;
-        text-align: center;
-
-        .logo {
-            width: 100%;
-            max-width: 630px;
-            margin: 0 auto;
-        }
+.modal-body {
+    text-align: center;
+    .logo {
+        width: 66%;
+        max-width: 630px;
+        margin-bottom: 3%;
     }
     h3 {
         margin: 2% 0;
@@ -212,6 +205,10 @@ footer {
 .current-location {
     margin: 2% 0;
     width: 100%;
+}
+
+.result nav {
+    position: fixed;
 }
 
 #map {
