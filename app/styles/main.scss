@@ -59,6 +59,12 @@ h1, h2, h3, h4 {
         left: 115px;
         height:32px;
     }
+
+#directions-link, #view_directions{
+    display:inline-block;
+    margin-right:8px;
+    font-size: 11px;
+}
 /* Screen specific styles */
 
 .screen.left {
@@ -283,7 +289,7 @@ footer {
 }
 
 #directions-link {
-    position: absolute;
+   /* position: absolute;
     right: 0; bottom: 0;
     background: $extra_light_gray;
     font-size: 30px;
@@ -298,7 +304,7 @@ footer {
         &:hover {
             text-decoration: none;
         }
-    }
+    }*/
 }
 
 #directions {
@@ -372,6 +378,9 @@ footer {
         padding:5px;
     }
     #streetview {
-        display:none;
+        display: none;
+    }
+    #view_directions{
+        display: none;
     }
 }
