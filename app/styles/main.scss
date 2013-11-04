@@ -208,9 +208,14 @@ footer {
 
 }
 
-.current-location {
-    margin: 2% 0;
-    width: 100%;
+.location {
+    .current-location {
+        margin: 2% 0;
+        width: 100%;
+    }
+    .clarification {
+        font-size: 13px;
+    }    
 }
 
 .result nav {
