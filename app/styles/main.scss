@@ -62,9 +62,12 @@ h1, h2, h3, h4 {
 
 #directions-link, #view_directions{
     display:inline-block;
-    margin-right:8px;
     font-size: 11px;
 }
+#view_directions {
+    margin-right: 8px;
+}
+
 /* Modal specific styles */
 
 .modal-body {
