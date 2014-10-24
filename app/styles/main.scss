@@ -115,14 +115,14 @@ label {
     font-size: 100%;
     font-weight: 600;
     text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.4);
-    
+
     &:hover {
         background: linear-gradient(lighten($light_blue, 7%), $light_blue);
         box-shadow: none;
         border-color: rgba(0, 0, 0, 0.7);
     }
     &:active {
-        background: $light_blue; 
+        background: $light_blue;
         box-shadow: none;
     }
 }
@@ -201,7 +201,7 @@ footer {
         border-top: 1px solid $light_gray;
         padding: 5px;
         color: $med_gray;
-        
+
         .logo {
             display: block;
             margin: 12px auto 0;
@@ -224,7 +224,7 @@ footer {
     }
     .clarification {
         font-size: 13px;
-    }    
+    }
 }
 
 .result nav {
@@ -332,9 +332,13 @@ footer {
         cursor: pointer;
     }
 
-    
+
     * {
         font-family: 'Open Sans', sans-serif;
+    }
+
+    .adp-directions {
+        width: 100%;
     }
 }
 
@@ -359,7 +363,7 @@ footer {
         border-radius: $panelRadius;
         border-top: none;
     }
-    
+
     .location-data {
         position: fixed;
         width:32%;
@@ -391,7 +395,7 @@ footer {
         }
     }
     #info #directions{
-        width:auto;    
+        width:auto;
         overflow-y:scroll;
         height:80%;
         border-bottom-right-radius: $panelRadius;
