@@ -15,6 +15,8 @@ require.config({
         bootstrapTransition: '../bower_components/sass-bootstrap/js/transition',
         text: '../bower_components/requirejs-text/text',
         geojson: '../bower_components/geojson-google-maps/GeoJSON',
+        wards_precincts: 'https://cdn.rawgit.com/cambridgegis/cambridgegis_data/94d56bc8cc53a319f4bc1f0d112823ef7f459d23/Elections/Wards_and__Precincts/ELECTIONS_WardsPrecincts.geojson',
+        polling_locations: 'https://cdn.rawgit.com/cambridgegis/cambridgegis_data/94d56bc8cc53a319f4bc1f0d112823ef7f459d23/Elections/Polling_Locations/ELECTIONS_PollingLocations.geojson',
         json: 'vendor/json'
     },
     shim: {
