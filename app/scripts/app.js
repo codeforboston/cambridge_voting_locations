@@ -65,9 +65,34 @@ require.config({
 
 
 require(['jquery', 'polling_location_finder', 'bootstrapModal'], function($, findPollingLocationFor) {
-    'use strict';
+    //'use strict';
 
     $('.modal').modal('show');
+    // //attach autocomplete
+     var input = document.getElementById('address');
+    //
+    // //starting place for google maps typeahead search
+    // var defaultBounds = new google.maps.LatLngBounds(
+    //     //harvard square
+    //     new google.maps.LatLng(42.3735695,-71.1233489)
+    // );
+
+
+    var defaultBounds = new google.maps.LatLngBounds(
+
+        new google.maps.LatLng(42.360129, -71.148834),
+            new google.maps.LatLng(42.389868, -71.075535)
+        );
+
+    //
+    var options = {
+        bounds: defaultBounds
+    };
+    debugger;
+    //
+    autocomplete = new google.maps.places.Autocomplete(input);
+
+
 
     $('#view_directions').on('click', function () {
         $('#info').toggleClass('up');
@@ -113,6 +138,7 @@ require(['jquery', 'polling_location_finder', 'bootstrapModal'], function($, fin
         e.preventDefault(); // don't submit form
         var address = $('#address').val();
         var geocoder = new google.maps.Geocoder();
+
 
         // clear details pane
         $('#directions').empty();
