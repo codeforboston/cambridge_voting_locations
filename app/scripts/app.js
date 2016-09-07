@@ -88,9 +88,9 @@ require(['jquery', 'polling_location_finder', 'bootstrapModal'], function($, fin
     var options = {
         bounds: defaultBounds
     };
-    debugger;
+
     //
-    autocomplete = new google.maps.places.Autocomplete(input);
+    autocomplete = new google.maps.places.Autocomplete(input, options);
 
 
 
