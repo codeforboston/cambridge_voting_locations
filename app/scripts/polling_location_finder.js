@@ -78,7 +78,9 @@ define(['jquery', 'geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'js
         return encodeURI(url + destination);
     }
 
-    return function(latLng) {
+    // successCallback & errorCallback are optional parameters,
+    // which will be executed on success or failure of the google maps direction service, respectively
+    return function(latLng, successCallback, errorCallback) {
         clearPreviousResults();
         userPrecinct = getUserPrecinct(latLng);
         if (!userPrecinct) {
@@ -107,6 +109,13 @@ define(['jquery', 'geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'js
             directionsService.route(request, function(result, status) {
                 if (status === google.maps.DirectionsStatus.OK) {
                     directionsDisplay.setDirections(result);
+                    if(successCallback) {
+                        successCallback();
+                    }
+                } else {
+                    if(errorCallback) {
+                        errorCallback();
+                    }
                 }
             });
 

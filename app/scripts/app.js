@@ -85,13 +85,24 @@ require(['jquery', 'polling_location_finder', 'bootstrapModal'], function($, fin
     }
 
     $('.current-location').on('click', function() {
+        var $btn = $(this);
+        var initialText = $btn.html();
+        // replace button text with loading text on disabled button
+        $btn.attr('disabled', true);
+        $btn.text('Finding your location...');
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(position) {
                 var currentLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                findPollingLocationFor(currentLocation);
+                findPollingLocationFor(currentLocation, function() {
+                    $btn.attr('disabled', false);
+                    $btn.html(initialText);
+                });
             }, geolocationErrorDisplay);
         } else {
             geolocationErrorDisplay();
+            // reset button if failed
+            $btn.attr('disabled', false);
+            $btn.html(initialText);
         }
     });
 
