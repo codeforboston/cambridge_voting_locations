@@ -22,6 +22,4 @@ grunt server       # starts server
 grunt build        # places a production copy of the app in the dist directory
 ```
 
-It also requires Ruby/Compass to compile SASS stylesheets. With Ruby installed, install Compass via `gem install compass`.
-
 All development work is done within the `app` directory. We're using [Yeoman's deployment strategy](http://yeoman.io/deployment.html). Before committing, please run `grunt build` and commit any changes within the `dist` directory as well.
