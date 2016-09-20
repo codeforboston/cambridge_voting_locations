@@ -1,5 +1,6 @@
 @import 'colors';
 @import 'screens';
+@import 'spinner';
 
 /* Import fontface definitions */
 @import 'icons';
@@ -221,6 +222,15 @@ footer {
     .current-location {
         margin: 2% 0;
         width: 100%;
+    }
+    .current-location.loading {
+        .icon-location {
+            display: none;
+        }
+        .spinner {
+            margin-left: 0.5em;
+            top: 3px; // to align with text
+        }
     }
     .clarification {
         font-size: 13px;
