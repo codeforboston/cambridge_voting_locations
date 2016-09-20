@@ -1,3 +1,5 @@
+Important note for fall 2016: Due to the time sensitive nature of this project, we are aiming to address all issues labeled with City of Cambridge Request first.
+
 Cambridge Voting Locations
 ==========================
 
