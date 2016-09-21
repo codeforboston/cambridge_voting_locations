@@ -157,11 +157,24 @@ require(['jquery', 'polling_location_finder', 'bootstrapModal'], function($, fin
 
         // only valid Cambridge street addresses, please
         function addressIsCambridgeStreetAddress(address) {
-            var zipCodeComponent = address.address_components[address.address_components.length - 1],
+
+            var zip_index = -1;
+
+            var addr_components = address.address_components;
+            for (var i = 0; i < addr_components.length; i++) {
+                if (addr_components[i].types[0] == "postal_code") {
+                    zip_index = i;
+                }
+            }
+            
+            var zipCodeComponent = addr_components[zip_index],
                 zipCode = zipCodeComponent && zipCodeComponent.short_name;
-            var isInCambridge = ~$.inArray(zipCode, ['02138', '02139', '02140', '02141', '02142', '02238']),
-                isStreetAddress = ~$.inArray('street_address', address.types);
-            return isInCambridge & isStreetAddress;
+
+            var isInCambridge = ($.inArray(zipCode, ['02138', '02139', '02140', '02141', '02142', '02238'])) > -1,
+                isStreetAddress = ($.inArray('street_address', address.types)) > -1;
+
+            return isInCambridge && isStreetAddress;
+            
         }
 
         geocoder.geocode({
@@ -171,8 +184,10 @@ require(['jquery', 'polling_location_finder', 'bootstrapModal'], function($, fin
                 country: 'US'
             }
         }, function(results, status) {
+
             // if there are multiple results, look for Cambridge-specific street results
             results = $.grep(results, addressIsCambridgeStreetAddress);
+
             // if there are no results, try searching for Cambridge
             if (!results.length) {
                 geocoder.geocode({ address: address + ' Cambridge, MA' }, function(results, status) {
