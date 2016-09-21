@@ -2,3 +2,7 @@ node_modules
 .tmp
 .sass-cache
 app/bower_components
+
+# WebStorm/IDEA project files
+/.idea
+/*.iml
