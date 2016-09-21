@@ -416,7 +416,6 @@ footer {
     }
 }
 
-div.pac-container.pac-logo.hdpi {
-    z-index: 999999;
-    display: inherit;
+.pac-container {
+    z-index: 2000;
 }
