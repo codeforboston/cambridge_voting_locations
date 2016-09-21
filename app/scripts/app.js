@@ -69,7 +69,8 @@ require(['jquery', 'polling_location_finder', 'bootstrapModal'], function($, fin
 
     $('.modal').modal('show');
     // //attach autocomplete
-     var input = document.getElementById('address');
+
+     var $address = $('#address');
     //
     // //starting place for google maps typeahead search
     // var defaultBounds = new google.maps.LatLngBounds(
@@ -81,16 +82,21 @@ require(['jquery', 'polling_location_finder', 'bootstrapModal'], function($, fin
     var defaultBounds = new google.maps.LatLngBounds(
 
         new google.maps.LatLng(42.360129, -71.148834),
-            new google.maps.LatLng(42.389868, -71.075535)
-        );
+        new google.maps.LatLng(42.389868, -71.075535)
+    );
 
     //
     var options = {
         bounds: defaultBounds
     };
 
-    //
-    autocomplete = new google.maps.places.Autocomplete(input, options);
+
+    var autocomplete = new google.maps.places.Autocomplete($address.get(0), options);
+
+    autocomplete.addListener('place_changed', function() {
+        // var place = autocomplete.getPlace();
+        searchForAddress();
+    });
 
 
 
@@ -134,9 +140,8 @@ require(['jquery', 'polling_location_finder', 'bootstrapModal'], function($, fin
         }
     });
 
-    $('form').on('submit', function(e) {
-        e.preventDefault(); // don't submit form
-        var address = $('#address').val();
+    function searchForAddress () {
+        var address = $address.val();
         var geocoder = new google.maps.Geocoder();
 
 
@@ -198,5 +203,10 @@ require(['jquery', 'polling_location_finder', 'bootstrapModal'], function($, fin
                 displaySearchResults(results);
             }
         });
+    }
+
+    $('form').on('submit', function(e) {
+        e.preventDefault(); // don't submit form
+        searchForAddress();
     });
 });
