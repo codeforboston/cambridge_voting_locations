@@ -20,9 +20,9 @@ module.exports = function (grunt) {
             dist: 'dist'
         },
         watch: {
-            compass: {
+            scripts: {
                 files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
-                tasks: ['compass:server', 'autoprefixer']
+                tasks: ['sass', 'autoprefixer']
             },
             styles: {
                 files: ['<%= yeoman.app %>/styles/{,*/}*.css'],
@@ -104,31 +104,15 @@ module.exports = function (grunt) {
                 }
             }
         },
-        compass: {
-            options: {
-                sassDir: '<%= yeoman.app %>/styles',
-                cssDir: '.tmp/styles',
-                generatedImagesDir: '.tmp/images/generated',
-                imagesDir: '<%= yeoman.app %>/images',
-                javascriptsDir: '<%= yeoman.app %>/scripts',
-                fontsDir: '<%= yeoman.app %>/styles/fonts',
-                importPath: '<%= yeoman.app %>/bower_components',
-                httpImagesPath: '/images',
-                httpGeneratedImagesPath: '/images/generated',
-                httpFontsPath: '/styles/fonts',
-                relativeAssets: false,
-                assetCacheBuster: false
-            },
-            dist: {
-                options: {
-                    generatedImagesDir: '<%= yeoman.dist %>/images/generated'
-                }
-            },
-            server: {
-                options: {
-                    debugInfo: true
-                }
+        sass: {
+          options: {
+            sourceMap: true
+          },
+          dist: {
+            files: {
+                '.tmp/styles/main.css': 'app/styles/main.scss'
             }
+          }
         },
         autoprefixer: {
             options: {
@@ -258,14 +242,14 @@ module.exports = function (grunt) {
         },
         concurrent: {
             server: [
-                'compass',
+                'sass',
                 'copy:styles'
             ],
             test: [
                 'copy:styles'
             ],
             dist: [
-                'compass',
+                'sass',
                 'copy:styles',
                 'htmlmin'
             ]
@@ -316,6 +300,7 @@ module.exports = function (grunt) {
     grunt.registerTask('default', [
         'jshint',
         'test',
-        'build'
+        'build',
+        'sass'
     ]);
 };
