@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "dependencies": {},
   "scripts": {
+      "prebuild": "bower install",
       "build": "grunt build"
   },
   "devDependencies": {
