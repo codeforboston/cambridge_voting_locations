@@ -143,7 +143,7 @@ require(['jquery', 'polling_location_finder', 'bootstrapModal'], function($, fin
     function searchForAddress () {
         var address = $address.val();
         var geocoder = new google.maps.Geocoder();
-
+		console.log(address);
 
         // clear details pane
         $('#directions').empty();
@@ -151,9 +151,18 @@ require(['jquery', 'polling_location_finder', 'bootstrapModal'], function($, fin
 
         // go right to the first result if there's only one, or display a list if there are multiples
         function displaySearchResults(results) {
+            
+                console.log('This is what gets passed into the displaySearchResults');
+                console.log(results);
+            
             var addressClickHandler = function() {
                 var location = $(this).data('location');
                 $('#directions').empty();
+                
+                console.log('This is the location that is passed into the adressClick Handler');
+                console.log(location);
+
+                
                 findPollingLocationFor(location);
             };
             if (results.length === 1) {

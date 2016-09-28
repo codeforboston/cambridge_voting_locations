@@ -407,11 +407,18 @@ footer {
     #info #directions{
         width:auto;
         overflow-y:scroll;
-        height:80%;
+        height:65%;
         border-bottom-right-radius: $panelRadius;
         border-bottom-left-radius: $panelRadius;
         padding:5px;
     }
+	
+	#stationInfo{
+		font-size: 90%;
+		padding: 5px;
+		text-align: left;
+	}
+	
     #streetview {
         display: none;
     }
