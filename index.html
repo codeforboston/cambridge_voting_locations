@@ -10,8 +10,8 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-        <link rel="stylesheet" href="styles/062601f3.main.css">
-        <script src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
+        <link rel="stylesheet" href="styles/b1101342.main.css">
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB7fHkcx_rJi_YTbk3Gu7ig_H3GvyzPT2Y&libraries=places"></script>
         <!-- update this line if we update this image -->
         <meta property="og:image" content="http://votecambridge.com/images/45b5ba8f.for_social_media.png">
     </head>
@@ -21,7 +21,7 @@
                 <div class="modal-content">
                     <div class="modal-body">
                         <header>
-                            <h1><img src="images/4c25c4f7.logo.png" class="logo" alt="Vote Cambridge"></h1>
+                            <h1><img src="images/b763798b.logo.png" class="logo" alt="Vote Cambridge"></h1>
                         </header>
                         <div class="input">
                             <h3 id="modalLabel">Find your polling place</h3>
@@ -40,7 +40,12 @@
 
                             <div class="location">
                                 <a class="btn btn-default current-location">
-                                    <span class="icon-location"></span> Use current location
+                                    <span class="icon-location"></span>
+                                    <span class="button-text">Use current location</span>
+                                    <span class="spinner">
+                                      <span class="double-bounce1"></span>
+                                      <span class="double-bounce2"></span>
+                                    </span>
                                 </a>
                                 <span class="clarification">Use current location only if you are at your place of residence.</span>
                             </div>
@@ -53,7 +58,7 @@
                                 <p>
                                     Built as a public technology service by
                                     <a href="http://www.meetup.com/Code-for-Boston">
-                                        <img src="images/2fa5f9aa.cfb_logo.png" alt="" class="logo">
+                                        <img src="images/5f5f4bde.cfb_logo.png" alt="" class="logo">
                                     </a>
                                 </p>
                                 <ul class="list-inline">
@@ -72,7 +77,7 @@
         <div class="result row">
             <nav>
                 <a href="#" class="back btn btn-default"><span class="icon-circle-arrow-left"></span> Back</a>
-                <img src="images/c662ce7d.logo_small.png" class="logo_small" alt="Vote Cambridge">
+                <img src="images/3a1694e3.logo_small.png" class="logo_small" alt="Vote Cambridge">
             </nav>
             <div id="map" class="col-sm-8"></div>
             <div class="location-data col-sm-4">
@@ -88,7 +93,7 @@
             </div>
         </div>
 
-        <script src="scripts/0d388c76.vendor.js"></script>
+        <script src="scripts/92d329e6.vendor.js"></script>
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>
@@ -100,7 +105,7 @@
             ga('create','UA-37610225-3');ga('send','pageview');
         </script>
 
-        <script data-main="scripts/3678fab8.app" src="bower_components/requirejs/require.js"></script>
+        <script data-main="scripts/4e6b40f3.app" src="bower_components/requirejs/require.js"></script>
 
         <script id="noLocation" type="text/template">
             <h4>
