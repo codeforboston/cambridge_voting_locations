@@ -1,8 +1,12 @@
-define(['jquery', 'geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'json!vendor/ELECTIONS_PollingLocations.geojson'], function($, GeoJSON, precinctsJSON, locationsJSON) {
+define(['jquery', 'geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson',
+                             'json!vendor/ELECTIONS_PollingLocations.geojson',
+                             'json!vendor/EARLY_VOTING_AddressPoints.geojson'], 
+    function($, GeoJSON, precinctsJSON, locationsJSON, earlyPollingJSON) {
     'use strict';
 
     var precincts = new GeoJSON(precinctsJSON),
-        pollingLocations = new GeoJSON(locationsJSON);
+        pollingLocations = new GeoJSON(locationsJSON),
+        earlyPollingLocations = new GeoJSON(earlyPollingJSON);
 
     var map = new google.maps.Map(document.getElementById('map'), {
         center: new google.maps.LatLng(42.3736, -71.1106), // Cambridge!
@@ -78,8 +82,47 @@ define(['jquery', 'geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'js
         return encodeURI(url + destination);
     }
 
-    return function(latLng, successCallback, errorCallback) {
+    function displayEarlyPollingLocations() {
+
+        var earlyPollingInfoWindow = new google.maps.InfoWindow;
+
+        for (var i = 0; i < earlyPollingLocations.length; i++) {
+          //  console.log(earlyPollingLocations[i]);
+            var pos = new google.maps.LatLng(earlyPollingLocations[i].position.lat(),
+                                             earlyPollingLocations[i].position.lng());
+
+            var addr = earlyPollingLocations[i].geojsonProperties.Full_Addr;
+            createEarlyVotingMarker(pos, i, addr);
+        }
+    }
+
+    function createEarlyVotingMarker(pos, index, addr) {
+        var earlyVotingMarker = new google.maps.Marker({
+            position: pos,
+            map: map
+        });
+
+        var earlyVotingInfoWindow = new google.maps.InfoWindow();
+
+        var earlyVotingInfo = document.createElement("ul");
+        earlyVotingInfo.id = "earlyVotingInfoDiv";
+
+        earlyVotingInfo = addr;     
+
+        google.maps.event.addListener(earlyVotingMarker, 'click', (function(earlyVotingInfo, index) {
+            return function() {
+                earlyVotingInfoWindow.setContent(earlyVotingInfo);
+                earlyVotingInfoWindow.open(map, this);
+            }
+        })(earlyVotingInfo, index));    
+    }
+
+    return function(latLng) {
         clearPreviousResults();
+
+        // display early voting locations
+        displayEarlyPollingLocations();
+
         userPrecinct = getUserPrecinct(latLng);
         if (!userPrecinct) {
             $('#notice')
@@ -107,13 +150,6 @@ define(['jquery', 'geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'js
             directionsService.route(request, function(result, status) {
                 if (status === google.maps.DirectionsStatus.OK) {
                     directionsDisplay.setDirections(result);
-                    if(successCallback) {
-                        successCallback({result: result, status: status});
-                    }
-                } else {
-                    if(errorCallback) {
-                        errorCallback({result: result, status: status});
-                    }
                 }
             });
 
