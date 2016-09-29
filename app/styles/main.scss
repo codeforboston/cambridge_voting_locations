@@ -336,7 +336,7 @@ footer {
     background: white;
     padding-left: 5px;
     padding-right: 5px;
-    padding-bottom: 30px;
+    padding-bottom: 15px;
 
     .location-choices a {
         cursor: pointer;
@@ -358,6 +358,59 @@ footer {
     left: 15px;
     padding: 3px 12px;
 }
+
+
+.infoCard{
+        background: #FAFAFA;
+        border: 1px solid #CCC;
+        padding: 5px;
+        margin: 5px;
+        text-align: left;
+        display: none;
+        overflow: auto;
+    }
+
+.infoCard p{
+    margin-top: 5px;
+    clear: both;
+}
+   .poll-status{
+       float: right;
+       display: inline-block;
+       padding: 8px;
+       border: 1px solid black;
+       border-radius: 2px;
+       color: black;
+       margin-bottom: 10px;
+    }
+
+    .closed{
+        border-color: red;
+        color: red;
+    }
+    .open{
+        border-color: green;
+        color: green;
+    }
+    .closing{
+        border-color: #ffa31a;
+        color: #ffa31a;
+    }
+
+.infoCard table{
+    min-width: 100%;   
+}
+.infoCard table tr:nth-child(2){
+    font-weight: bold;
+    color: green;
+}
+
+
+#stationInfo h4{
+        float: left;
+        color: grey; 
+        margin-top: 10px;
+    }
 
 
 
@@ -407,18 +460,12 @@ footer {
     #info #directions{
         width:auto;
         overflow-y:scroll;
-        height:65%;
         border-bottom-right-radius: $panelRadius;
         border-bottom-left-radius: $panelRadius;
         padding:5px;
     }
-	
-	#stationInfo{
-		font-size: 90%;
-		padding: 5px;
-		text-align: left;
-	}
-	
+    
+
     #streetview {
         display: none;
     }

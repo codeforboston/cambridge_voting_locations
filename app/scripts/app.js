@@ -15,7 +15,9 @@ require.config({
         bootstrapTransition: '../bower_components/sass-bootstrap/js/transition',
         text: '../bower_components/requirejs-text/text',
         geojson: '../bower_components/geojson-google-maps/GeoJSON',
-        json: 'vendor/json'
+        json: 'vendor/json',
+        moment: '../bower_components/moment/moment',
+        momentrange: '../bower_components/moment-range/dist/moment-range.min'
     },
     shim: {
         bootstrapAffix: {
@@ -77,7 +79,6 @@ require(['jquery', 'polling_location_finder', 'bootstrapModal'], function($, fin
     //     //harvard square
     //     new google.maps.LatLng(42.3735695,-71.1233489)
     // );
-
 
     var defaultBounds = new google.maps.LatLngBounds(
 

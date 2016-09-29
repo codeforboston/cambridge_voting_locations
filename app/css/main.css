@@ -6641,7 +6641,6 @@ footer {
   #info #directions {
     width: auto;
     overflow-y: scroll;
-    height: 80%;
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;
     padding: 5px; }
