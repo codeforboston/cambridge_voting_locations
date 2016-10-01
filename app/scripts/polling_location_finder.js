@@ -1,7 +1,9 @@
-define(['jquery', 'geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson',
-                             'json!vendor/ELECTIONS_PollingLocations.geojson',
-                             'json!vendor/EARLY_VOTING_AddressPoints.geojson'], 
-    function($, GeoJSON, precinctsJSON, locationsJSON, earlyPollingJSON) {
+define(['jquery', 'geojson', 'moment', 'moment_range', 'moment_timezone',
+        'json!vendor/ELECTIONS_WardsPrecincts.geojson',
+        'json!vendor/ELECTIONS_PollingLocations.geojson',
+        'json!vendor/EARLY_VOTING_AddressPoints.geojson'], 
+    function($, GeoJSON, moment, moment_range, moment_timezone, 
+            precinctsJSON, locationsJSON, earlyPollingJSON) {
     'use strict';
 
     var precincts = new GeoJSON(precinctsJSON),
@@ -82,21 +84,54 @@ define(['jquery', 'geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson',
         return encodeURI(url + destination);
     }
 
+    function getHours(place) {
+
+        var hours = [];
+        moment.tz.add('America/New_York|EST EDT|50 40|0101|1Lz50 1zb0 Op0');
+        
+        jQuery.each(place, function(index, timeInterval) {
+            var range = moment.range(timeInterval);
+            var dates = range.toDate();
+            dates = dates.map(function(d) { 
+                return moment(d).tz('America/New_York').format('MMM Do h:mma z')
+            });
+
+            hours.push(dates);
+          //  $('<li>').append(dates[0]).append(' to ').append(dates[1]).appendTo('#'+key);
+         });
+
+        return hours;
+    }
+
     function displayEarlyPollingLocations() {
 
         var earlyPollingInfoWindow = new google.maps.InfoWindow;
 
         for (var i = 0; i < earlyPollingLocations.length; i++) {
-          //  console.log(earlyPollingLocations[i]);
+   
             var pos = new google.maps.LatLng(earlyPollingLocations[i].position.lat(),
                                              earlyPollingLocations[i].position.lng());
 
             var addr = earlyPollingLocations[i].geojsonProperties.Full_Addr;
-            createEarlyVotingMarker(pos, i, addr);
+
+            var hours = earlyPollingLocations[i].geojsonProperties.hours;
+
+            var listed_hours = getHours(hours);
+            createEarlyVotingMarker(pos, i, addr, listed_hours);
         }
     }
 
-    function createEarlyVotingMarker(pos, index, addr) {
+    function generateHoursHTML(listed_hours) {
+        var hoursHTML = "";
+        for (var i = 0; i < listed_hours.length; i++) {
+            hoursHTML += "<li>" + listed_hours[i][0] + " to " + listed_hours[i][1] + "</li>";
+        }
+        return hoursHTML;
+
+    }
+
+    function createEarlyVotingMarker(pos, index, addr, listed_hours) {
+
         var earlyVotingMarker = new google.maps.Marker({
             position: pos,
             map: map
@@ -107,7 +142,8 @@ define(['jquery', 'geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson',
         var earlyVotingInfo = document.createElement("ul");
         earlyVotingInfo.id = "earlyVotingInfoDiv";
 
-        earlyVotingInfo = addr;     
+        var hoursHTML = generateHoursHTML(listed_hours);
+        earlyVotingInfo = "Early Polling Location: " +  addr + hoursHTML;
 
         google.maps.event.addListener(earlyVotingMarker, 'click', (function(earlyVotingInfo, index) {
             return function() {
