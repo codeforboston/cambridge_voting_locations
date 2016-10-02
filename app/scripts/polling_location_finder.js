@@ -21,6 +21,8 @@ define(['jquery', 'geojson', 'moment', 'moment_range', 'moment_timezone',
             panel: document.getElementById('directions')
         });
 
+    var earlyPollingInfoWindow = new google.maps.InfoWindow();
+
     // TODO move UI interaction into its own module
 
     function showResults() {
@@ -97,7 +99,7 @@ define(['jquery', 'geojson', 'moment', 'moment_range', 'moment_timezone',
             });
 
             hours.push(dates);
-          //  $('<li>').append(dates[0]).append(' to ').append(dates[1]).appendTo('#'+key);
+
          });
 
         return hours;
@@ -105,7 +107,7 @@ define(['jquery', 'geojson', 'moment', 'moment_range', 'moment_timezone',
 
     function displayEarlyPollingLocations() {
 
-        var earlyPollingInfoWindow = new google.maps.InfoWindow;
+       
 
         for (var i = 0; i < earlyPollingLocations.length; i++) {
    
@@ -151,6 +153,10 @@ define(['jquery', 'geojson', 'moment', 'moment_range', 'moment_timezone',
                 earlyVotingInfoWindow.open(map, this);
             }
         })(earlyVotingInfo, index));    
+
+        google.maps.event.addListener(map, 'click', function() {
+            earlyVotingInfoWindow.close();
+        });
     }
 
     return function(latLng) {
