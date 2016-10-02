@@ -123,10 +123,25 @@ define(['jquery', 'geojson', 'moment', 'moment_range', 'moment_timezone',
         }
     }
 
+    function stripHourInfo(hourString) {
+        var spaceCount = 2;
+        var i = 0;
+        while(spaceCount > 0) {
+            if (hourString[i] == " ") {
+                spaceCount--;
+            }
+            i++;
+        }
+        return (hourString.substring(i, hourString.length-4));
+    }
+
     function generateHoursHTML(listed_hours) {
         var hoursHTML = "";
         for (var i = 0; i < listed_hours.length; i++) {
-            hoursHTML += "<li>" + listed_hours[i][0] + " to " + listed_hours[i][1] + "</li>";
+         
+            var hourString = listed_hours[i][0];
+            hoursHTML += "<li>" + hourString.substring(0, hourString.length-4) 
+                      + " to " + stripHourInfo(listed_hours[i][1]) + "</li>";
         }
         return hoursHTML;
 
@@ -145,7 +160,8 @@ define(['jquery', 'geojson', 'moment', 'moment_range', 'moment_timezone',
         earlyVotingInfo.id = "earlyVotingInfoDiv";
 
         var hoursHTML = generateHoursHTML(listed_hours);
-        earlyVotingInfo = "Early Polling Location: " +  addr + hoursHTML;
+        earlyVotingInfo = "<div class='earlyPollingWindow'><b><h5 style='color:#000'>Early Polling Location: " 
+                          +  addr + "</h5></b></div>" + hoursHTML;
 
         google.maps.event.addListener(earlyVotingMarker, 'click', (function(earlyVotingInfo, index) {
             return function() {
