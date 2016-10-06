@@ -1,9 +1,9 @@
-define(['jquery', 'geojson', 'moment', 'moment_range', 'moment_timezone',
+define(['jquery', 'geojson', 'moment',
         'json!vendor/ELECTIONS_WardsPrecincts.geojson',
         'json!vendor/ELECTIONS_PollingLocations.geojson',
-        'json!vendor/EARLY_VOTING_AddressPoints.geojson'],  
-    function($, GeoJSON, moment, moment_range, moment_timezone, 
-            precinctsJSON, locationsJSON, earlyPollingJSON) {
+        'json!vendor/EARLY_VOTING_AddressPoints.geojson',  
+        'moment_range', 'moment_timezone'],  
+    function($, GeoJSON, moment, precinctsJSON, locationsJSON, earlyPollingJSON) {
     'use strict';
 
     var precincts = new GeoJSON(precinctsJSON),
@@ -155,10 +155,9 @@ define(['jquery', 'geojson', 'moment', 'moment_range', 'moment_timezone',
         });
     }
 
-    return function(latLng) {
-        clearPreviousResults();
 
-        // display early voting locations
+    return function(latLng, successCallback, errorCallback) {
+        clearPreviousResults();
         displayEarlyPollingLocations();
 
         userPrecinct = getUserPrecinct(latLng);
@@ -188,10 +187,17 @@ define(['jquery', 'geojson', 'moment', 'moment_range', 'moment_timezone',
             directionsService.route(request, function(result, status) {
                 if (status === google.maps.DirectionsStatus.OK) {
                     directionsDisplay.setDirections(result);
+                    if(successCallback) {
+                        successCallback({result: result, status: status});
+                    }
+                } else {
+                    if(errorCallback) {
+                        errorCallback({result: result, status: status});
+                    }
                 }
             });
 
             $('#directions-link').attr('href', getDirections(destination));
         }
-    };
+    };    
 });
