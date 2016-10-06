@@ -1,7 +1,7 @@
 define(['jquery', 'geojson', 'moment', 'moment_range', 'moment_timezone',
         'json!vendor/ELECTIONS_WardsPrecincts.geojson',
         'json!vendor/ELECTIONS_PollingLocations.geojson',
-        'json!vendor/EARLY_VOTING_AddressPoints.geojson'], 
+        'json!vendor/EARLY_VOTING_AddressPoints.geojson'],  
     function($, GeoJSON, moment, moment_range, moment_timezone, 
             precinctsJSON, locationsJSON, earlyPollingJSON) {
     'use strict';
@@ -86,28 +86,33 @@ define(['jquery', 'geojson', 'moment', 'moment_range', 'moment_timezone',
         return encodeURI(url + destination);
     }
 
-    function getHours(place) {
 
-        var hours = [];
+
+    // Takes in array of early polling hours
+    // Returns HTML string concatenating all hours at a location
+    function parseEarlyPollingHours(earlyPollingHours) {
+
+        var earlyPollingHoursHTML = "";
+
         moment.tz.add('America/New_York|EST EDT|50 40|0101|1Lz50 1zb0 Op0');
         
-        jQuery.each(place, function(index, timeInterval) {
+        $.each(earlyPollingHours, function(index, timeInterval) {
             var range = moment.range(timeInterval);
-            var dates = range.toDate();
-            dates = dates.map(function(d) { 
-                return moment(d).tz('America/New_York').format('MMM Do h:mma z')
-            });
 
-            hours.push(dates);
+            var dates = range.toDate();
+
+            var hourOpen = moment(dates[0]).tz('America/New_York').format('MMM Do h:mma');
+            var hourClose = moment(dates[1]).tz('America/New_York').format('h:mma');
+
+            earlyPollingHoursHTML += "<li>" + hourOpen + " to " + hourClose + "</li>";
 
          });
 
-        return hours;
+        return earlyPollingHoursHTML;
+
     }
 
     function displayEarlyPollingLocations() {
-
-       
 
         for (var i = 0; i < earlyPollingLocations.length; i++) {
    
@@ -118,36 +123,14 @@ define(['jquery', 'geojson', 'moment', 'moment_range', 'moment_timezone',
 
             var hours = earlyPollingLocations[i].geojsonProperties.hours;
 
-            var listed_hours = getHours(hours);
-            createEarlyVotingMarker(pos, i, addr, listed_hours);
+            var earlyPollingHoursHTML = parseEarlyPollingHours(hours);
+
+            createEarlyVotingMarker(pos, i, addr, earlyPollingHoursHTML);
         }
     }
 
-    function stripHourInfo(hourString) {
-        var spaceCount = 2;
-        var i = 0;
-        while(spaceCount > 0) {
-            if (hourString[i] == " ") {
-                spaceCount--;
-            }
-            i++;
-        }
-        return (hourString.substring(i, hourString.length-4));
-    }
 
-    function generateHoursHTML(listed_hours) {
-        var hoursHTML = "";
-        for (var i = 0; i < listed_hours.length; i++) {
-         
-            var hourString = listed_hours[i][0];
-            hoursHTML += "<li>" + hourString.substring(0, hourString.length-4) 
-                      + " to " + stripHourInfo(listed_hours[i][1]) + "</li>";
-        }
-        return hoursHTML;
-
-    }
-
-    function createEarlyVotingMarker(pos, index, addr, listed_hours) {
+    function createEarlyVotingMarker(pos, index, addr, earlyPollingHoursHTML) {
 
         var earlyVotingMarker = new google.maps.Marker({
             position: pos,
@@ -156,12 +139,9 @@ define(['jquery', 'geojson', 'moment', 'moment_range', 'moment_timezone',
 
         var earlyVotingInfoWindow = new google.maps.InfoWindow();
 
-        var earlyVotingInfo = document.createElement("ul");
-        earlyVotingInfo.id = "earlyVotingInfoDiv";
-
-        var hoursHTML = generateHoursHTML(listed_hours);
-        earlyVotingInfo = "<div class='earlyPollingWindow'><b><h5 style='color:#000'>Early Polling Location: " 
-                          +  addr + "</h5></b></div>" + hoursHTML;
+        // var hoursHTML = generateHoursHTML(listed_hours);
+        var earlyVotingInfo = "<div class='earlyPollingWindow'><b><h5 style='color:#000'>Early Polling Location: " 
+                          +  addr + "</h5></b></div>" + earlyPollingHoursHTML;
 
         google.maps.event.addListener(earlyVotingMarker, 'click', (function(earlyVotingInfo, index) {
             return function() {
