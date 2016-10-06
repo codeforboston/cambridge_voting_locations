@@ -1,8 +1,14 @@
-define(['jquery', 'geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'json!vendor/ELECTIONS_PollingLocations.geojson'], function($, GeoJSON, precinctsJSON, locationsJSON) {
+define(['jquery', 'geojson', 'moment',
+        'json!vendor/ELECTIONS_WardsPrecincts.geojson',
+        'json!vendor/ELECTIONS_PollingLocations.geojson',
+        'json!vendor/EARLY_VOTING_AddressPoints.geojson',  
+        'moment_range', 'moment_timezone'],  
+    function($, GeoJSON, moment, precinctsJSON, locationsJSON, earlyPollingJSON) {
     'use strict';
 
     var precincts = new GeoJSON(precinctsJSON),
-        pollingLocations = new GeoJSON(locationsJSON);
+        pollingLocations = new GeoJSON(locationsJSON),
+        earlyPollingLocations = new GeoJSON(earlyPollingJSON);
 
     var map = new google.maps.Map(document.getElementById('map'), {
         center: new google.maps.LatLng(42.3736, -71.1106), // Cambridge!
@@ -14,6 +20,8 @@ define(['jquery', 'geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'js
             preserveViewport: true,
             panel: document.getElementById('directions')
         });
+
+    var earlyPollingInfoWindow = new google.maps.InfoWindow();
 
     // TODO move UI interaction into its own module
 
@@ -78,8 +86,80 @@ define(['jquery', 'geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'js
         return encodeURI(url + destination);
     }
 
+
+
+    // Takes in array of early polling hours
+    // Returns HTML string concatenating all hours at a location
+    function parseEarlyPollingHours(earlyPollingHours) {
+
+        var earlyPollingHoursHTML = "";
+
+        moment.tz.add('America/New_York|EST EDT|50 40|0101|1Lz50 1zb0 Op0');
+        
+        $.each(earlyPollingHours, function(index, timeInterval) {
+            var range = moment.range(timeInterval);
+
+            var dates = range.toDate();
+
+            var hourOpen = moment(dates[0]).tz('America/New_York').format('MMM Do h:mma');
+            var hourClose = moment(dates[1]).tz('America/New_York').format('h:mma');
+
+            earlyPollingHoursHTML += "<li>" + hourOpen + " to " + hourClose + "</li>";
+
+         });
+
+        return earlyPollingHoursHTML;
+
+    }
+
+    function displayEarlyPollingLocations() {
+
+        for (var i = 0; i < earlyPollingLocations.length; i++) {
+   
+            var pos = new google.maps.LatLng(earlyPollingLocations[i].position.lat(),
+                                             earlyPollingLocations[i].position.lng());
+
+            var addr = earlyPollingLocations[i].geojsonProperties.Full_Addr;
+
+            var hours = earlyPollingLocations[i].geojsonProperties.hours;
+
+            var earlyPollingHoursHTML = parseEarlyPollingHours(hours);
+
+            createEarlyVotingMarker(pos, i, addr, earlyPollingHoursHTML);
+        }
+    }
+
+
+    function createEarlyVotingMarker(pos, index, addr, earlyPollingHoursHTML) {
+
+        var earlyVotingMarker = new google.maps.Marker({
+            position: pos,
+            map: map
+        });
+
+        var earlyVotingInfoWindow = new google.maps.InfoWindow();
+
+        // var hoursHTML = generateHoursHTML(listed_hours);
+        var earlyVotingInfo = "<div class='earlyPollingWindow'><b><h5 style='color:#000'>Early Polling Location: " 
+                          +  addr + "</h5></b></div>" + earlyPollingHoursHTML;
+
+        google.maps.event.addListener(earlyVotingMarker, 'click', (function(earlyVotingInfo, index) {
+            return function() {
+                earlyVotingInfoWindow.setContent(earlyVotingInfo);
+                earlyVotingInfoWindow.open(map, this);
+            }
+        })(earlyVotingInfo, index));    
+
+        google.maps.event.addListener(map, 'click', function() {
+            earlyVotingInfoWindow.close();
+        });
+    }
+
+
     return function(latLng, successCallback, errorCallback) {
         clearPreviousResults();
+        displayEarlyPollingLocations();
+
         userPrecinct = getUserPrecinct(latLng);
         if (!userPrecinct) {
             $('#notice')
@@ -119,5 +199,5 @@ define(['jquery', 'geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'js
 
             $('#directions-link').attr('href', getDirections(destination));
         }
-    };
+    };    
 });

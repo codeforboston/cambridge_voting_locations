@@ -1,10 +1,11 @@
 {
   "name": "cambridge-voting-locations",
   "version": "0.0.1",
-  "dependencies": {},
+  "dependencies": {
+    },
   "scripts": {
-      "prebuild": "bower install",
-      "build": "grunt build"
+    "prebuild": "bower install",
+    "build": "grunt build"
   },
   "devDependencies": {
     "grunt": "~0.4.1",

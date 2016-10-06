@@ -15,7 +15,10 @@ require.config({
         bootstrapTransition: '../bower_components/sass-bootstrap/js/transition',
         text: '../bower_components/requirejs-text/text',
         geojson: '../bower_components/geojson-google-maps/GeoJSON',
-        json: 'vendor/json'
+        json: 'vendor/json',
+        moment: '../bower_components/moment/moment',
+        moment_range: '../bower_components/moment-range/dist/moment-range',
+        moment_timezone: '../bower_components/moment-timezone/moment-timezone'
     },
     shim: {
         bootstrapAffix: {
@@ -59,6 +62,15 @@ require.config({
         },
         underscore: {
             exports: '_'
+        },
+        moment: {
+            exports: 'moment'
+        },
+        moment_range: {
+            exports: 'moment_range'
+        },
+        moment_timezone: {
+            exports: 'moment_timezone'
         }
     }
 });

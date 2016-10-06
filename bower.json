@@ -7,7 +7,9 @@
     "jquery": "~1.10.2",
     "requirejs-text": "~2.0.10",
     "geojson-google-maps": "*",
-    "font-awesome": "~4.0.2"
+    "font-awesome": "~4.0.2",
+    "moment": "^2.15.1",
+    "moment-timezone": "^0.5.5"
   },
   "devDependencies": {}
 }
