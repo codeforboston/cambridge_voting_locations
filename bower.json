@@ -2,12 +2,12 @@
   "name": "cambridge-voting-locations",
   "version": "0.0.0",
   "dependencies": {
-    "sass-bootstrap": "~3.0.0",
     "requirejs": "~2.1.8",
     "jquery": "~1.10.2",
     "requirejs-text": "~2.0.10",
     "geojson-google-maps": "*",
-    "font-awesome": "~4.0.2"
+    "font-awesome": "~4.0.2",
+    "bootstrap-sass": "~3.3.7"
   },
   "devDependencies": {}
 }
