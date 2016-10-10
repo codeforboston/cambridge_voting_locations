@@ -64,10 +64,10 @@ require.config({
 });
 
 
-require(['jquery', 'polling_location_finder', 'bootstrapModal'], function($, findPollingLocationFor) {
+require(['jquery', 'polling_location_finder', 'bootstrapCollapse', 'bootstrapTab'], function($, findPollingLocationFor) {
     //'use strict';
 
-    $('.modal').modal('show');
+    // $('.modal').modal('show');
     // //attach autocomplete
 
      var $address = $('#address');
@@ -180,7 +180,7 @@ require(['jquery', 'polling_location_finder', 'bootstrapModal'], function($, fin
                     zip_index = i;
                 }
             }
-            
+
             var zipCodeComponent = addr_components[zip_index],
                 zipCode = zipCodeComponent && zipCodeComponent.short_name;
 
@@ -188,7 +188,7 @@ require(['jquery', 'polling_location_finder', 'bootstrapModal'], function($, fin
                 isStreetAddress = ($.inArray('street_address', address.types)) > -1;
 
             return isInCambridge && isStreetAddress;
-            
+
         }
 
         geocoder.geocode({
