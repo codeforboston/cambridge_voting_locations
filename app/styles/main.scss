@@ -117,7 +117,7 @@ label {
     font-weight: 600;
     text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.4);
 
-    &:hover {
+    bb &:hover {
         background: linear-gradient(lighten($light_blue, 7%), $light_blue);
         box-shadow: none;
         border-color: rgba(0, 0, 0, 0.7);

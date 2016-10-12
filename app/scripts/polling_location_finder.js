@@ -118,6 +118,18 @@ define(['jquery', 'geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'js
           "2016-11-04T13:00:00.000Z/2016-11-04T21:00:00.000Z" ]
         }
     };
+	
+	var pollingHours = ["2016-10-24T18:00:00.000Z/2016-10-25T00:00:00.000Z",
+          "2016-10-25T13:00:00.000Z/2016-10-25T21:00:00.000Z",
+          "2016-10-26T18:00:00.000Z/2016-10-27T00:00:00.000Z",
+          "2016-10-27T13:00:00.000Z/2016-10-27T21:00:00.000Z",
+          "2016-10-28T13:00:00.000Z/2016-10-28T21:00:00.000Z",
+          "2016-10-29T13:00:00.000Z/2016-10-29T21:00:00.000Z",
+          "2016-10-31T18:00:00.000Z/2016-11-01T00:00:00.000Z",
+          "2016-11-01T13:00:00.000Z/2016-11-01T21:00:00.000Z",
+          "2016-11-02T18:00:00.000Z/2016-11-03T00:00:00.000Z",
+          "2016-11-03T13:00:00.000Z/2016-11-03T21:00:00.000Z",
+          "2016-11-04T13:00:00.000Z/2016-11-04T21:00:00.000Z" ];
     
     /*module to display polling station hours*/
     var pollInfoModule = (function(){
@@ -133,26 +145,28 @@ define(['jquery', 'geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'js
             _infoTable;
         
         
-        function init(closestPoll){
+        function init(pollHours){
             
-            //_now = moment(),
+            //_now = moment();
             
                 //dev made up now moment object for debugging purposes.
             _now = moment({ years:2016, months:09, date:31, hours:12, minutes:31, seconds:3, milliseconds:123});
             //default message
             _message = "Hello there dear citizen, glad to see you take part in our democracy! Have a nice polling day.";
             _pollingDay.isToday = false;
-            _pollOpen = false,
+            _pollOpen = false;
             _infoTable = '<tr><th>Dates</th><th>Times</th></tr>';
             
             //interates through each start and end hour time in the polling station.
-                for(var i=0, j=closestPoll.geojsonProperties.hours.length; i<j; i++){
+                for(var i=0, j=pollHours.length; i<j; i++){
                     var _startingHour,
                         _endingHour;
 
                     //get the moment object of the start and end hours for that particular day.
-                    _startingHour = moment(closestPoll.geojsonProperties.hours[i].split('/')[0]);
-                    _endingHour = moment(closestPoll.geojsonProperties.hours[i].split('/')[1]);
+                    _startingHour = moment(pollHours[i].slice(0, 24));
+                    _endingHour = moment(pollHours[i].slice(-24));
+					
+					console.log(pollHours[i].slice(-24));
 
                     //if the current moment is within the start and end hours of the current poll day. That means poll is open.
                     if(_now.isBetween(_startingHour.format(), _endingHour.format())){
@@ -228,8 +242,8 @@ define(['jquery', 'geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'js
         } else {
             var pollingLocation = getPollingLocation(userPrecinct);
             
-            if(pollingLocation.geojsonProperties.hours){
-            pollInfoModule.init(pollLocation);
+            if(pollingHours){
+            pollInfoModule.init(pollingHours);
             pollInfoModule.render();
             }else{
                 console.log('current polling geojson object does not have property of hours to display!');   
