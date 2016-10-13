@@ -1,18 +1,18 @@
 require.config({
     paths: {
         jquery: '../bower_components/jquery/jquery',
-        bootstrapAffix: '../bower_components/sass-bootstrap/js/affix',
-        bootstrapAlert: '../bower_components/sass-bootstrap/js/alert',
-        bootstrapButton: '../bower_components/sass-bootstrap/js/button',
-        bootstrapCarousel: '../bower_components/sass-bootstrap/js/carousel',
-        bootstrapCollapse: '../bower_components/sass-bootstrap/js/collapse',
-        bootstrapDropdown: '../bower_components/sass-bootstrap/js/dropdown',
-        bootstrapModal: '../bower_components/sass-bootstrap/js/modal',
-        bootstrapPopover: '../bower_components/sass-bootstrap/js/popover',
-        bootstrapScrollspy: '../bower_components/sass-bootstrap/js/scrollspy',
-        bootstrapTab: '../bower_components/sass-bootstrap/js/tab',
-        bootstrapTooltip: '../bower_components/sass-bootstrap/js/tooltip',
-        bootstrapTransition: '../bower_components/sass-bootstrap/js/transition',
+        bootstrapAffix: '../bower_components/bootstrap-sass/assets/javascripts/bootstrap/affix',
+        bootstrapAlert: '../bower_components/bootstrap-sass/assets/javascripts/bootstrap/alert',
+        bootstrapButton: '../bower_components/bootstrap-sass/assets/javascripts/bootstrap/button',
+        bootstrapCarousel: '../bower_components/bootstrap-sass/assets/javascripts/bootstrap/carousel',
+        bootstrapCollapse: '../bower_components/bootstrap-sass/assets/javascripts/bootstrap/collapse',
+        bootstrapDropdown: '../bower_components/bootstrap-sass/assets/javascripts/bootstrap/dropdown',
+        bootstrapModal: '../bower_components/bootstrap-sass/assets/javascripts/bootstrap/modal',
+        bootstrapPopover: '../bower_components/bootstrap-sass/assets/javascripts/bootstrap/popover',
+        bootstrapScrollspy: '../bower_components/bootstrap-sass/assets/javascripts/bootstrap/scrollspy',
+        bootstrapTab: '../bower_components/bootstrap-sass/assets/javascripts/bootstrap/tab',
+        bootstrapTooltip: '../bower_components/bootstrap-sass/assets/javascripts/bootstrap/tooltip',
+        bootstrapTransition: '../bower_components/bootstrap-sass/assets/javascripts/bootstrap/transition',
         text: '../bower_components/requirejs-text/text',
         geojson: '../bower_components/geojson-google-maps/GeoJSON',
         json: 'vendor/json'
@@ -64,10 +64,10 @@ require.config({
 });
 
 
-require(['jquery', 'polling_location_finder', 'bootstrapModal'], function($, findPollingLocationFor) {
+require(['jquery', 'polling_location_finder', 'bootstrapCollapse', 'bootstrapTab'], function($, findPollingLocationFor) {
     //'use strict';
 
-    $('.modal').modal('show');
+    // $('.modal').modal('show');
     // //attach autocomplete
 
      var $address = $('#address');
@@ -129,6 +129,7 @@ require(['jquery', 'polling_location_finder', 'bootstrapModal'], function($, fin
                     $btn.attr('disabled', false);
                     $btn.html(initialText);
                     $btn.removeClass('loading');
+                    google.maps.event.trigger(map, 'resize');
                 });
             }, geolocationErrorDisplay);
         } else {
@@ -137,6 +138,8 @@ require(['jquery', 'polling_location_finder', 'bootstrapModal'], function($, fin
             $btn.attr('disabled', false);
             $btn.html(initialText);
             $btn.removeClass('loading');
+            google.maps.event.trigger(map, 'resize');
+
         }
     });
 
@@ -180,7 +183,7 @@ require(['jquery', 'polling_location_finder', 'bootstrapModal'], function($, fin
                     zip_index = i;
                 }
             }
-            
+
             var zipCodeComponent = addr_components[zip_index],
                 zipCode = zipCodeComponent && zipCodeComponent.short_name;
 
@@ -188,7 +191,7 @@ require(['jquery', 'polling_location_finder', 'bootstrapModal'], function($, fin
                 isStreetAddress = ($.inArray('street_address', address.types)) > -1;
 
             return isInCambridge && isStreetAddress;
-            
+
         }
 
         geocoder.geocode({
@@ -212,10 +215,13 @@ require(['jquery', 'polling_location_finder', 'bootstrapModal'], function($, fin
                             .html($('#noLocation').text());
                     } else {
                         displaySearchResults(results);
+                        google.maps.event.trigger(map, 'resize');
                     }
                 });
             } else {
                 displaySearchResults(results);
+                google.maps.event.trigger(map, 'resize');
+
             }
         });
     }
