@@ -1,6 +1,3 @@
-$navbarLogoHeight: 28px;
-$cambridgeBorder: darken($cambridgeLightBlue, 40%);
-
 main {
   background-color: $cambridgeLightBlue;
 }
@@ -29,37 +26,6 @@ main {
   h1 {
     font-size: calc(1rem + 4vw);
   }
-}
-
-.cambridge-tabs {
-  padding-left: 3em;
-  border-color: $cambridgeBorder;
-
-  li a {
-    text-transform: uppercase;
-    font-weight: 600;
-    padding: .75em 1.5em;
-    border: 0;
-
-    span {
-      display: block;
-      font-size: 2em;
-    }
-
-    &:hover {
-      background-color: darken($cambridgeLightBlue, 10%);
-    }
-  }
-
-  li.active a, li.active a:hover, li.active a:focus {
-    border: 1px solid $cambridgeBorder;
-    border-bottom-color: transparent;
-  }
-}
-
-.cambridge-tab-content {
-  background: $body-bg;
-  padding: 3em;
 }
 
 .voting-result {

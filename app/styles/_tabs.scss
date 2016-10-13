@@ -1,0 +1,25 @@
+.cambridge-tabs {
+  padding-left: 3em;
+  border-color: $cambridgeBorder;
+
+  li a {
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: .75em 1.5em;
+    border: 0;
+
+    &:hover {
+      background-color: darken($cambridgeLightBlue, 10%);
+    }
+  }
+
+  li.active a, li.active a:hover, li.active a:focus {
+    border: 1px solid $cambridgeBorder;
+    border-bottom-color: transparent;
+  }
+}
+
+.cambridge-tab-content {
+  background: $body-bg;
+  padding: 3em;
+}

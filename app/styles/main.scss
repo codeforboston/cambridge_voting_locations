@@ -10,11 +10,21 @@ $fa-font-path:   "/bower_components/font-awesome/fonts";
 
 //----VOTE CAMBRIDGE CSS----//
 
+$navbarLogoHeight: 28px;
+
 @import 'colors'; // Custom color variables
 @import 'screens';
 @import 'spinner'; // CSS loading indicator
 @import 'icons'; // Import fontface definitions
 @import 'navbar'; // Navigation bar
+@import 'tabs'; // Tabs
+
+html {
+  font-size: 1.25em;
+}
+p.lead {
+  font-size: 1.2em;
+}
 
 body {
     color: $dark_gray;
@@ -46,7 +56,7 @@ main > .row {
 
 #directions-link, #view_directions{
     // display:inline-block;
-    font-size: 11px;
+    font-size: 1em;
 }
 #view_directions {
     margin-right: 8px;
@@ -61,10 +71,9 @@ main > .row {
 
 .control-label {
     font-family: 'Rokkitt', 'Open Sans', sans-serif;
-    font-size: 2rem;
+    font-size: 1rem;
     font-weight: 700;
     display: inline-block;
-    // text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .btn-cambridge {
@@ -129,8 +138,8 @@ main > .row {
     text-align: center;
     padding-top: 1em;
     padding-bottom: .5em;
-    line-height: 2em;
-    font-size: 1.25em;
+    line-height: 2;
+    font-size: 1em;
     color: darken($cambridgeLightBlue, 40%);
     width: 50%;
 
@@ -138,7 +147,7 @@ main > .row {
         margin: 1em auto;
         border-width: 3px;
         border-color: darken($cambridgeLightBlue, 40%);
-        width: 44%;
+        width: 40%;
     }
 }
 
@@ -206,6 +215,40 @@ main > .row {
 @media (min-width: $screen-sm) {
     #streetview { display: none; }
     #view_directions{ display: none; }
+}
+
+@media (max-width: $screen-xs) {
+  html { font-size: 1.125em; }
+  .btn-cambridge {
+    font-size: 1.2em;
+    width: 100%;
+  }
+}
+// MOBILE
+@media (max-width: $screen-xs) {
+  .cambridge-tabs {
+    padding-left: 1em;
+    li a {
+      padding: .5em 1em;
+      h2 { font-size: 1em; }
+    }
+  }
+
+  .cambridge-tab-content {
+    padding: 1em;
+    .tab-pane {
+      padding: 0;
+      font-size: .8em;
+    }
+  }
+}
+
+@media (max-width: $screen-sm) {
+  .jumbotron-cambridge {
+    padding: 1em;
+    small { display: block; }
+    p { font-size: 1em;}
+  }
 }
 
 .pac-container {
