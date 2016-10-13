@@ -1,6 +1,6 @@
 require.config({
     paths: {
-        jquery: '../bower_components/jquery/dist/jquery',
+        jquery: '../bower_components/jquery/jquery',
         bootstrapAffix: '../bower_components/bootstrap-sass/assets/javascripts/bootstrap/affix',
         bootstrapAlert: '../bower_components/bootstrap-sass/assets/javascripts/bootstrap/alert',
         bootstrapButton: '../bower_components/bootstrap-sass/assets/javascripts/bootstrap/button',
@@ -129,6 +129,7 @@ require(['jquery', 'polling_location_finder', 'bootstrapCollapse', 'bootstrapTab
                     $btn.attr('disabled', false);
                     $btn.html(initialText);
                     $btn.removeClass('loading');
+                    google.maps.event.trigger(map, 'resize');
                 });
             }, geolocationErrorDisplay);
         } else {
@@ -137,6 +138,8 @@ require(['jquery', 'polling_location_finder', 'bootstrapCollapse', 'bootstrapTab
             $btn.attr('disabled', false);
             $btn.html(initialText);
             $btn.removeClass('loading');
+            google.maps.event.trigger(map, 'resize');
+
         }
     });
 
@@ -212,10 +215,13 @@ require(['jquery', 'polling_location_finder', 'bootstrapCollapse', 'bootstrapTab
                             .html($('#noLocation').text());
                     } else {
                         displaySearchResults(results);
+                        google.maps.event.trigger(map, 'resize');
                     }
                 });
             } else {
                 displaySearchResults(results);
+                google.maps.event.trigger(map, 'resize');
+
             }
         });
     }
