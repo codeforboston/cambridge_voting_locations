@@ -15,11 +15,9 @@ The **cambridge_voting_locations** application is developed with [yeoman](http:/
 
 Within the `cambridge_voting_locations` directory:
 ```sh
-npm install -g yo  # installs yeoman, grunt and bower automatically
-npm install        # installs local node dependencies
-bower install      # installs local client-side library dependencies
-grunt server       # starts server
-grunt build        # places a production copy of the app in the dist directory
+npm install        # installs local node and bower dependencies
+npm start          # starts server
+npm run build      # places a production copy of the app in the dist directory
 ```
 
-All development work is done within the `app` directory. We're using [Yeoman's deployment strategy](http://yeoman.io/deployment.html). Before committing, please run `grunt build` and commit any changes within the `dist` directory as well.
+All development work is done within the `app` directory. We're using [Yeoman's deployment strategy](http://yeoman.io/deployment.html). Before committing, please run `npm run build` and commit any changes within the `dist` directory as well.
