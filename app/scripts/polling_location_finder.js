@@ -24,15 +24,8 @@ define(['jquery', 'geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'js
     // TODO move UI interaction into its own module
 
     function showResults() {
-        $('.modal').modal('hide');
+        $('.voting-result').show();
     }
-
-    function hideResults(e) {
-        e.preventDefault();
-        $('.modal').modal('show');
-    }
-
-    $('.back').on('click', hideResults);
 
     // keep track of user precinct across calls so we can erase previous precincts if necessary
     var userPrecinct;

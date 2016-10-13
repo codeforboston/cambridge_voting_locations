@@ -1,0 +1,33 @@
+main {
+  background-color: $cambridgeLightBlue;
+}
+
+.navbar-cambridge {
+  border-radius: 0;
+  border: 0;
+  border-bottom: 3px solid $cambridgeBorder;
+  background-color: $cambridgeLightBlue;
+  margin-bottom: 0;
+
+  img {
+    height: $navbarLogoHeight;
+  }
+  .navbar-nav li a {
+    line-height: $navbarLogoHeight;
+    color: darken($cambridgeLightBlue, 60%);
+  }
+}
+
+.jumbotron-cambridge {
+  margin-bottom: 0;
+  padding: 3rem;
+  background: inherit;
+
+  h1 {
+    font-size: calc(1rem + 4vw);
+  }
+}
+
+.voting-result {
+  display: none;
+}

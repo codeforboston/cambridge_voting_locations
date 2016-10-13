@@ -227,7 +227,7 @@ module.exports = function (grunt) {
                         '.htaccess',
                         'images/*',
                         'styles/fonts/{,*/}*.*',
-                        'bower_components/sass-bootstrap/fonts/*.*',
+                        'bower_components/bootstrap-sass/assets/fonts/bootstrap/*.*',
                         'bower_components/font-awesome/fonts/*.*'
                     ]
                 }]
