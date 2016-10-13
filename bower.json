@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "dependencies": {
     "requirejs": "~2.1.8",
-    "jquery": "~1.10.2",
+    "jquery": "1.10.2",
     "requirejs-text": "~2.0.10",
     "geojson-google-maps": "*",
     "font-awesome": "~4.0.2",
