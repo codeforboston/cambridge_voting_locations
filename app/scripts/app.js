@@ -64,11 +64,30 @@ require.config({
 });
 
 
-require(['jquery', 'polling_location_finder', 'bootstrapCollapse', 'bootstrapTab'], function($, findPollingLocationFor) {
+require(['jquery', 'polling_location_finder', 'bootstrapCollapse'], function($, findPollingLocationFor) {
     //'use strict';
 
-    // $('.modal').modal('show');
-    // //attach autocomplete
+    // Tab functionality that uses window.location.hash to create "tabs"
+    // that are linkable/shareable/work with the "back" button etc.
+
+    // Defaults to early voting
+    window.location.hash = window.location.hash || 'early-voting';
+
+    // Trigger the hashchange event if going to a different tab
+    $('.cambridge-tabs a[href^=#]').on('click', function() {
+      var target = $(this).attr('href');
+      if (target != window.location.hash) {
+        window.location.hash = target;
+      }
+    });
+
+    // Sets the "active" styling on the active tab link
+    $(window).on('hashchange', function() {
+      $('.cambridge-tabs a').parent().removeClass("active");
+      $('.cambridge-tabs a[href='+ window.location.hash +']').parent().addClass("active");
+    });
+
+    $(window).trigger('hashchange'); // if the user navigated directly to a tab, set that active styling this way
 
      var $address = $('#address');
     //
