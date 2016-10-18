@@ -15,7 +15,11 @@ require.config({
         bootstrapTransition: '../bower_components/bootstrap-sass/assets/javascripts/bootstrap/transition',
         text: '../bower_components/requirejs-text/text',
         geojson: '../bower_components/geojson-google-maps/GeoJSON',
-        json: 'vendor/json'
+        json: 'vendor/json',
+        moment: '../bower_components/moment/moment',
+        moment_range: '../bower_components/moment-range/dist/moment-range',
+        moment_timezone: '../bower_components/moment-timezone/moment-timezone'
+
     },
     shim: {
         bootstrapAffix: {
@@ -59,24 +63,26 @@ require.config({
         },
         underscore: {
             exports: '_'
+        },
+        moment: {
+            exports: 'moment'
+        },
+        moment_range: {
+            exports: 'moment_range'
+        },
+        moment_timezone: {
+            exports: 'moment_timezone'
         }
     }
 });
 
 
-require(['jquery', 'polling_location_finder', 'bootstrapCollapse', 'bootstrapTab'], function($, findPollingLocationFor) {
-    //'use strict';
+require(['jquery', 'early_polling','polling_location_finder', 'bootstrapCollapse', 'bootstrapTab'], 
+    function($, earlyPolling, findPollingLocationFor) {
 
-    // $('.modal').modal('show');
-    // //attach autocomplete
 
      var $address = $('#address');
-    //
-    // //starting place for google maps typeahead search
-    // var defaultBounds = new google.maps.LatLngBounds(
-    //     //harvard square
-    //     new google.maps.LatLng(42.3735695,-71.1233489)
-    // );
+ 
 
 
     var defaultBounds = new google.maps.LatLngBounds(
@@ -99,6 +105,18 @@ require(['jquery', 'polling_location_finder', 'bootstrapCollapse', 'bootstrapTab
     });
 
 
+    $(document).ready(function() {
+        earlyPolling();
+
+    });
+
+    // $('#early-voting-map').on("load", function() {
+    //     console.log("HELLLLLLLLOOOO");
+    // });
+
+
+
+
 
     $('#view_directions').on('click', function () {
         $('#info').toggleClass('up');
@@ -116,6 +134,7 @@ require(['jquery', 'polling_location_finder', 'bootstrapCollapse', 'bootstrapTab
     }
 
     $('.current-location').on('click', function() {
+
         var $btn = $(this);
         var initialText = $btn.html();
         // replace button text with loading text on disabled button
@@ -142,6 +161,8 @@ require(['jquery', 'polling_location_finder', 'bootstrapCollapse', 'bootstrapTab
 
         }
     });
+
+
 
     function searchForAddress () {
         var address = $address.val();

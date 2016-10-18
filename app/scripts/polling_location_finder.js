@@ -74,6 +74,7 @@ define(['jquery', 'geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'js
     return function(latLng, successCallback, errorCallback) {
         clearPreviousResults();
         userPrecinct = getUserPrecinct(latLng);
+
         if (!userPrecinct) {
             $('#notice')
                 .addClass('error')
@@ -83,8 +84,8 @@ define(['jquery', 'geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'js
             $('.result').addClass('success');
             showResults();
             // highlight the precinct on the map
-            userPrecinct.setMap(map);
-            map.fitBounds(userPrecinct.getBounds());
+           userPrecinct.setMap(map);
+           map.fitBounds(userPrecinct.getBounds());
 
             // display location notes
             $('#info .location').text(pollingLocation.geojsonProperties.LOCATION);
