@@ -66,7 +66,7 @@ require.config({
 });
 
 
-require(['jquery', 'polling_location_finder', 'bootstrapCollapse', 'bootstrapTab'], function($, findPollingLocationFor) {
+require(['jquery', 'polling_location_finder', 'early_poll_finder', 'bootstrapCollapse', 'bootstrapTab'], function($, findPollingLocationFor) {
     //'use strict';
 
     // $('.modal').modal('show');
@@ -95,12 +95,11 @@ require(['jquery', 'polling_location_finder', 'bootstrapCollapse', 'bootstrapTab
     var autocomplete = new google.maps.places.Autocomplete($address.get(0), options);
 
     autocomplete.addListener('place_changed', function() {
-        // var place = autocomplete.getPlace();
+        var place = autocomplete.getPlace();
         searchForAddress();
     });
 
-
-
+     /* not working so well with the new layout
     $('#view_directions').on('click', function () {
         $('#info').toggleClass('up');
         if ($('#info').hasClass('up')) {
@@ -109,63 +108,74 @@ require(['jquery', 'polling_location_finder', 'bootstrapCollapse', 'bootstrapTab
             $('#view_directions').html('<span class="icon-info-sign"></span> View directions');
         }
     });
-
-    function geolocationErrorDisplay() {
-        $('#notice')
-            .addClass('error')
-            .html("We weren't able to determine your current location. Try typing in your address?");
-    }
-
-    $('.current-location').on('click', function() {
-        var $btn = $(this);
+	*/
+	
+	$('.current-location').on('click', function(){
+		var $btn = $(this);
         var initialText = $btn.html();
-        // replace button text with loading text on disabled button
-        $btn.attr('disabled', true);
-        $btn.find('.button-text').text('Finding your location.');
-        $btn.addClass('loading');
+
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                var currentLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                findPollingLocationFor(currentLocation, function() {
+			//if supported get the user gps location
+            navigator.geolocation.getCurrentPosition(successCall, failCall);
+        } else {
+			// warn the user that gps location is not supported
+			$('#notice')
+				.addClass('error')
+				.html("Seems your device does NOT support GSP location. Try typing in your address?");
+        }
+		
+		function successCall(position){
+			// replace button text with loading text on disabled button
+			$btn.attr('disabled', true);
+			$btn.find('.button-text').text('Finding your location.');
+			$btn.addClass('loading');
+            var currentLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+             
+			findPollingLocationFor(currentLocation, function() {
                     $btn.attr('disabled', false);
                     $btn.html(initialText);
                     $btn.removeClass('loading');
                     google.maps.event.trigger(map, 'resize');
                 });
-            }, geolocationErrorDisplay);
-        } else {
-            geolocationErrorDisplay();
-            // reset button if failed
-            $btn.attr('disabled', false);
-            $btn.html(initialText);
-            $btn.removeClass('loading');
-            google.maps.event.trigger(map, 'resize');
-
-        }
-    });
+			
+		}
+		
+		function failCall(){
+			// reset button if failed
+			$('#notice')
+				.addClass('error')
+				.html("We weren't able to determine your current location. Try typing in your address?");
+				$btn.attr('disabled', false);
+				$btn.html(initialText);
+				$btn.removeClass('loading');
+				google.maps.event.trigger(map, 'resize');
+		}
+			
+	});
+	
+	
 
     function searchForAddress () {
         var address = $address.val();
         var geocoder = new google.maps.Geocoder();
-		console.log(address);
-
+		
         // clear details pane
         $('#directions').empty();
-
-
+		
+		geocoder.geocode({
+            address: address,
+            componentRestrictions: {
+                administrativeArea: 'Massachusetts',
+                country: 'US'
+            }
+        }, processGeocode);
+	
         // go right to the first result if there's only one, or display a list if there are multiples
         function displaySearchResults(results) {
-            
-                console.log('This is what gets passed into the displaySearchResults');
-                console.log(results);
             
             var addressClickHandler = function() {
                 var location = $(this).data('location');
                 $('#directions').empty();
-                
-                console.log('This is the location that is passed into the adressClick Handler');
-                console.log(location);
-
                 
                 findPollingLocationFor(location);
             };
@@ -184,56 +194,47 @@ require(['jquery', 'polling_location_finder', 'bootstrapCollapse', 'bootstrapTab
 
         // only valid Cambridge street addresses, please
         function addressIsCambridgeStreetAddress(address) {
-
-            var zip_index = -1;
-
-            var addr_components = address.address_components;
+		
+			var cambridgeZipcodes = ['02138', '02139', '02140', '02141', '02142', '02238'],
+				isInCambridge = false,
+				isStreetAddress = false,
+				addr_components = address.address_components,
+				zipCode = "000000";
+						
             for (var i = 0; i < addr_components.length; i++) {
                 if (addr_components[i].types[0] == "postal_code") {
-                    zip_index = i;
+                    zipCode = addr_components[i].short_name || addr_components[i].long_name;
                 }
             }
 
-            var zipCodeComponent = addr_components[zip_index],
-                zipCode = zipCodeComponent && zipCodeComponent.short_name;
+			//checks if gathred zipcode is in cambridge
+            isInCambridge = ($.inArray(zipCode, cambridgeZipcodes)) > -1;
+            isStreetAddress = ($.inArray('street_address', address.types)) > -1;
 
-            var isInCambridge = ($.inArray(zipCode, ['02138', '02139', '02140', '02141', '02142', '02238'])) > -1,
-                isStreetAddress = ($.inArray('street_address', address.types)) > -1;
-
+			//return true if both are met: zip code is in cambridge and is street address
             return isInCambridge && isStreetAddress;
 
         }
-
-        geocoder.geocode({
-            address: address,
-            componentRestrictions: {
-                administrativeArea: 'Massachusetts',
-                country: 'US'
-            }
-        }, function(results, status) {
-
-            // if there are multiple results, look for Cambridge-specific street results
-            results = $.grep(results, addressIsCambridgeStreetAddress);
-
-            // if there are no results, try searching for Cambridge
+		
+			//callback function passed into the geocoder of the address
+		function processGeocode(results, status){
+			
+			// if there are multiple results, look for Cambridge-specific street results
+			results = $.grep(results, addressIsCambridgeStreetAddress);
+			
+			// if there are no results, try searching for Cambridge
             if (!results.length) {
-                geocoder.geocode({ address: address + ' Cambridge, MA' }, function(results, status) {
-                    results = $.grep(results, addressIsCambridgeStreetAddress);
-                    if (!results.length) {
-                        $('#notice')
-                            .addClass('error')
-                            .html($('#noLocation').text());
-                    } else {
-                        displaySearchResults(results);
-                        google.maps.event.trigger(map, 'resize');
-                    }
-                });
-            } else {
-                displaySearchResults(results);
-                google.maps.event.trigger(map, 'resize');
-
-            }
-        });
+				//geocoder.geocode({ address: address + ' Cambridge, MA' }, processGeocode);
+                 $('#notice')
+                        .addClass('error')
+                        .html($('#noLocation').text());
+                 } else {
+                     displaySearchResults(results);
+                     google.maps.event.trigger(map, 'resize');
+                }
+	
+        }
+		
     }
 
     $('form').on('submit', function(e) {
