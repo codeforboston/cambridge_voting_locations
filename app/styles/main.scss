@@ -13,7 +13,6 @@ $fa-font-path:   "/bower_components/font-awesome/fonts";
 $navbarLogoHeight: 28px;
 
 @import 'colors'; // Custom color variables
-@import 'screens';
 @import 'spinner'; // CSS loading indicator
 @import 'icons'; // Import fontface definitions
 @import 'navbar'; // Navigation bar
@@ -222,24 +221,6 @@ main > .row {
   .btn-cambridge {
     font-size: 1.2em;
     width: 100%;
-  }
-}
-// MOBILE
-@media (max-width: $screen-xs) {
-  .cambridge-tabs {
-    padding-left: 1em;
-    li a {
-      padding: .5em 1em;
-      h2 { font-size: 1em; }
-    }
-  }
-
-  .cambridge-tab-content {
-    padding: 1em;
-    .tab-pane {
-      padding: 0;
-      font-size: .8em;
-    }
   }
 }
 
