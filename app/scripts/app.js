@@ -146,7 +146,8 @@ require(['jquery', 'polling_location_finder', 'bootstrapCollapse', 'early_poll_f
         hideMarkers() = hides all the markers on the map, perfect for when switching tabs.    
     
     */
-    
+
+	window.pollModule = earlyPolling;
     earlyPolling.init();
     $('#currentTime').html(earlyPolling.getTime());
     

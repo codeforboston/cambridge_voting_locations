@@ -8,6 +8,8 @@ define(['jquery', 'geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'js
         center: new google.maps.LatLng(42.3736, -71.1106), // Cambridge!
         zoom: 12
     });
+	
+	window.googleMap = map;
     
     var directionsService = new google.maps.DirectionsService(),
         directionsDisplay = new google.maps.DirectionsRenderer({

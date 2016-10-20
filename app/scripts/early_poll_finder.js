@@ -16,15 +16,10 @@ define(['jquery', 'geojson', 'json!vendor/EARLY_VOTING_AddressPoints.geojson', '
             initialized = true;
             
             //dev made up now moment object for debugging purposes.
-            _now = moment({ years:2016, months:09, date:31, hours:12, minutes:31, seconds:3, milliseconds:123});
+           // _now = moment({ years:2016, months:09, date:31, hours:12, minutes:31, seconds:3, milliseconds:123});
+			_now = moment();
             
-            map = new google.maps.Map(document.getElementById('map'), {
-                    center: new google.maps.LatLng(42.3736, -71.1106), // Cambridge!
-                    zoom: 13
-                });
-            
-            
-            
+            map = window.googleMap;
 
             $polls.on('click', function(e){
                 var $pollClicked = $(e.target).closest('div');
