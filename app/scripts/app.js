@@ -66,7 +66,6 @@ require.config({
 });
 
 
-
 require(['jquery', 'polling_location_finder', 'bootstrapCollapse', 'early_poll_finder'], function($, findPollingLocationFor, bootstraps, earlyPolling) {
 
     //'use strict';
@@ -84,7 +83,7 @@ require(['jquery', 'polling_location_finder', 'bootstrapCollapse', 'early_poll_f
         window.location.hash = target;
       }
     });
-	
+
     // Sets the "active" styling on the active tab link
     $(window).on('hashchange', function() {
       $('.cambridge-tabs a').parent().removeClass("active");
@@ -96,7 +95,7 @@ require(['jquery', 'polling_location_finder', 'bootstrapCollapse', 'early_poll_f
 		}else if(location.hash === "#election-day" && earlyPolling.hasInitialized()){
 			earlyPolling.hideMarkers();
 		}
-		
+	
     });
 
     $(window).trigger('hashchange'); // if the user navigated directly to a tab, set that active styling this way
