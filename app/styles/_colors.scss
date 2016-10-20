@@ -14,4 +14,7 @@ $light_blue: #509fd4;
 $extra_light_blue: #b1d4eb;
 
 $cambridgeLightBlue: #eff7fc;
-$cambridgeBorder: darken($cambridgeLightBlue, 40%);
+$cambridgeMediumBlue: darken($cambridgeLightBlue, 10%);
+$cambridgeDarkBlue: darken($cambridgeLightBlue, 30%);
+$cambridgeDarkerBlue: darken($cambridgeLightBlue, 50%);
+$cambridgeBorder: darken($cambridgeLightBlue, 50%);
