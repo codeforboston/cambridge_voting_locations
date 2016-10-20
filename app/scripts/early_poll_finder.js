@@ -1,9 +1,8 @@
 define(['jquery', 'geojson', 'json!vendor/EARLY_VOTING_AddressPoints.geojson', 'moment', 'momentrange'], function($, GeoJSON, earlyPollJSON,  moment, momentRange) {
     'use strict';
 	
-	var earlyPolls = new GeoJSON(earlyPollJSON);
-
-    var $polls = $('#polls'),
+	var earlyPolls = new GeoJSON(earlyPollJSON),
+		$polls = $('#polls'),
             _now,
             initialized = false,
             labels = "ABCDEFG",
@@ -93,6 +92,8 @@ define(['jquery', 'geojson', 'json!vendor/EARLY_VOTING_AddressPoints.geojson', '
 			        }
                 });
             
+			return this;
+			
         }
     
         function createTable(pollObject){

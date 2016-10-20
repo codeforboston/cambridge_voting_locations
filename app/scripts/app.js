@@ -159,9 +159,14 @@ require(['jquery', 'polling_location_finder', 'bootstrapCollapse', 'early_poll_f
 	
 	window.onload = function(){
 		
-		earlyPolling.init();
-    	$('#currentTime').html(earlyPolling.getTime());
-		
+		if(location.hash === "#early-voting"){
+			earlyPolling.init();
+    		$('#currentTime').html(earlyPolling.getTime());
+			
+		}else{
+			earlyPolling.init().hideMarkers();
+			$('#currentTime').html(earlyPolling.getTime());
+		}	
 	};
 
 	
