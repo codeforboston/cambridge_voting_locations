@@ -1,13 +1,19 @@
 .cambridge-tabs {
+<<<<<<< HEAD
   background-color: darken($cambridgeLightBlue, 10%);
+=======
+  background-color: $cambridgeMediumBlue;
+>>>>>>> 582bbe2dd0b95905a5ce81b2c993049671f86b4a
 
   li a {
     text-transform: uppercase;
     font-weight: 600;
     padding: .75em 1.5em;
-    border: 0;
+    border: 4px solid $cambridgeMediumBlue;
+    background: none;
 
     &:hover {
+<<<<<<< HEAD
       background-color: darken($cambridgeLightBlue, 20%);
       color: white;
     }
@@ -16,6 +22,22 @@
   li.active a, li.active a:hover, li.active a:focus {
     border: 4px solid $cambridgeBorder;
     background: white;
+=======
+      background-color: $cambridgeLightBlue;
+    }
+  }
+
+  li.active a {
+    border: 4px solid $cambridgeBorder;
+    color: $cambridgeDarkerBlue;
+    background-color: white;
+
+    &:hover, &:focus {
+      border: 4px solid $cambridgeBorder;
+      color: $cambridgeDarkerBlue;
+      background-color: $cambridgeLightBlue;
+    }
+>>>>>>> 582bbe2dd0b95905a5ce81b2c993049671f86b4a
   }
 }
 
