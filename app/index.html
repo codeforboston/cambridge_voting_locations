@@ -38,99 +38,97 @@
               </ul>
               <ul class="nav navbar-nav navbar-right">
                 <li><a href="http://www.meetup.com/Code-for-Boston" title="Built as a public technology service by Code for Boston">
-                    Built by <img src="images/cfb_logo.png" alt="" class="logo">
+                  Built by <img src="images/cfb_logo.png" alt="" class="logo">
                 </a></li><li><a href="http://www.github.com/codeforboston/cambridge_voting_locations"><span class="fa fa-fw fa-github"></span>
-                    on Github</a></li>
-              </ul>
+                  on Github</a></li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+          <div class="jumbotron jumbotron-cambridge">
+            <div class="container-fluid">
+              <span class="label label-primary">Upcoming Election</span>
+              <h1>November 8 <small>State/Presidential Election</small></h1>
+              <p>🌎 Find your voting location below (Cambridge, Massachusetts only).</p>
             </div>
           </div>
-        </nav>
-        <div class="jumbotron jumbotron-cambridge">
-          <div class="container-fluid">
-            <span class="label label-primary">Upcoming Election</span>
-            <h1>November 8 <small>State/Presidential Election</small></h1>
-            <p>🌎 Find your voting location below (Cambridge, Massachusetts only).</p>
-          </div>
-        </div>
 
-        <ul class="nav nav-tabs cambridge-tabs" role="tablist">
-          <li role="presentation" class="active">
-            <a href="#early-voting" aria-controls="early-voting" role="tab" data-toggle="tab">
-              <h2>Early Voting</h2>
-              Oct 24 - Nov 4
-            </a>
-          </li>
-          <li role="presentation">
-            <a href="#election-day" aria-controls="election-day" role="tab" data-toggle="tab">
-              <h2>Election Day</h2>
-              Nov 8
-            </a>
-          </li>
-        </ul>
+          <ul class="nav cambridge-tabs">
+            <li class="active">
+              <a href="#early-voting">
+                <h2>Early Voting</h2>
+                Oct 24 - Nov 4
+              </a>
+            </li>
+            <li>
+              <a href="#election-day">
+                <h2>Election Day</h2>
+                Nov 8
+              </a>
+            </li>
+          </ul>
 
-        <div class="tab-content cambridge-tab-content">
-          <div role="tabpanel" class="tab-pane container-fluid active" id="early-voting">
-              <h3>Early Voting Information</h3>
-              <p class="lead">More to come</p>
-          </div>
-          <div role="tabpanel" class="tab-pane container-fluid" id="election-day">
+          <div class="cambridge-tab-content">
             <div class="row">
-              <div class="voting-search col-sm-12">
-                <h3>Find your polling location</h3>
-                <p class="lead">On election day, you must vote at the polling location associated with your home address.</p>
-                <div id="notice"></div>
-                <div class="location form-inline">
+              <div id="map" class="col-sm-8"></div>
+              <div class="voting-search col-sm-4">
+                <section class="container-fluid" id="early-voting">
+                  <h3>Early Voting Information</h3>
+                  <p class="lead">More to come</p>
+                </section>
+                <section class="container-fluid" id="election-day">
+                  <h3>Find your polling location</h3>
+                  <p class="lead">On election day, you must vote at the polling location associated with your home address.</p>
+                  <div id="notice"></div>
+                  <div class="location form-inline">
                     <div class="control-label">
                       <span class="fa fa-fw fa-location-arrow"></span>
                       My current location is home
                     </div>
                     <a class="btn btn-cambridge current-location">
-                        <span class="icon-location"></span>
-                        <span class="spinner">
-                          <span class="double-bounce1"></span>
-                          <span class="double-bounce2"></span>
-                        </span>
-                        Find by current location
+                      <span class="icon-location"></span>
+                      <span class="spinner">
+                        <span class="double-bounce1"></span>
+                        <span class="double-bounce2"></span>
+                      </span>
+                      Find by current location
                     </a>
-                </div>
-
-                <div class="divider text-center">
+                  </div>
+                  <div class="divider text-center">
                     <hr class="pull-left">OR<hr class="pull-right">
-                </div>
+                  </div>
 
-                <div class="address">
+                  <div class="address">
                     <form class="form-inline clearfix">
-                        <label class="control-label" for="address">
-                          <span class="fa fa-fw fa-home"></span>
-                          Enter my home address
-                        </label>
-                        <input type="text" id="address" class="input-md form-control" placeholder="1234 Main St">
-                        <button class="btn btn-cambridge" type="submit">
-                          <span class="icon-search"></span>
-                          Find by home address
-                        </button>
+                      <label class="control-label" for="address">
+                        <span class="fa fa-fw fa-home"></span>
+                        Enter my home address
+                      </label>
+                      <input type="text" id="address" class="input-md form-control" placeholder="1234 Main St">
+                      <button class="btn btn-cambridge" type="submit">
+                        <span class="icon-search"></span>
+                        Find by home address
+                      </button>
                     </form>
-                </div>
-              </div>
-            </div>
+                  </div>
 
-            <div class="voting-result row">
-                <hr>
-                <div id="map" class="col-sm-8"></div>
-                <div class="location-data col-sm-4">
-                    <div id="info">
+                  <div class="voting-result row">
+                    <div class="location-data">
+                      <div id="info">
                         <header>
-                            <h4 class="location"></h4>
-                            <p class="notes"></p>
-                            <a id="view_directions" class="btn"><span class="icon-info-sign"></span> View directions</a>
-                            <a id="directions-link" class="btn" target="_blank" title="Open navigation"><span class="icon-compass"></span> View in Map app</a>
+                          <h4 class="location"></h4>
+                          <p class="notes"></p>
+                          <a id="view_directions" class="btn"><span class="icon-info-sign"></span> View directions</a>
+                          <a id="directions-link" class="btn" target="_blank" title="Open navigation"><span class="icon-compass"></span> View in Map app</a>
                         </header>
                         <div id="directions"></div>
+                      </div>
                     </div>
-                </div>
+                  </div>
+                </section>
+              </div>
             </div>
           </div>
-        </div>
 
 
         </main>
@@ -143,24 +141,24 @@
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>
-            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-            e.src='//www.google-analytics.com/analytics.js';
-            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-            ga('create','UA-37610225-3');ga('send','pageview');
-        </script>
+        (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+          function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+          e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+          e.src='//www.google-analytics.com/analytics.js';
+          r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+          ga('create','UA-37610225-3');ga('send','pageview');
+          </script>
 
-        <!-- build:js scripts/app.js -->
-        <script data-main="scripts/app" src="bower_components/requirejs/require.js"></script>
-        <!-- endbuild -->
+          <!-- build:js scripts/app.js -->
+          <script data-main="scripts/app" src="bower_components/requirejs/require.js"></script>
+          <!-- endbuild -->
 
-        <script id="noLocation" type="text/template">
+          <script id="noLocation" type="text/template">
             <h4>
-                <span class="icon-exclamation-sign"></span>
-                Sorry, we couldn't find your location.
+              <span class="icon-exclamation-sign"></span>
+              Sorry, we couldn't find your location.
             </h4>
             <p><small>Please use your entire street address; only Cambridge, MA addresses are allowed.</small></p>
-        </script>
-</body>
+          </script>
+        </body>
 </html>
