@@ -3,9 +3,11 @@ define(['geojson',
         function(GeoJSON,  earlyPollingJSON) {
 
     var DEFAULT_ZOOM_LEVEL = 13;
-    var DEFAULT_CENTER_POSITION = new google.maps.LatLng(42.3736, -71.1106) // Cambridge
+    var DEFAULT_CENTER_POSITION = new google.maps.LatLng(42.3736, -71.1106); // Cambridge
+
 
 	var earlyPollingLocations = new GeoJSON(earlyPollingJSON);
+
 
     var map = new google.maps.Map(document.getElementById('map'), {
         center: DEFAULT_CENTER_POSITION,
@@ -20,13 +22,24 @@ define(['geojson',
             panel: document.getElementById('directions')
         });
 
+
     var userInputs = {
     	"precinct": null,
     	"homeAddress": null,
     	"destination": null
     }
 
+
   	var earlyPollingMarkers = [];
+
+
+  	function clearUserInputs() {
+
+  		userInputs.precinct = null;
+  		userInputs.homeAddress = null;
+  		userInputs.destination = null;
+
+  	}
 
 
     function createEarlyPollingMarkers() {
@@ -37,25 +50,30 @@ define(['geojson',
                                              earlyPollingLocations[i].position.lng());
 
             var earlyVotingMarker = new google.maps.Marker({
-                position: pos,
-                map: map
+                position: pos
+                // map: map
             });
 
             earlyPollingMarkers.push(earlyVotingMarker);
-
         }
-
     }
 
+	function clearEarlyMarkers () {
+
+	    	for (var i = 0; i < earlyPollingMarkers.length; i++) {
+	    		earlyPollingMarkers[i].setMap(null);
+	    	}		
+	}
 
  
     // var userInputs.precinct;
 
-    function clearPreviousResults() {
+    function clearPollingLocation() {
+
     	// console.log("USER", userInputs.precinct);
 	    if (userInputs.precinct) {
 	        userInputs.precinct.setMap(null);
-	        userInputs.precinct = undefined;
+	    //    userInputs.precinct = undefined;
 	    }
 	    directionsDisplay.setDirections({routes: []});
 
@@ -102,73 +120,56 @@ define(['geojson',
 
     return {
 
-
-	    clearMap: function() {
-
-	    	for (var i = 0; i < earlyPollingMarkers.length; i++) {
-	    		earlyPollingMarkers[i].setMap(null);
-	    	}
-	    },
-
-
     	displayEarlyPollingMarkers: function() {
+
+    		clearPollingLocation();
 
 
     		map.setCenter(DEFAULT_CENTER_POSITION);
   			map.setZoom(DEFAULT_ZOOM_LEVEL);
 
-  			clearPreviousResults();
+  			//clearPollingLocation();
     		if (earlyPollingMarkers.length <= 0) {
     			createEarlyPollingMarkers();
-    		} else {
-    			for (var i = 0; i < earlyPollingMarkers.length; i++) {
+    		} 
+    		
+    		for (var i = 0; i < earlyPollingMarkers.length; i++) {
     				earlyPollingMarkers[i].setMap(map);
-    			}
     		}
+    		
 
     	},
 
+    	// Display previous user polling place
     	displayUserPollingPlace: function() {
-    		    		console.log("user", userInputs.precinct);
-    		this.clearMap();
 
-    		if (userInputs.precinct) {
+    		clearEarlyMarkers();
+
+    		if (userInputs.precinct && userInputs.homeAddress && userInputs.destination) {
 
 	    		userInputs.precinct.setMap(map);
-	    		map.fitBounds(userPrecint.getBounds());
-	    		displayDirections(latLng, destination, successCallback, errorCallback);
+	    		map.fitBounds(userInputs.precinct.getBounds());
+	    		displayDirections(userInputs.homeAddress, userInputs.destination);
 
     		}
-
-
-
-
     	},
 
     	displayNewPollingPlace: function(latLng, destination, precinct, successCallback, errorCallback) {
     	
-    		this.clearMap();
-    		clearPreviousResults();
+    		clearEarlyMarkers();
+    		clearPollingLocation();
+    		clearUserInputs();
+
     		userInputs.precinct = precinct;
+    		userInputs.homeAddress = latLng;
+    		userInputs.destination = destination;
+    		
+
     		userInputs.precinct.setMap(map);
-
-
-           
            	map.fitBounds(userInputs.precinct.getBounds());
 
  			displayDirections(latLng, destination, successCallback, errorCallback);
 
     	},
-
-    	getMap: function() {
-    		return map;
-    	}
-
-
-
-    // console.log("map", map, precincts, pollingLocations, earlyPollingLocations);
-
     };
-
-
 });
