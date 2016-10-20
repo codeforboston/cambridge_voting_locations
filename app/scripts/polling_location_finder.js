@@ -14,7 +14,7 @@ define(['jquery', 'geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'js
     var directionsService = new google.maps.DirectionsService(),
         directionsDisplay = new google.maps.DirectionsRenderer({
             map: map,
-            preserveViewport: false,
+            preserveViewport: true,
             panel: document.getElementById('directions')
         });
 

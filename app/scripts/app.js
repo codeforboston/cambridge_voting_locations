@@ -84,11 +84,19 @@ require(['jquery', 'polling_location_finder', 'bootstrapCollapse', 'early_poll_f
         window.location.hash = target;
       }
     });
-
+	
     // Sets the "active" styling on the active tab link
     $(window).on('hashchange', function() {
       $('.cambridge-tabs a').parent().removeClass("active");
       $('.cambridge-tabs a[href='+ window.location.hash +']').parent().addClass("active");
+		
+		if(location.hash === "#early-voting" && earlyPolling.hasInitialized()){
+			earlyPolling.showMarkers();
+			console.log('wow it init for no reason');
+		}else if(location.hash === "#election-day" && earlyPolling.hasInitialized()){
+			earlyPolling.hideMarkers();
+		}
+		
     });
 
     $(window).trigger('hashchange'); // if the user navigated directly to a tab, set that active styling this way
@@ -147,11 +155,16 @@ require(['jquery', 'polling_location_finder', 'bootstrapCollapse', 'early_poll_f
     
     */
 
+	//making it available in the console line for testing purposes
 	window.pollModule = earlyPolling;
-    earlyPolling.init();
-    $('#currentTime').html(earlyPolling.getTime());
-    
-    
+	
+	window.onload = function(){
+		
+		earlyPolling.init();
+    	$('#currentTime').html(earlyPolling.getTime());
+		
+	};
+
 	
 	$('.current-location').on('click', function(){
 		var $btn = $(this);

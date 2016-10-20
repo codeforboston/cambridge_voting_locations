@@ -19,18 +19,15 @@ define(['jquery', 'geojson', 'json!vendor/EARLY_VOTING_AddressPoints.geojson', '
            // _now = moment({ years:2016, months:09, date:31, hours:12, minutes:31, seconds:3, milliseconds:123});
 			_now = moment();
             
+			//setting a reference to the googleMaps map that is privately held in polling_location_finder. We have to fix this.
             map = window.googleMap;
-
-            $polls.on('click', function(e){
-                var $pollClicked = $(e.target).closest('div');
-                    $pollClicked.toggleClass('poll-card-active');  
-                });
-            
-            
+			
+			//populates the polls dictionary creating a poll object for each from the geojson data.
             earlyPolls.forEach(function(geoJsonObject, index){
                 
                 var currentLabel = labels[index % labels.length];
-                //create a property equal to the marker label
+				
+                //creates the polls dictionary and adds an object for each poll to the corresponding label value.
                 polls[currentLabel] = {
                         startingHour: '',
                         endingHour: '',
@@ -44,29 +41,33 @@ define(['jquery', 'geojson', 'json!vendor/EARLY_VOTING_AddressPoints.geojson', '
                         URI : getAddressURI(geoJsonObject.geojsonProperties.Full_Addr + "Cambridge, MA"),
                         hoursArray : geoJsonObject.geojsonProperties.hours
                       };
+				
+				//create reference to current poll object
+				var currentPoll = polls[currentLabel];
                 
-                polls[currentLabel].marker = new google.maps.Marker({
-                    position: {lat: polls[currentLabel].lat, lng: polls[currentLabel].lng},
+                currentPoll.marker = new google.maps.Marker({
+                    position: {lat: currentPoll.lat, lng: currentPoll.lng},
                     label: currentLabel,
                     animation: google.maps.Animation.DROP
                 });
                 
-                
-                polls[currentLabel].marker.addListener('click', function(evt){
+                //add listeners for each marker, wish I could delegate instead of attaching a listener to each.
+                currentPoll.marker.addListener('click', function(evt){
                     collapseAll();    
                     map.setZoom(18);
-                    map.setCenter({lat: evt.latLng.lat(), lng: evt.latLng.lng()});
+                    map.setCenter(currentPoll.marker.getPosition());
                     expandCard(currentLabel);
                 });
                 
-                
-                createTable(polls[currentLabel]);
-                polls[currentLabel].status = getStatus(currentLabel);
+                createTable(currentPoll);
+               	currentPoll.status = getStatus(currentLabel);
                 
             });
-            
+			
+			//once markers have been created for each poll object, show them on the map        
             showMarkers();
             
+			//populates each poll info card div with table of hours and status.
             $polls.children('.poll-card').each(function(index){
                 
                 var $pollCard = $(this),
@@ -79,6 +80,18 @@ define(['jquery', 'geojson', 'json!vendor/EARLY_VOTING_AddressPoints.geojson', '
                 $pollcardHeader.children('h3').html(currentPoll.title);
                 $pollcardHeader.children('.poll-status').addClass(currentPoll.status).html(currentPoll.status);
             });
+			
+			//adds the listener to expand or collapse each poll card
+			$polls.on('click', function(e){
+                var $pollClicked = $(e.target).closest('div'),
+					pollLabel = "";
+                    $pollClicked.toggleClass('poll-card-active');  
+					pollLabel = $pollClicked.find('h3').html().slice(0,1);
+					if($pollClicked.hasClass('poll-card-active')){
+					   	map.setCenter(polls[pollLabel].marker.getPosition());
+						map.setZoom(18);
+			        }
+                });
             
         }
     
@@ -146,54 +159,50 @@ define(['jquery', 'geojson', 'json!vendor/EARLY_VOTING_AddressPoints.geojson', '
         function isOpen(label){
         
             var pollObject = polls[label];
-            
             return (pollObject.isToday? moment().isBetween(pollObject.startingHour.format(), pollObject.endingHour.format()) : false);
             
         }
 
         function expandCard(label){
+			//adds the class to the specified poll as to expand them.
             polls[label].cardPointer.addClass('poll-card-active');
             return this;
         }
     
         function collapseAll(){
-            $polls.children('.poll-card').each(function(index){
-               $(this).removeClass('poll-card-active'); 
-            });
+			//removes the class of all elements so collapse them
+            $polls.children('.poll-card').removeClass('poll-card-active');
             return this;
         }
     
         function showMarkers(){
-            
-            
-            
-            
+			
+            //iterates through the polls dictionary and set the map for each marker
             for(var poll in polls){
-                
                 var currentPoll = polls[poll];
-                
                 currentPoll.marker.setMap(map);
-                
             }
-            
-            return this;
-            
-            
+			
+			//sets map zoom and center to show all the markers in view.
+			map.setCenter({lat: 42.3800, lng: -71.1106});	
+			map.setZoom(14);
+			
+            return this;  
         }
         
         function hideMarkers(){
             
+			//iterates through the polls dictionary and set the map to null on each marker
             for(var poll in polls){
-                
                 var currentPoll = polls[poll];
-                
                 currentPoll.marker.setMap(null);
-                
             }
-            
+			
+			//sets the zoom and map center to default values to be used in the poll election day tab
+			map.setCenter({lat: 42.3736, lng: -71.1106});	
+			map.setZoom(12);
+
             return this;
-            
-            
         }
     
         function getAddressURI(destination) {
@@ -208,7 +217,6 @@ define(['jquery', 'geojson', 'json!vendor/EARLY_VOTING_AddressPoints.geojson', '
         return encodeURI(url + destination);
 		
         }
-    
     
             return {
             init : init,
@@ -228,8 +236,10 @@ define(['jquery', 'geojson', 'json!vendor/EARLY_VOTING_AddressPoints.geojson', '
             expandCard : expandCard,
 			getStatus: getStatus,
             showMarkers : showMarkers,
-            hideMarkers : hideMarkers
-            
+            hideMarkers : hideMarkers,
+			hasInitialized : function(){
+				return initialized;
+			} 
         };
         	
 	
