@@ -15,11 +15,7 @@ require.config({
         bootstrapTransition: '../bower_components/bootstrap-sass/assets/javascripts/bootstrap/transition',
         text: '../bower_components/requirejs-text/text',
         geojson: '../bower_components/geojson-google-maps/GeoJSON',
-        json: 'vendor/json',
-        moment: '../bower_components/moment/moment',
-        moment_range: '../bower_components/moment-range/dist/moment-range',
-        moment_timezone: '../bower_components/moment-timezone/moment-timezone'
-
+        json: 'vendor/json'
     },
     shim: {
         bootstrapAffix: {
@@ -63,15 +59,6 @@ require.config({
         },
         underscore: {
             exports: '_'
-        },
-        moment: {
-            exports: 'moment'
-        },
-        moment_range: {
-            exports: 'moment_range'
-        },
-        moment_timezone: {
-            exports: 'moment_timezone'
         }
     }
 });
@@ -82,12 +69,9 @@ require(['jquery', 'early_polling','polling_location_finder', 'bootstrapCollapse
     function($, earlyPolling, findPollingLocationFor) {
 
 
-    //'use strict';
 
-    // Tab functionality that uses window.location.hash to create "tabs"
-    // that are linkable/shareable/work with the "back" button etc.
 
-    // Defaults to early voting
+
     window.location.hash = window.location.hash || 'early-voting';
 
     // Trigger the hashchange event if going to a different tab
@@ -102,13 +86,27 @@ require(['jquery', 'early_polling','polling_location_finder', 'bootstrapCollapse
     $(window).on('hashchange', function() {
       $('.cambridge-tabs a').parent().removeClass("active");
       $('.cambridge-tabs a[href='+ window.location.hash +']').parent().addClass("active");
+
+      if (window.location.hash == "#early-voting") {
+    
+        mapService.displayEarlyPollingMarkers();
+      } else if (window.location.hash == "#election-day") {
+    
+        mapService.displayUserPollingPlace();
+      }
+
     });
 
     $(window).trigger('hashchange'); // if the user navigated directly to a tab, set that active styling this way
 
 
      var $address = $('#address');
- 
+    //
+    // //starting place for google maps typeahead search
+    // var defaultBounds = new google.maps.LatLngBounds(
+    //     //harvard square
+    //     new google.maps.LatLng(42.3735695,-71.1233489)
+    // );
 
 
     var defaultBounds = new google.maps.LatLngBounds(
@@ -131,18 +129,6 @@ require(['jquery', 'early_polling','polling_location_finder', 'bootstrapCollapse
     });
 
 
-    $(document).ready(function() {
-        earlyPolling();
-
-    });
-
-    // $('#early-voting-map').on("load", function() {
-    //     console.log("HELLLLLLLLOOOO");
-    // });
-
-
-
-
 
     $('#view_directions').on('click', function () {
         $('#info').toggleClass('up');
@@ -160,7 +146,6 @@ require(['jquery', 'early_polling','polling_location_finder', 'bootstrapCollapse
     }
 
     $('.current-location').on('click', function() {
-
         var $btn = $(this);
         var initialText = $btn.html();
         // replace button text with loading text on disabled button
@@ -187,8 +172,6 @@ require(['jquery', 'early_polling','polling_location_finder', 'bootstrapCollapse
 
         }
     });
-
-
 
     function searchForAddress () {
         var address = $address.val();

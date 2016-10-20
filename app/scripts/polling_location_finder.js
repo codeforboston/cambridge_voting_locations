@@ -1,43 +1,22 @@
-define(['jquery', 'geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'json!vendor/ELECTIONS_PollingLocations.geojson'], function($, GeoJSON, precinctsJSON, locationsJSON) {
+define(['jquery', 'geojson', 
+        'json!vendor/ELECTIONS_WardsPrecincts.geojson', 
+        'json!vendor/ELECTIONS_PollingLocations.geojson',
+        'json!vendor/EARLY_VOTING_AddressPoints.geojson', 'map_service'], 
+    function($, GeoJSON, precinctsJSON, locationsJSON, earlyPollingJSON, mapService) {
+    
     'use strict';
 
     var precincts = new GeoJSON(precinctsJSON),
         pollingLocations = new GeoJSON(locationsJSON);
+ 
 
-    var map = new google.maps.Map(document.getElementById('map'), {
-        center: new google.maps.LatLng(42.3736, -71.1106), // Cambridge!
-        zoom: 12
-    });
-    var directionsService = new google.maps.DirectionsService(),
-        directionsDisplay = new google.maps.DirectionsRenderer({
-            map: map,
-            preserveViewport: true,
-            panel: document.getElementById('directions')
-        });
+    // function showResults() {
+    //     $('.voting-result').show();
+    // }
 
-    // TODO move UI interaction into its own module
+    // // keep track of user precinct across calls so we can erase previous precincts if necessary
+    // var userPrecinct;
 
-    function showResults() {
-        $('.voting-result').show();
-    }
-
-    // keep track of user precinct across calls so we can erase previous precincts if necessary
-    var userPrecinct;
-
-
-    function clearPreviousResults() {
-        if (userPrecinct) {
-            userPrecinct.setMap(null);
-            userPrecinct = undefined;
-        }
-        directionsDisplay.setDirections({routes: []});
-
-        // TODO move UI interaction into its own module
-        $('.result').removeClass('success');
-        $('#notice').removeClass('error').empty();
-        $('#info .location, #info .notes').empty();
-        $('#directions-link').removeAttr('href');
-    }
 
     function getUserPrecinct(latLng) {
         for (var i = 0, len1 = precincts.length; i < len1; i++) {
@@ -71,9 +50,12 @@ define(['jquery', 'geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'js
         return encodeURI(url + destination);
     }
 
+
     return function(latLng, successCallback, errorCallback) {
-        clearPreviousResults();
-        userPrecinct = getUserPrecinct(latLng);
+
+
+        var userPrecinct = getUserPrecinct(latLng);
+
 
         if (!userPrecinct) {
             $('#notice')
@@ -82,36 +64,21 @@ define(['jquery', 'geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'js
         } else {
             var pollingLocation = getPollingLocation(userPrecinct);
             $('.result').addClass('success');
-            showResults();
+           // showResults();
             // highlight the precinct on the map
-           userPrecinct.setMap(map);
-           map.fitBounds(userPrecinct.getBounds());
+      
+            var destination = pollingLocation.geojsonProperties.Address + ', Cambridge, MA';
+            mapService.displayNewPollingPlace(latLng, destination, userPrecinct, successCallback, errorCallback);
+            // userPrecinct.setMap(map);
+            // map.fitBounds(userPrecinct.getBounds());
 
             // display location notes
             $('#info .location').text(pollingLocation.geojsonProperties.LOCATION);
             $('#info .notes').text(pollingLocation.geojsonProperties.LOCATION_NOTE);
 
-            // show step-by-step directions
-            var destination = pollingLocation.geojsonProperties.Address + ', Cambridge, MA';
-            var request = {
-                origin: latLng,
-                destination: destination,
-                travelMode: google.maps.TravelMode.WALKING
-            };
-            directionsService.route(request, function(result, status) {
-                if (status === google.maps.DirectionsStatus.OK) {
-                    directionsDisplay.setDirections(result);
-                    if(successCallback) {
-                        successCallback({result: result, status: status});
-                    }
-                } else {
-                    if(errorCallback) {
-                        errorCallback({result: result, status: status});
-                    }
-                }
-            });
+         
 
-            $('#directions-link').attr('href', getDirections(destination));
+            // show step-by-step directions
         }
     };
 });
