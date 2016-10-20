@@ -91,7 +91,6 @@ require(['jquery', 'polling_location_finder', 'bootstrapCollapse', 'early_poll_f
 		
 		if(location.hash === "#early-voting" && earlyPolling.hasInitialized()){
 			earlyPolling.showMarkers();
-			console.log('wow it init for no reason');
 		}else if(location.hash === "#election-day" && earlyPolling.hasInitialized()){
 			earlyPolling.hideMarkers();
 		}
@@ -162,7 +161,6 @@ require(['jquery', 'polling_location_finder', 'bootstrapCollapse', 'early_poll_f
 		if(location.hash === "#early-voting"){
 			earlyPolling.init();
     		$('#currentTime').html(earlyPolling.getTime());
-			
 		}else{
 			earlyPolling.init().hideMarkers();
 			$('#currentTime').html(earlyPolling.getTime());
@@ -228,8 +226,17 @@ require(['jquery', 'polling_location_finder', 'bootstrapCollapse', 'early_poll_f
                 administrativeArea: 'Massachusetts',
                 country: 'US'
             }
-        }, processGeocode);
-	
+        }, function(results, status){
+			//if geoCode processing succeeded then return.
+			if(processGeocode(results, status)){
+				return;
+			}else{
+				//try one more time.
+				geocoder.geocode({ address: address + ' Cambridge, MA' }, processGeocode);
+			}
+			
+		});
+		
         // go right to the first result if there's only one, or display a list if there are multiples
         function displaySearchResults(results) {
             
@@ -248,7 +255,7 @@ require(['jquery', 'polling_location_finder', 'bootstrapCollapse', 'early_poll_f
                     var link = $('<a>').text(result.formatted_address).data('location', result.geometry.location).on('click', addressClickHandler);
                     $('<li>').append(link).appendTo($ul);
                 }
-                $('.modal').modal('hide');
+                
             }
         }
 
@@ -282,17 +289,18 @@ require(['jquery', 'polling_location_finder', 'bootstrapCollapse', 'early_poll_f
 			// if there are multiple results, look for Cambridge-specific street results
 			results = $.grep(results, addressIsCambridgeStreetAddress);
 			
-			// if there are no results, try searching for Cambridge
-            if (!results.length) {
-				//geocoder.geocode({ address: address + ' Cambridge, MA' }, processGeocode);
+			//if one element in the array is defined use it.
+			if(results[0]){
+				displaySearchResults(results);
+                google.maps.event.trigger(map, 'resize');
+				return true;
+			}else{
+				console.log('Number of tries');
                  $('#notice')
                         .addClass('error')
                         .html($('#noLocation').text());
-                 } else {
-                     displaySearchResults(results);
-                     google.maps.event.trigger(map, 'resize');
-                }
-	
+			}
+			
         }
 		
     }
