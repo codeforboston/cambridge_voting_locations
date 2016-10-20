@@ -10,39 +10,112 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-        <link rel="stylesheet" href="styles/b333c306.main.css">
+        <link rel="stylesheet" href="styles/e48eff67.main.css">
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB7fHkcx_rJi_YTbk3Gu7ig_H3GvyzPT2Y&libraries=places"></script>
         <!-- update this line if we update this image -->
         <meta property="og:image" content="http://votecambridge.com/images/45b5ba8f.for_social_media.png">
     </head>
     <body>
-        <nav class="navbar navbar-default">
+      <main>
+        <nav class="navbar navbar-default navbar-cambridge">
           <div class="container-fluid">
             <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
               <a class="navbar-brand" href="#">
                 <img alt="" src="images/3a1694e3.logo_small.png">
               </a>
-
             </div>
-            <p class="navbar-text">Find your voting location & times.</p>
-
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="#">About</a></li>
-            </ul>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav navbar-left">
+                <li><a href="http://www.cambridgema.gov/election"><span class="fa fa-fw fa-info-circle"></span> See election information</a></li>
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://www.meetup.com/Code-for-Boston" title="Built as a public technology service by Code for Boston">
+                    Built by <img src="images/5f5f4bde.cfb_logo.png" alt="" class="logo">
+                </a></li><li><a href="http://www.github.com/codeforboston/cambridge_voting_locations"><span class="fa fa-fw fa-github"></span>
+                    on Github</a></li>
+              </ul>
+            </div>
           </div>
         </nav>
-        <main class="container-fluid">
-            <div class="voting-info row">
-                <div class="col-sm-12">
-                    <p>Voting Info goes here</p>
+        <div class="jumbotron jumbotron-cambridge">
+          <div class="container-fluid">
+            <span class="label label-primary">Upcoming Election</span>
+            <h1>November 8 <small>State/Presidential Election</small></h1>
+            <p>🌎 Find your voting location below (Cambridge, Massachusetts only).</p>
+          </div>
+        </div>
+
+        <ul class="nav nav-tabs cambridge-tabs" role="tablist">
+          <li role="presentation" class="active">
+            <a href="#early-voting" aria-controls="early-voting" role="tab" data-toggle="tab">
+              <h2>Early Voting</h2>
+              Oct 24 - Nov 4
+            </a>
+          </li>
+          <li role="presentation">
+            <a href="#election-day" aria-controls="election-day" role="tab" data-toggle="tab">
+              <h2>Election Day</h2>
+              Nov 8
+            </a>
+          </li>
+        </ul>
+
+        <div class="tab-content cambridge-tab-content">
+          <div role="tabpanel" class="tab-pane container-fluid active" id="early-voting">
+              <h3>Early Voting Information</h3>
+              <p class="lead">More to come</p>
+          </div>
+          <div role="tabpanel" class="tab-pane container-fluid" id="election-day">
+            <div class="row">
+              <div class="voting-search col-sm-12">
+                <h3>Find your polling location</h3>
+                <p class="lead">On election day, you must vote at the polling location associated with your home address.</p>
+                <div id="notice"></div>
+                <div class="location form-inline">
+                    <div class="control-label">
+                      <span class="fa fa-fw fa-location-arrow"></span>
+                      My current location is home
+                    </div>
+                    <a class="btn btn-cambridge current-location">
+                        <span class="icon-location"></span>
+                        <span class="spinner">
+                          <span class="double-bounce1"></span>
+                          <span class="double-bounce2"></span>
+                        </span>
+                        Find by current location
+                    </a>
                 </div>
+
+                <div class="divider text-center">
+                    <hr class="pull-left">OR<hr class="pull-right">
+                </div>
+
+                <div class="address">
+                    <form class="form-inline clearfix">
+                        <label class="control-label" for="address">
+                          <span class="fa fa-fw fa-home"></span>
+                          Enter my home address
+                        </label>
+                        <input type="text" id="address" class="input-md form-control" placeholder="1234 Main St">
+                        <button class="btn btn-cambridge" type="submit">
+                          <span class="icon-search"></span>
+                          Find by home address
+                        </button>
+                    </form>
+                </div>
+              </div>
             </div>
+
             <div class="voting-result row">
+                <hr>
                 <div id="map" class="col-sm-8"></div>
                 <div class="location-data col-sm-4">
-                    <nav>
-                        <a href="#" class="back btn btn-default"><span class="icon-circle-arrow-left"></span> Back</a>
-                    </nav>
                     <div id="info">
                         <header>
                             <h4 class="location"></h4>
@@ -54,6 +127,10 @@
                     </div>
                 </div>
             </div>
+          </div>
+        </div>
+
+
         </main>
 
         <script src="scripts/dd678c2e.vendor.js"></script>
@@ -68,7 +145,7 @@
             ga('create','UA-37610225-3');ga('send','pageview');
         </script>
 
-        <script data-main="scripts/bfd3abd1.app" src="bower_components/requirejs/require.js"></script>
+        <script data-main="scripts/3ed048f2.app" src="bower_components/requirejs/require.js"></script>
 
         <script id="noLocation" type="text/template">
             <h4>
