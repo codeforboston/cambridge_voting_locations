@@ -13,7 +13,6 @@ $fa-font-path:   "/bower_components/font-awesome/fonts";
 $navbarLogoHeight: 28px;
 
 @import 'colors'; // Custom color variables
-@import 'screens';
 @import 'spinner'; // CSS loading indicator
 @import 'icons'; // Import fontface definitions
 @import 'navbar'; // Navigation bar
@@ -78,24 +77,25 @@ main > .row {
 
 .btn-cambridge {
     // font-family: 'Rokkitt','Open Sans', sans-serif;
-    background: $cambridgeLightBlue;
+    background: $cambridgeMediumBlue;
     box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.5), inset 0 -1px 1px rgba(0, 0, 0, 0.1);
     border-radius: 2px;
-    border-color: darken($cambridgeLightBlue, 40%);
+    border-color: $cambridgeDarkBlue;
     font-size: 1em;
     font-weight: 700;
     text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.4);
-    color: darken($cambridgeLightBlue, 40%);
+    color: $cambridgeDarkerBlue;
 
-    bb &:hover {
-        background: linear-gradient(lighten($light_blue, 7%), $light_blue);
+
+    &:hover {
+        background: linear-gradient(lighten($cambridgeDarkBlue, 7%), $cambridgeDarkBlue);
         text-shadow: none;
         box-shadow: none;
-        border-color: rgba(0, 0, 0, 0.7);
+        border-color: $cambridgeDarkerBlue;
         color: white;
     }
     &:active {
-        background: $light_blue;
+        background: $cambridgeLightBlue;
         text-shadow: none;
         box-shadow: none;
     }
@@ -226,14 +226,61 @@ main > .row {
     margin-top: 5px;
     clear: both;
 }
+
+
+.poll-card{
+    background: #FFF;
+    border: 1px solid #CCC;
+    height: 60px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+.poll-card-active{
+    height: 100%;   
+}
+
+.poll-card-content{
+    padding: 10px 15px;   
+}
+
+a.maps-app-link{
+    font-family: inherit;
+    font-weight: bold;
+    display: block;
+    width: 155px;
+    text-decoration: none;
+    margin: 10px auto;
+}
+
+
+.poll-header{
+    width: 100%;
+    background: #FAFAFA;
+    padding: 10px 10px;
+    height: 60px;
+    border-bottom: 1px solid #CCC;
+    margin-bottom: 10px;
+}
+
+.poll-header h3{
+    float: left;
+    display: inline-block;
+    vertical-align: text-bottom;
+}
+.poll-header h3::first-letter{
+    text-transform: uppercase;
+    color: red;
+}
+
+
    .poll-status{
        float: right;
-       display: inline-block;
        padding: 8px;
        border: 1px solid black;
        border-radius: 2px;
        color: black;
-       margin-bottom: 10px;
+       text-transform: uppercase;
+       vertical-align: bottom;
     }
 
     .closed{
@@ -241,28 +288,27 @@ main > .row {
         color: red;
     }
     .open{
-        border-color: green;
-        color: green;
+        border-color: #2eb82e;
+        color: #2eb82e;
     }
     .closing{
-        border-color: #ffa31a;
-        color: #ffa31a;
+        border-color: #ff9900 ;
+        color: #ff9900 ;
     }
 
-.infoCard table{
+
+
+
+.poll-card table{
     min-width: 100%;   
 }
-.infoCard table tr:nth-child(2){
+.poll-card table tr:nth-child(2){
     font-weight: bold;
     color: green;
 }
 
 
-#stationInfo h4{
-        float: left;
-        color: grey; 
-        margin-top: 10px;
-    }
+
 
 @media (min-width: $screen-sm) {
     #streetview { display: none; }
@@ -275,26 +321,6 @@ main > .row {
     font-size: 1.2em;
     width: 100%;
   }
-}
-// MOBILE
-@media (max-width: $screen-xs) {
-  .cambridge-tabs {
-    padding-left: 1em;
-    li a {
-      padding: .5em 1em;
-      h2 { font-size: 1em; }
-    }
-  }
-    
-    .cambridge-tab-content {
-    padding: 1em;
-    .tab-pane {
-      padding: 0;
-      font-size: .8em;
-
-    }
-  }
-
 }
 
 @media (max-width: $screen-sm) {

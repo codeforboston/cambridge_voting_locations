@@ -3,15 +3,16 @@ define(['jquery', 'geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'js
 
     var precincts = new GeoJSON(precinctsJSON),
         pollingLocations = new GeoJSON(locationsJSON);
-	
+    
     var map = new google.maps.Map(document.getElementById('map'), {
         center: new google.maps.LatLng(42.3736, -71.1106), // Cambridge!
         zoom: 12
     });
+    
     var directionsService = new google.maps.DirectionsService(),
         directionsDisplay = new google.maps.DirectionsRenderer({
             map: map,
-            preserveViewport: true,
+            preserveViewport: false,
             panel: document.getElementById('directions')
         });
 
@@ -123,4 +124,6 @@ define(['jquery', 'geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'js
             $('#directions-link').attr('href', getDirections(destination));
         }
     };
+    
+    
 });

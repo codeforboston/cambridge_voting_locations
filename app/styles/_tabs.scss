@@ -1,25 +1,60 @@
 .cambridge-tabs {
-  padding-left: 3em;
-  border-color: $cambridgeBorder;
+  background-color: $cambridgeMediumBlue;
 
   li a {
     text-transform: uppercase;
     font-weight: 600;
     padding: .75em 1.5em;
-    border: 0;
+    border: 4px solid $cambridgeMediumBlue;
+    background: none;
 
     &:hover {
-      background-color: darken($cambridgeLightBlue, 10%);
+      background-color: $cambridgeLightBlue;
     }
   }
 
-  li.active a, li.active a:hover, li.active a:focus {
-    border: 1px solid $cambridgeBorder;
-    border-bottom-color: transparent;
+  li.active a {
+    border: 4px solid $cambridgeBorder;
+    color: $cambridgeDarkerBlue;
+    background-color: white;
+
+    &:hover, &:focus {
+      border: 4px solid $cambridgeBorder;
+      color: $cambridgeDarkerBlue;
+      background-color: $cambridgeLightBlue;
+    }
   }
 }
 
 .cambridge-tab-content {
-  background: $body-bg;
-  padding: 3em;
+  padding-top: 1rem;
+  padding-bottom: 3rem;
+}
+
+// The :target pseudo selector in CSS matches when the hash in the URL and the id of an element are the same.
+#election-day, #early-voting {
+  display: none;
+}
+
+section:target {
+  display: block !important;
+}
+
+// DESKTOP
+@media (min-width: $screen-xs) {
+  .cambridge-tabs {
+    display: flex;
+    padding: 0 1rem;
+
+    > li { flex: 1; }
+  }
+  .cambridge-tab-content {
+    padding: 2rem 3rem;
+  }
+}
+
+@media (min-width: $screen-sm) {
+  .cambridge-tabs {
+    padding: 0 3rem;
+  }
 }

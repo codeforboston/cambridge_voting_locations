@@ -66,11 +66,32 @@ require.config({
 });
 
 
-require(['jquery', 'polling_location_finder', 'early_poll_finder', 'bootstrapCollapse', 'bootstrapTab'], function($, findPollingLocationFor) {
+
+require(['jquery', 'polling_location_finder', 'bootstrapCollapse', 'early_poll_finder'], function($, findPollingLocationFor, bootstraps, earlyPolling) {
+
     //'use strict';
 
-    // $('.modal').modal('show');
-    // //attach autocomplete
+    // Tab functionality that uses window.location.hash to create "tabs"
+    // that are linkable/shareable/work with the "back" button etc.
+
+    // Defaults to early voting
+    window.location.hash = window.location.hash || 'early-voting';
+
+    // Trigger the hashchange event if going to a different tab
+    $('.cambridge-tabs a[href^=#]').on('click', function() {
+      var target = $(this).attr('href');
+      if (target != window.location.hash) {
+        window.location.hash = target;
+      }
+    });
+
+    // Sets the "active" styling on the active tab link
+    $(window).on('hashchange', function() {
+      $('.cambridge-tabs a').parent().removeClass("active");
+      $('.cambridge-tabs a[href='+ window.location.hash +']').parent().addClass("active");
+    });
+
+    $(window).trigger('hashchange'); // if the user navigated directly to a tab, set that active styling this way
 
      var $address = $('#address');
     //
@@ -109,6 +130,27 @@ require(['jquery', 'polling_location_finder', 'early_poll_finder', 'bootstrapCol
         }
     });
 	*/
+    
+    //inits the module that controls all the poll info cards and shows the pointers on the map
+    /* Here are a list of all the methods of this module 
+    
+        init()  = This inits the module and populates all the poll info cards with hours and status. Also shows the pointers on the map.
+        show()  = show the poll info cards if they are hidden. Perfect for when switching tabs.
+        hide()  = hide all the poll info cards. Perfect for when switching tabs.
+        isOpen(poll_label) = takes in the poll letter, i.e A and checks if that poll is open or not.
+        getTime() = gets the current time.
+        getStatus(poll_label) = takes in the poll letter and returns the status, i.e "closing" "Open" and "closed"
+        expandCard(poll_label) = expands the poll info card of the specified poll through the label parameter.
+        collapseAll() = collapses all the poll info cards that are open.
+        showMakers() = shows the markers for each poll on the map.
+        hideMarkers() = hides all the markers on the map, perfect for when switching tabs.    
+    
+    */
+    
+    earlyPolling.init();
+    $('#currentTime').html(earlyPolling.getTime());
+    
+    
 	
 	$('.current-location').on('click', function(){
 		var $btn = $(this);
@@ -236,6 +278,7 @@ require(['jquery', 'polling_location_finder', 'early_poll_finder', 'bootstrapCol
         }
 		
     }
+
 
     $('form').on('submit', function(e) {
         e.preventDefault(); // don't submit form

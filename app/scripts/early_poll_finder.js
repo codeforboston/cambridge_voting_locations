@@ -2,43 +2,99 @@ define(['jquery', 'geojson', 'json!vendor/EARLY_VOTING_AddressPoints.geojson', '
     'use strict';
 	
 	var earlyPolls = new GeoJSON(earlyPollJSON);
-	
-	
-	//the type of input that the module expects
-	var pollingHours = ["2016-10-24T18:00:00.000Z/2016-10-25T00:00:00.000Z",
-          "2016-10-25T13:00:00.000Z/2016-10-25T21:00:00.000Z",
-          "2016-10-26T18:00:00.000Z/2016-10-27T00:00:00.000Z",
-          "2016-10-27T13:00:00.000Z/2016-10-27T21:00:00.000Z",
-          "2016-10-28T13:00:00.000Z/2016-10-28T21:00:00.000Z",
-          "2016-10-29T13:00:00.000Z/2016-10-29T21:00:00.000Z",
-          "2016-10-31T18:00:00.000Z/2016-11-01T00:00:00.000Z",
-          "2016-11-01T13:00:00.000Z/2016-11-01T21:00:00.000Z",
-          "2016-11-02T18:00:00.000Z/2016-11-03T00:00:00.000Z",
-          "2016-11-03T13:00:00.000Z/2016-11-03T21:00:00.000Z",
-          "2016-11-04T13:00:00.000Z/2016-11-04T21:00:00.000Z" ];
-	
-	var pollInfoModule = (function(){
-        var _pollDiv = $('#stationInfo'),
-            _message = "",
+
+    var $polls = $('#polls'),
             _now,
-            _pollingDay = {
-                startingHour: '',
-                endingHour: '',
-                isToday : false
-            },
-            _pollOpen,
-            _infoTable;
+            initialized = false,
+            labels = "ABCDEFG",
+            map,
+            polls = {};
         
-        function init(pollHours){
-            //actual time
-            //_now = moment();
-      
-                //dev made up now moment object for debugging purposes.
+        function init(){
+            
+            if(initialized) return;
+            initialized = true;
+            
+            //dev made up now moment object for debugging purposes.
             _now = moment({ years:2016, months:09, date:31, hours:12, minutes:31, seconds:3, milliseconds:123});
-            //default message
-            _message = "Hello there dear citizen, glad to see you take part in our democracy! Have a nice polling day.";
-            _pollingDay.isToday = false;
-            _pollOpen = false;
+            
+            map = new google.maps.Map(document.getElementById('map'), {
+                    center: new google.maps.LatLng(42.3736, -71.1106), // Cambridge!
+                    zoom: 13
+                });
+            
+            
+            
+
+            $polls.on('click', function(e){
+                var $pollClicked = $(e.target).closest('div');
+                    $pollClicked.toggleClass('poll-card-active');  
+                });
+            
+            
+            earlyPolls.forEach(function(geoJsonObject, index){
+                
+                var currentLabel = labels[index % labels.length];
+                //create a property equal to the marker label
+                polls[currentLabel] = {
+                        startingHour: '',
+                        endingHour: '',
+                        status : "closed",
+                        isToday : false,
+                        isOpen : false,
+                        lat : geoJsonObject.position.lat(),
+                        lng : geoJsonObject.position.lng(),
+                        title : currentLabel + ": " +geoJsonObject.geojsonProperties.StName,
+                        table : "",
+                        URI : getAddressURI(geoJsonObject.geojsonProperties.Full_Addr + "Cambridge, MA"),
+                        hoursArray : geoJsonObject.geojsonProperties.hours
+                      };
+                
+                polls[currentLabel].marker = new google.maps.Marker({
+                    position: {lat: polls[currentLabel].lat, lng: polls[currentLabel].lng},
+                    label: currentLabel,
+                    animation: google.maps.Animation.DROP
+                });
+                
+                
+                polls[currentLabel].marker.addListener('click', function(evt){
+                    collapseAll();    
+                    map.setZoom(18);
+                    map.setCenter({lat: evt.latLng.lat(), lng: evt.latLng.lng()});
+                    expandCard(currentLabel);
+                });
+                
+                
+                createTable(polls[currentLabel]);
+                polls[currentLabel].status = getStatus(currentLabel);
+                
+            });
+            
+            showMarkers();
+            
+            $polls.children('.poll-card').each(function(index){
+                
+                var $pollCard = $(this),
+                    currentPoll = polls[labels[index % labels.length]],
+                    $pollcardHeader =  $pollCard.children('.poll-header');
+                
+                currentPoll.cardPointer = $pollCard;
+                $pollCard.find('table').html(currentPoll.table);
+                $pollCard.find('.maps-app-link').attr('href', currentPoll.URI);
+                $pollcardHeader.children('h3').html(currentPoll.title);
+                $pollcardHeader.children('.poll-status').addClass(currentPoll.status).html(currentPoll.status);
+            });
+            
+        }
+    
+        function createTable(pollObject){
+            
+            var _infoTable = "",
+                pollHours = pollObject.hoursArray;
+                
+			pollObject.status = "closed";
+            pollObject.isToday = false;
+            pollObject.isOpen = false;
             _infoTable = '<tr><th>Dates</th><th>Times</th></tr>';
             
             //interates through each start and end hour time in the polling station.
@@ -51,13 +107,14 @@ define(['jquery', 'geojson', 'json!vendor/EARLY_VOTING_AddressPoints.geojson', '
                     _endingHour = moment(pollHours[i].slice(-24));
                     //if the current moment is within the start and end hours of the current poll day. That means poll is open.
                     if(_now.isBetween(_startingHour.format(), _endingHour.format())){
-                        _pollingDay.startingHour = _startingHour.clone();
-                        _pollingDay.endingHour = _endingHour.clone();
-                        _pollingDay.isToday = true;
+                        pollObject.startingHour = _startingHour.clone();
+                        pollObject.endingHour = _endingHour.clone();
+                        pollObject.isToday = true;
+                        pollObject.isOpen = true;
                     }
                     //no need to draw dates that have already passed!!
                     if(!_now.isAfter(_startingHour.format(), 'day')){
-                        
+                 	//return a table of all the times and dates from today on.
                         _infoTable += (
                         '<tr><td>' + _startingHour.format('dddd, MMM Do') + '</td>' +
                             '<td>' + _startingHour.format('hA') + '-' + _endingHour.format('hA') + '</td>' +
@@ -66,50 +123,119 @@ define(['jquery', 'geojson', 'json!vendor/EARLY_VOTING_AddressPoints.geojson', '
 
                 }
             
-            //it is set to open if today within the bounds of start and end hours of the poll.
-            _pollOpen = (_pollingDay.isToday)? true : false;
-            //displays time.
-            _message += " Today is " + _now.format('dddd, MMM Do, h:m a');
+            pollObject.table = _infoTable;
             
-                if(_pollOpen){
+            return pollObject.table;
+            
+        }
+
+        function getStatus(label){
+            
+            var pollObject = polls[label];
+			
+			   if(pollObject.isOpen){
                     //also check if it is not closing within minutes!
-                    if(_now.to(_pollingDay.endingHour).slice(-7) === "minutes"){
-                        _pollDiv.find('span.poll-status').addClass('closing').html('CLOSING SOON');
-                        _message += ". And better hurry, this poll will be closing soon!!";
+                    if(_now.to(pollObject.endingHour).slice(-7) === "minutes"){
+						pollObject.status = "closing";
                     }else{
-                        _message += ". Poll is open, don't forget your ID!";
-                        _pollDiv.find('span.poll-status').addClass('open').html('OPEN');   
+						pollObject.status = "open";   
                     }
                 }else{
-                    //if it is not open set status to close and warn user.
-                    _message += ". It seems this poll is currently closed check hours below.";
-                    _pollDiv.find('span.poll-status').addClass('closed').html('CLOSED');   
+					pollObject.status = "closed"; 
                 }
-            
-            //attach message
-             _pollDiv.find('p').html(_message);
+			
+			return pollObject.status;
+			
+		}
     
-        }
+        function isOpen(label){
         
-        return{
-            init : init,
-            get isOpen (){
-                return moment().isBetween(_pollingDay.startingHour.format(), _pollingDay.endingHour.format());
-            },
-            hide: function(){
-              _pollDiv.hide();  
-            },
-            render : function(){
-				var table = document.createElement('div');
-                _pollDiv.show();
-                _pollDiv.find('table').html(_infoTable);
+            var pollObject = polls[label];
+            
+            return (pollObject.isToday? moment().isBetween(pollObject.startingHour.format(), pollObject.endingHour.format()) : false);
+            
+        }
+
+        function expandCard(label){
+            polls[label].cardPointer.addClass('poll-card-active');
+            return this;
+        }
+    
+        function collapseAll(){
+            $polls.children('.poll-card').each(function(index){
+               $(this).removeClass('poll-card-active'); 
+            });
+            return this;
+        }
+    
+        function showMarkers(){
+            
+            
+            
+            
+            for(var poll in polls){
+                
+                var currentPoll = polls[poll];
+                
+                currentPoll.marker.setMap(map);
+                
             }
+            
+            return this;
+            
+            
         }
         
-    })();
-	
-	
-	
-	
+        function hideMarkers(){
+            
+            for(var poll in polls){
+                
+                var currentPoll = polls[poll];
+                
+                currentPoll.marker.setMap(null);
+                
+            }
+            
+            return this;
+            
+            
+        }
+    
+        function getAddressURI(destination) {
+        var url;
+        if (navigator.userAgent.match(/iPhone|iPad|iPod/)) {
+            url = "http://maps.apple.com/?saddr=Current+Location&daddr=";
+        } else {
+            url = "https://maps.google.com/maps?daddr=";
+        }
+        
+        var encodedURI = encodeURI(url + destination);
+        return encodeURI(url + destination);
+		
+        }
+    
+    
+            return {
+            init : init,
+            show : function(){
+                $polls.show();
+                return this;
+            },
+            hide : function(){
+                $polls.hide();
+                return this;
+            },
+            isOpen : isOpen,
+			getTime : function(){
+				return _now.format('dddd, MMM Do, h:m a '); 
+			},
+            collapseAll : collapseAll,
+            expandCard : expandCard,
+			getStatus: getStatus,
+            showMarkers : showMarkers,
+            hideMarkers : hideMarkers
+            
+        };
+        	
 	
 });
