@@ -65,10 +65,8 @@ require.config({
 
 
 
-require(['jquery', 'early_polling','polling_location_finder', 'bootstrapCollapse', 'bootstrapTab'], 
-    function($, earlyPolling, findPollingLocationFor) {
-
-
+require(['jquery','polling_location_finder', 'map_service','bootstrapCollapse', 'bootstrapTab'], 
+    function($, findPollingLocationFor, mapService) {
 
 
 

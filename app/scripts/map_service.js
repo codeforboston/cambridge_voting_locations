@@ -65,8 +65,6 @@ define(['geojson',
 	    	}		
 	}
 
- 
-    // var userInputs.precinct;
 
     function clearPollingLocation() {
 
@@ -84,6 +82,8 @@ define(['geojson',
 	    $('#directions-link').removeAttr('href');
 	}
 
+
+
     function getDirections(destination) {
         var url;
         if (navigator.userAgent.match(/iPhone|iPad|iPod/)) {
@@ -93,6 +93,8 @@ define(['geojson',
         }
         return encodeURI(url + destination);
     }
+
+    
 
     function displayDirections(latLng, destination, successCallback, errorCallback) {
             var request = {
