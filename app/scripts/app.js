@@ -64,7 +64,7 @@ require.config({
 });
 
 
-require(['jquery', 'polling_location_finder', 'bootstrapCollapse'], function($, findPollingLocationFor) {
+require(['jquery', 'polling_location_finder', 'map_service', 'bootstrapCollapse'], function($, findPollingLocationFor, mapService) {
     //'use strict';
 
     // Tab functionality that uses window.location.hash to create "tabs"
@@ -85,6 +85,16 @@ require(['jquery', 'polling_location_finder', 'bootstrapCollapse'], function($, 
     $(window).on('hashchange', function() {
       $('.cambridge-tabs a').parent().removeClass("active");
       $('.cambridge-tabs a[href='+ window.location.hash +']').parent().addClass("active");
+
+
+
+      if (window.location.hash == "#early-voting") {
+        mapService.clearMap();
+        mapService.displayEarlyPollingMarkers();
+      } else if (window.location.hash == "#election-day") {
+        mapService.clearMap();
+        mapService.displayUserPollingPlace();
+      }
     });
 
     $(window).trigger('hashchange'); // if the user navigated directly to a tab, set that active styling this way
