@@ -154,6 +154,7 @@ require(['jquery', 'polling_location_finder', 'bootstrapCollapse', 'early_poll_f
     */
 
 	//making it available in the console line for testing purposes
+    
 	window.pollModule = earlyPolling;
 	
 	window.onload = function(){
@@ -168,6 +169,7 @@ require(['jquery', 'polling_location_finder', 'bootstrapCollapse', 'early_poll_f
 	};
 
 	
+    
 	$('.current-location').on('click', function(){
 		var $btn = $(this);
         var initialText = $btn.html();
@@ -226,17 +228,51 @@ require(['jquery', 'polling_location_finder', 'bootstrapCollapse', 'early_poll_f
                 administrativeArea: 'Massachusetts',
                 country: 'US'
             }
-        }, function(results, status){
-			//if geoCode processing succeeded then return.
-			if(processGeocode(results, status)){
-				return;
-			}else{
-				//try one more time.
-				geocoder.geocode({ address: address + ' Cambridge, MA' }, processGeocode);
-			}
-			
-		});
-		
+        }, processGeocode);
+                
+        function processGeocode(results, status){
+                //filter cambridge only result if there are multiple ones.
+                var cambridgeResult = filterResults(results);
+            
+            //if it didn't process a defined result, try again.
+            if(!processResult(cambridgeResult)){
+            
+               geocoder.geocode({ address: address + ' Cambridge, MA' }, function(results, status){
+                    var secondTryResult = filterResults(results);
+                   
+                   //if the second try also failed, display error.
+                   if(!processResult(secondTryResult)){
+                       $('#notice')
+                                .addClass('error')
+                                .html($('#noLocation').text());   
+                   };
+
+               }); 
+                
+            }
+            
+        }
+
+        //If there are multiple results, filter the cambridge only one and return it.        
+        function filterResults(results){
+            // if there are multiple results, look for Cambridge-specific street results
+			var result = $.grep(results, addressIsCambridgeStreetAddress);
+            //return the cambridge only result
+            return result;
+        }
+        
+        function processResult(result){
+            
+            //if result is defined, display it, otherwise display error
+            if(result[0]){
+                displaySearchResults(result);
+                google.maps.event.trigger(map, 'resize');
+                return true;
+            }else{
+                return false;
+            } 
+        }
+        
         // go right to the first result if there's only one, or display a list if there are multiples
         function displaySearchResults(results) {
             
@@ -282,27 +318,7 @@ require(['jquery', 'polling_location_finder', 'bootstrapCollapse', 'early_poll_f
             return isInCambridge && isStreetAddress;
 
         }
-		
-			//callback function passed into the geocoder of the address
-		function processGeocode(results, status){
-			
-			// if there are multiple results, look for Cambridge-specific street results
-			results = $.grep(results, addressIsCambridgeStreetAddress);
-			
-			//if one element in the array is defined use it.
-			if(results[0]){
-				displaySearchResults(results);
-                google.maps.event.trigger(map, 'resize');
-				return true;
-			}else{
-				console.log('Number of tries');
-                 $('#notice')
-                        .addClass('error')
-                        .html($('#noLocation').text());
-			}
-			
-        }
-		
+				
     }
 
 
