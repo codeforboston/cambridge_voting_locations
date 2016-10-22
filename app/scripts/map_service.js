@@ -10,8 +10,8 @@ define(['geojson',
 
 
     var map = new google.maps.Map(document.getElementById('map'), {
-        center: DEFAULT_CENTER_POSITION,
-        zoom: DEFAULT_ZOOM_LEVEL
+      center: DEFAULT_CENTER_POSITION,
+      zoom: DEFAULT_ZOOM_LEVEL
     });
 
 
