@@ -1,6 +1,7 @@
 require.config({
     paths: {
         jquery: '../bower_components/jquery/jquery',
+        scrollTo: '../bower_components/jquery.scrollTo/jquery.scrollTo',
         bootstrapAffix: '../bower_components/bootstrap-sass/assets/javascripts/bootstrap/affix',
         bootstrapAlert: '../bower_components/bootstrap-sass/assets/javascripts/bootstrap/alert',
         bootstrapButton: '../bower_components/bootstrap-sass/assets/javascripts/bootstrap/button',
@@ -94,10 +95,10 @@ require(['jquery',
       $('.cambridge-tabs a[href='+ window.location.hash +']').parent().addClass("active");
 
       if (window.location.hash == "#early-voting") {
-    
+
         mapService.displayEarlyPollingMarkers();
       } else if (window.location.hash == "#election-day") {
-    
+
         mapService.displayUserPollingPlace();
       }
 
