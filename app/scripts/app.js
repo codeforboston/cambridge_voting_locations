@@ -15,6 +15,9 @@ require.config({
         bootstrapTransition: '../bower_components/bootstrap-sass/assets/javascripts/bootstrap/transition',
         text: '../bower_components/requirejs-text/text',
         geojson: '../bower_components/geojson-google-maps/GeoJSON',
+        ejs: '../bower_components/ejs/ejs',
+        moment: '../bower_components/moment/moment',
+        moment_range: '../bower_components/moment-range/dist/moment-range',
         json: 'vendor/json'
     },
     shim: {
@@ -59,13 +62,19 @@ require.config({
         },
         underscore: {
             exports: '_'
+        },
+        ejs: {
+            exports: 'ejs'
         }
     }
 });
 
 
-require(['jquery', 'polling_location_finder', 'bootstrapCollapse'], function($, findPollingLocationFor) {
-    //'use strict';
+require(['jquery',
+        'early_voting_mgr', 'polling_location_finder',
+        'json!vendor/EARLY_VOTING_AddressPoints.geojson'],
+        function($, earlyVotingManager, findPollingLocationFor, earlyPollingJSON) {
+    'use strict';
 
     // Tab functionality that uses window.location.hash to create "tabs"
     // that are linkable/shareable/work with the "back" button etc.
@@ -89,34 +98,21 @@ require(['jquery', 'polling_location_finder', 'bootstrapCollapse'], function($, 
 
     $(window).trigger('hashchange'); // if the user navigated directly to a tab, set that active styling this way
 
-     var $address = $('#address');
-    //
-    // //starting place for google maps typeahead search
-    // var defaultBounds = new google.maps.LatLngBounds(
-    //     //harvard square
-    //     new google.maps.LatLng(42.3735695,-71.1233489)
-    // );
 
+    earlyVotingManager.init();
+
+
+    var $address = $('#address');
 
     var defaultBounds = new google.maps.LatLngBounds(
-
         new google.maps.LatLng(42.360129, -71.148834),
         new google.maps.LatLng(42.389868, -71.075535)
     );
-
-    //
-    var options = {
+    var autocomplete = new google.maps.places.Autocomplete($address.get(0), {
         bounds: defaultBounds
-    };
-
-
-    var autocomplete = new google.maps.places.Autocomplete($address.get(0), options);
-
-    autocomplete.addListener('place_changed', function() {
-        // var place = autocomplete.getPlace();
-        searchForAddress();
     });
 
+    autocomplete.addListener('place_changed', searchForAddress);
 
 
     $('#view_directions').on('click', function () {
@@ -166,10 +162,8 @@ require(['jquery', 'polling_location_finder', 'bootstrapCollapse'], function($, 
         var address = $address.val();
         var geocoder = new google.maps.Geocoder();
 
-
         // clear details pane
         $('#directions').empty();
-
 
         // go right to the first result if there's only one, or display a list if there are multiples
         function displaySearchResults(results) {
@@ -193,7 +187,6 @@ require(['jquery', 'polling_location_finder', 'bootstrapCollapse'], function($, 
 
         // only valid Cambridge street addresses, please
         function addressIsCambridgeStreetAddress(address) {
-
             var zip_index = -1;
 
             var addr_components = address.address_components;
@@ -210,7 +203,6 @@ require(['jquery', 'polling_location_finder', 'bootstrapCollapse'], function($, 
                 isStreetAddress = ($.inArray('street_address', address.types)) > -1;
 
             return isInCambridge && isStreetAddress;
-
         }
 
         geocoder.geocode({
@@ -240,7 +232,6 @@ require(['jquery', 'polling_location_finder', 'bootstrapCollapse'], function($, 
             } else {
                 displaySearchResults(results);
                 google.maps.event.trigger(map, 'resize');
-
             }
         });
     }
