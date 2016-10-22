@@ -41,10 +41,7 @@ define(
           });
 
           $(sb).mouseout(function() {
-
             mapService.changeMarkerColor(i, "default");
-
-//            mapService.changeMarkerColor()
           });
        });
 
