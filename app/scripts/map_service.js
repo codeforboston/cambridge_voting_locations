@@ -2,6 +2,11 @@ define(['geojson',
         'json!vendor/EARLY_VOTING_AddressPoints.geojson'],
         function(GeoJSON,  earlyPollingJSON) {
 
+
+    var hoverIcon = "https://mts.googleapis.com/maps/vt/icon/name=icons/spotlight/spotlight-waypoint-a.png&text=•&psize=30&font=fonts/Roboto-Regular.ttf&color=ff333333&ax=44&ay=48&scale=1"
+    var defaultIcon = "https://mts.googleapis.com/maps/vt/icon/name=icons/spotlight/spotlight-waypoint-b.png&text=•&psize=30&font=fonts/Roboto-Regular.ttf&color=ff333333&ax=44&ay=48&scale=1"
+
+
     var DEFAULT_ZOOM_LEVEL = 13;
     var DEFAULT_CENTER_POSITION = new google.maps.LatLng(42.3736, -71.1106); // Cambridge
 
@@ -135,7 +140,15 @@ define(['geojson',
             for (var i = 0; i < earlyPollingMarkers.length; i++) {
                     earlyPollingMarkers[i].setMap(map);
             }
+        },
 
+
+        changeMarkerColor:function(index, color) {
+          if (color === "hover") {
+            earlyPollingMarkers[index].setIcon(hoverIcon);
+          } else if (color === "default") {
+            earlyPollingMarkers[index].setIcon(defaultIcon);
+          }
         },
 
         // Display previous user polling place

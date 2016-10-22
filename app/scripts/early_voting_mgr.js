@@ -32,6 +32,24 @@ define(
       }
     }
 
+    function listenToSidebarEvents() {
+      var sidebarDivs = $("#early-voting-sidebar").children();
+
+       sidebarDivs.each(function(i,sb) {
+          $(sb).mouseover(function() {
+            mapService.changeMarkerColor(i, "hover");
+          });
+
+          $(sb).mouseout(function() {
+
+            mapService.changeMarkerColor(i, "default");
+
+//            mapService.changeMarkerColor()
+          });
+       });
+
+    }
+
     return {
       init: function() {
         $el.find('#early-voting-sidebar').html(ejs.render(earlyVotingSidebarTmpl, {
@@ -40,6 +58,7 @@ define(
           getDirections: getDirections
         }));
 
+        listenToSidebarEvents();
         mapService.subscribeToMarkerEvents(whenMarkerEventsHappen);
       }
     }
