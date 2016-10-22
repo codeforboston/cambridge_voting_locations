@@ -6,7 +6,7 @@ define(['geojson',
     var DEFAULT_CENTER_POSITION = new google.maps.LatLng(42.3736, -71.1106); // Cambridge
 
 
-	var earlyPollingLocations = new GeoJSON(earlyPollingJSON);
+    var earlyPollingLocations = new GeoJSON(earlyPollingJSON);
 
 
     var map = new google.maps.Map(document.getElementById('map'), {
@@ -24,65 +24,59 @@ define(['geojson',
 
 
     var userInputs = {
-    	"precinct": null,
-    	"homeAddress": null,
-    	"destination": null
+        "precinct": null,
+        "homeAddress": null,
+        "destination": null
     }
 
 
-  	var earlyPollingMarkers = [];
+    var earlyPollingMarkers = [];
 
 
-  	function clearUserInputs() {
+    function clearUserInputs() {
 
-  		userInputs.precinct = null;
-  		userInputs.homeAddress = null;
-  		userInputs.destination = null;
+        userInputs.precinct = null;
+        userInputs.homeAddress = null;
+        userInputs.destination = null;
 
-  	}
+    }
 
 
     function createEarlyPollingMarkers() {
 
         for (var i = 0; i < earlyPollingLocations.length; i++) {
-   
-            var pos = new google.maps.LatLng(earlyPollingLocations[i].position.lat(),
-                                             earlyPollingLocations[i].position.lng());
 
             var earlyVotingMarker = new google.maps.Marker({
-                position: pos
-                // map: map
+                position: earlyPollingLocations[i].position
             });
 
             earlyPollingMarkers.push(earlyVotingMarker);
         }
     }
 
-	function clearEarlyMarkers () {
+    function clearEarlyMarkers () {
 
-	    	for (var i = 0; i < earlyPollingMarkers.length; i++) {
-	    		earlyPollingMarkers[i].setMap(null);
-	    	}		
-	}
+        for (var i = 0; i < earlyPollingMarkers.length; i++) {
+            earlyPollingMarkers[i].setMap(null);
+        }       
+    }
+
 
 
     function clearPollingLocation() {
 
-    	// console.log("USER", userInputs.precinct);
-	    if (userInputs.precinct) {
-	        userInputs.precinct.setMap(null);
-	    //    userInputs.precinct = undefined;
-	    }
-	    directionsDisplay.setDirections({routes: []});
+  
+        if (userInputs.precinct) {
+            userInputs.precinct.setMap(null);
+        }
+        directionsDisplay.setDirections({routes: []});
 
-	    // TODO move UI interaction into its own module
-	    $('.result').removeClass('success');
-	    $('#notice').removeClass('error').empty();
-	    $('#info .location, #info .notes').empty();
-	    $('#directions-link').removeAttr('href');
-	}
-
-
+        // TODO move UI interaction into its own module
+        $('.result').removeClass('success');
+        $('#notice').removeClass('error').empty();
+        $('#info .location, #info .notes').empty();
+        $('#directions-link').removeAttr('href');
+    }
 
     function getDirections(destination) {
         var url;
@@ -93,8 +87,6 @@ define(['geojson',
         }
         return encodeURI(url + destination);
     }
-
-    
 
     function displayDirections(latLng, destination, successCallback, errorCallback) {
             var request = {
@@ -122,56 +114,56 @@ define(['geojson',
 
     return {
 
-    	displayEarlyPollingMarkers: function() {
+        displayEarlyPollingMarkers: function() {
 
-    		clearPollingLocation();
+            clearPollingLocation();
 
 
-    		map.setCenter(DEFAULT_CENTER_POSITION);
-  			map.setZoom(DEFAULT_ZOOM_LEVEL);
+            map.setCenter(DEFAULT_CENTER_POSITION);
+            map.setZoom(DEFAULT_ZOOM_LEVEL);
 
-  			//clearPollingLocation();
-    		if (earlyPollingMarkers.length <= 0) {
-    			createEarlyPollingMarkers();
-    		} 
-    		
-    		for (var i = 0; i < earlyPollingMarkers.length; i++) {
-    				earlyPollingMarkers[i].setMap(map);
-    		}
-    		
+            //clearPollingLocation();
+            if (earlyPollingMarkers.length <= 0) {
+                createEarlyPollingMarkers();
+            } 
+            
+            for (var i = 0; i < earlyPollingMarkers.length; i++) {
+                    earlyPollingMarkers[i].setMap(map);
+            }
+            
 
-    	},
+        },
 
-    	// Display previous user polling place
-    	displayUserPollingPlace: function() {
+        // Display previous user polling place
+        displayUserPollingPlace: function() {
 
-    		clearEarlyMarkers();
+            clearEarlyMarkers();
 
-    		if (userInputs.precinct && userInputs.homeAddress && userInputs.destination) {
+            if (userInputs.precinct && userInputs.homeAddress && userInputs.destination) {
 
-	    		userInputs.precinct.setMap(map);
-	    		map.fitBounds(userInputs.precinct.getBounds());
-	    		displayDirections(userInputs.homeAddress, userInputs.destination);
+                userInputs.precinct.setMap(map);
+                map.fitBounds(userInputs.precinct.getBounds());
+                displayDirections(userInputs.homeAddress, userInputs.destination);
 
-    		}
-    	},
+            }
+        },
 
-    	displayNewPollingPlace: function(latLng, destination, precinct, successCallback, errorCallback) {
-    	
-    		clearEarlyMarkers();
-    		clearPollingLocation();
-    		clearUserInputs();
+        displayNewPollingPlace: function(latLng, destination, precinct, successCallback, errorCallback) {
+        
+            clearEarlyMarkers();
+            clearPollingLocation();
+            clearUserInputs();
 
-    		userInputs.precinct = precinct;
-    		userInputs.homeAddress = latLng;
-    		userInputs.destination = destination;
-    		
+            userInputs.precinct = precinct;
+            userInputs.homeAddress = latLng;
+            userInputs.destination = destination;
+            
 
-    		userInputs.precinct.setMap(map);
-           	map.fitBounds(userInputs.precinct.getBounds());
+            userInputs.precinct.setMap(map);
+            map.fitBounds(userInputs.precinct.getBounds());
 
- 			displayDirections(latLng, destination, successCallback, errorCallback);
+            displayDirections(latLng, destination, successCallback, errorCallback);
 
-    	},
+        },
     };
 });
