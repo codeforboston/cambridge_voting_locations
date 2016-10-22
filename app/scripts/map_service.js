@@ -49,18 +49,16 @@ define(['geojson',
     }
 
     function createEarlyPollingMarkers() {
+      earlyPollingLocations.forEach(function(location) {
+        var earlyVotingMarker = new google.maps.Marker({
+          position: location.position
+        });
+        earlyVotingMarker.addListener('click', function() {
+          fireMarkerEvent('click', earlyVotingMarker);
+        });
 
-        for (var i = 0; i < earlyPollingLocations.length; i++) {
-
-            var earlyVotingMarker = new google.maps.Marker({
-                position: earlyPollingLocations[i].position
-            });
-            earlyVotingMarker.addListener('click', function() {
-              fireMarkerEvent('click', earlyVotingMarker);
-            });
-
-            earlyPollingMarkers.push(earlyVotingMarker);
-        }
+        earlyPollingMarkers.push(earlyVotingMarker);
+      });
     }
 
     function clearEarlyMarkers () {
@@ -73,8 +71,6 @@ define(['geojson',
 
 
     function clearPollingLocation() {
-
-
         if (userInputs.precinct) {
             userInputs.precinct.setMap(null);
         }
@@ -139,7 +135,6 @@ define(['geojson',
             for (var i = 0; i < earlyPollingMarkers.length; i++) {
                     earlyPollingMarkers[i].setMap(map);
             }
-
 
         },
 
