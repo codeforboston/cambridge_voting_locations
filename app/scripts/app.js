@@ -15,9 +15,10 @@ require.config({
         bootstrapTransition: '../bower_components/bootstrap-sass/assets/javascripts/bootstrap/transition',
         text: '../bower_components/requirejs-text/text',
         geojson: '../bower_components/geojson-google-maps/GeoJSON',
-        json: 'vendor/json',
+        ejs: '../bower_components/ejs/ejs',
         moment: '../bower_components/moment/moment',
-        momentrange: '../bower_components/moment-range/dist/moment-range.min'
+        moment_range: '../bower_components/moment-range/dist/moment-range',
+        json: 'vendor/json'
     },
     shim: {
         bootstrapAffix: {
@@ -61,15 +62,21 @@ require.config({
         },
         underscore: {
             exports: '_'
+        },
+        ejs: {
+            exports: 'ejs'
         }
     }
 });
 
 
-require(['jquery', 'polling_location_finder', 'bootstrapCollapse', 'early_poll_finder'], function($, findPollingLocationFor, bootstraps, earlyPolling) {
-
-    //'use strict';
-
+require(['jquery',
+        'early_voting_mgr', 'polling_location_finder',
+        'json!vendor/EARLY_VOTING_AddressPoints.geojson', 'early_poll_finder'],
+        function($, earlyVotingManager, findPollingLocationFor, earlyPollingJSON, earlyPollCards) {
+    
+    'use strict';
+    
     // Tab functionality that uses window.location.hash to create "tabs"
     // that are linkable/shareable/work with the "back" button etc.
 
@@ -89,44 +96,31 @@ require(['jquery', 'polling_location_finder', 'bootstrapCollapse', 'early_poll_f
       $('.cambridge-tabs a').parent().removeClass("active");
       $('.cambridge-tabs a[href='+ window.location.hash +']').parent().addClass("active");
 		
-		if(location.hash === "#early-voting" && earlyPolling.hasInitialized()){
-			earlyPolling.showMarkers();
-		}else if(location.hash === "#election-day" && earlyPolling.hasInitialized()){
-			earlyPolling.hideMarkers();
+		if(location.hash === "#early-voting" && earlyPollCards.hasInitialized()){
+			earlyPollCards.showMarkers();
+		}else if(location.hash === "#election-day" && earlyPollCards.hasInitialized()){
+			earlyPollCards.hideMarkers();
 		}
 	
     });
 
     $(window).trigger('hashchange'); // if the user navigated directly to a tab, set that active styling this way
+    
 
-     var $address = $('#address');
-    //
-    // //starting place for google maps typeahead search
-    // var defaultBounds = new google.maps.LatLngBounds(
-    //     //harvard square
-    //     new google.maps.LatLng(42.3735695,-71.1233489)
-    // );
+    earlyVotingManager.init();
+
+    var $address = $('#address');
 
     var defaultBounds = new google.maps.LatLngBounds(
-
         new google.maps.LatLng(42.360129, -71.148834),
         new google.maps.LatLng(42.389868, -71.075535)
     );
-
-    //
-    var options = {
+    var autocomplete = new google.maps.places.Autocomplete($address.get(0), {
         bounds: defaultBounds
-    };
-
-
-    var autocomplete = new google.maps.places.Autocomplete($address.get(0), options);
-
-    autocomplete.addListener('place_changed', function() {
-        var place = autocomplete.getPlace();
-        searchForAddress();
     });
 
-     /* not working so well with the new layout
+    autocomplete.addListener('place_changed', searchForAddress);
+
     $('#view_directions').on('click', function () {
         $('#info').toggleClass('up');
         if ($('#info').hasClass('up')) {
@@ -135,7 +129,7 @@ require(['jquery', 'polling_location_finder', 'bootstrapCollapse', 'early_poll_f
             $('#view_directions').html('<span class="icon-info-sign"></span> View directions');
         }
     });
-	*/
+
     
     //inits the module that controls all the poll info cards and shows the pointers on the map
     /* Here are a list of all the methods of this module 
@@ -155,19 +149,21 @@ require(['jquery', 'polling_location_finder', 'bootstrapCollapse', 'early_poll_f
 
 	//making it available in the console line for testing purposes
     
-	window.pollModule = earlyPolling;
+    /*
+    
+	window.pollModule = earlyPollCards;
 	
 	window.onload = function(){
 		
 		if(location.hash === "#early-voting"){
-			earlyPolling.init();
-    		$('#currentTime').html(earlyPolling.getTime());
+			earlyPollCards.init();
+    		$('#currentTime').html(earlyPollCards.getTime());
 		}else{
-			earlyPolling.init().hideMarkers();
-			$('#currentTime').html(earlyPolling.getTime());
+			earlyPollCards.init().hideMarkers();
+			$('#currentTime').html(earlyPollCards.getTime());
 		}	
 	};
-
+*/
 	
     
 	$('.current-location').on('click', function(){
@@ -218,7 +214,7 @@ require(['jquery', 'polling_location_finder', 'bootstrapCollapse', 'early_poll_f
     function searchForAddress () {
         var address = $address.val();
         var geocoder = new google.maps.Geocoder();
-		
+
         // clear details pane
         $('#directions').empty();
 		
@@ -304,6 +300,7 @@ require(['jquery', 'polling_location_finder', 'bootstrapCollapse', 'early_poll_f
 				addr_components = address.address_components,
 				zipCode = "000000";
 						
+
             for (var i = 0; i < addr_components.length; i++) {
                 if (addr_components[i].types[0] == "postal_code") {
                     zipCode = addr_components[i].short_name || addr_components[i].long_name;
@@ -316,9 +313,48 @@ require(['jquery', 'polling_location_finder', 'bootstrapCollapse', 'early_poll_f
 
 			//return true if both are met: zip code is in cambridge and is street address
             return isInCambridge && isStreetAddress;
-
         }
+        
+        /*
+<<<<<<< HEAD
 				
+=======
+
+        geocoder.geocode({
+            address: address,
+            componentRestrictions: {
+                administrativeArea: 'Massachusetts',
+                country: 'US'
+            }
+        }, function(results, status) {
+
+            // if there are multiple results, look for Cambridge-specific street results
+            results = $.grep(results, addressIsCambridgeStreetAddress);
+
+            // if there are no results, try searching for Cambridge
+            if (!results.length) {
+                geocoder.geocode({ address: address + ' Cambridge, MA' }, function(results, status) {
+                    results = $.grep(results, addressIsCambridgeStreetAddress);
+                    if (!results.length) {
+                        $('#notice')
+                            .addClass('error')
+                            .html($('#noLocation').text());
+                    } else {
+                        displaySearchResults(results);
+                        google.maps.event.trigger(map, 'resize');
+                    }
+                });
+            } else {
+                displaySearchResults(results);
+                google.maps.event.trigger(map, 'resize');
+            }
+        });
+>>>>>>> upstream/master
+            */
+
+
+
+
     }
 
 

@@ -10,7 +10,8 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-        <link rel="stylesheet" href="styles/8e60a645.main.css">
+
+        <link rel="stylesheet" href="styles/bdf899c5.main.css">
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB7fHkcx_rJi_YTbk3Gu7ig_H3GvyzPT2Y&libraries=places"></script>
         <!-- update this line if we update this image -->
         <meta property="og:image" content="http://votecambridge.com/images/45b5ba8f.for_social_media.png">
@@ -36,14 +37,16 @@
               </ul>
               <ul class="nav navbar-nav navbar-right">
                 <li><a href="http://www.meetup.com/Code-for-Boston" title="Built as a public technology service by Code for Boston">
-                  Built by <img src="images/2fa5f9aa.cfb_logo.png" alt="" class="logo">
+
+                  Built by <img src="images/5f5f4bde.cfb_logo.png" alt="" class="logo">
+                    
                 </a></li><li><a href="http://www.github.com/codeforboston/cambridge_voting_locations"><span class="fa fa-fw fa-github"></span>
                   on Github</a></li>
                 </ul>
               </div>
             </div>
           </nav>
-          
+
           <div class="jumbotron jumbotron-cambridge">
             <div class="container-fluid">
               <span class="label label-primary">Upcoming Election</span>
@@ -56,7 +59,7 @@
             <li class="active">
               <a href="#early-voting">
                 <h2>Early Voting</h2>
-                Oct 24 - Nov 4      
+                Oct 24 - Nov 4
               </a>
             </li>
             <li>
@@ -74,11 +77,8 @@
                 <section class="container-fluid" id="early-voting">
 
                   <h3>Early Voting Information</h3>
-                  <p class="lead">Click on any of the polls below to view all the dates and hours of each poll. Today is <span id="currentTime"></span></p>
-                    <div class="poll-searchbar">
-                    
-                    </div>
-                    <div class="polls-info" id="polls">
+                 <p class="lead">Click on any of the polls below to view all the dates and hours of each poll. Today is <span id="currentTime"></span></p>
+                  <div class="polls-info" id="polls">
                         
                         <div class="poll-card">
                             <header class="poll-header clearfix">
@@ -157,7 +157,8 @@
                         </div>
                     
                     </div>
-				  
+                  <div id="early-voting-sidebar"></div>
+
                 </section>
                 <section class="container-fluid" id="election-day">
                   <h3>Find your polling location</h3>
@@ -211,7 +212,8 @@
                 </section>
               </div>
             </div>
-		  </div>
+
+          </div>
           
         </main>
 
@@ -227,8 +229,7 @@
           ga('create','UA-37610225-3');ga('send','pageview');
           </script>
 
-          <script data-main="scripts/5e6d18c3.app" src="bower_components/requirejs/require.js"></script>
-
+          <script data-main="scripts/eb5e84c4.app" src="bower_components/requirejs/require.js"></script>
           <script id="noLocation" type="text/template">
             <h4>
               <span class="icon-exclamation-sign"></span>

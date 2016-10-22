@@ -1,0 +1,18 @@
+<% locations.forEach(function(location, i) { %>
+  <div class="early-voting-location" id="location<%= i %>">
+    <h4><%= location.geojsonProperties.LOCATION %></h4>
+    <div>
+      <a href="<%= getDirections(location.geojsonProperties.Full_Addr + ', Cambridge, MA') %>" target="_blank">Directions</a>
+    </div>
+    <ul>
+    <% location.geojsonProperties.hours.forEach(function(interval) { %>
+      <%
+        var dates = moment.range(interval).toDate();
+        var startDate = moment(dates[0]);
+        var endDate = moment(dates[1]);
+      %>
+      <li><%= startDate.format('MMM Do, h:mma') %> - <%= endDate.format('h:mma') %></li>
+    <% }) %>
+    </ul>
+  </div>
+<% }) %>

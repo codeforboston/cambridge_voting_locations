@@ -9,8 +9,10 @@
     "moment-range": "~2.2.0",
     "moment": "^2.15.1",
     "font-awesome": "~4.0.2",
-    "bootstrap-sass": "~3.3.7"
-
+    "bootstrap-sass": "~3.3.7",
+    "moment": "^2.15.1",
+    "moment-range": "^2.1.0",
+    "ejs": "^1.0.0"
   },
   "devDependencies": {}
 }
