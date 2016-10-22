@@ -45,13 +45,9 @@ define(['geojson',
     function createEarlyPollingMarkers() {
 
         for (var i = 0; i < earlyPollingLocations.length; i++) {
-   
-            var pos = new google.maps.LatLng(earlyPollingLocations[i].position.lat(),
-                                             earlyPollingLocations[i].position.lng());
 
             var earlyVotingMarker = new google.maps.Marker({
-                position: pos
-                // map: map
+                position: earlyPollingLocations[i].position
             });
 
             earlyPollingMarkers.push(earlyVotingMarker);
@@ -60,20 +56,18 @@ define(['geojson',
 
 	function clearEarlyMarkers () {
 
-	    	for (var i = 0; i < earlyPollingMarkers.length; i++) {
-	    		earlyPollingMarkers[i].setMap(null);
-	    	}		
+    	for (var i = 0; i < earlyPollingMarkers.length; i++) {
+    		earlyPollingMarkers[i].setMap(null);
+    	}		
 	}
 
- 
-    // var userInputs.precinct;
+
 
     function clearPollingLocation() {
 
-    	// console.log("USER", userInputs.precinct);
+  
 	    if (userInputs.precinct) {
 	        userInputs.precinct.setMap(null);
-	    //    userInputs.precinct = undefined;
 	    }
 	    directionsDisplay.setDirections({routes: []});
 

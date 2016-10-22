@@ -1,9 +1,5 @@
 .cambridge-tabs {
-<<<<<<< HEAD
-  background-color: darken($cambridgeLightBlue, 10%);
-=======
   background-color: $cambridgeMediumBlue;
->>>>>>> 582bbe2dd0b95905a5ce81b2c993049671f86b4a
 
   li a {
     text-transform: uppercase;
@@ -13,16 +9,6 @@
     background: none;
 
     &:hover {
-<<<<<<< HEAD
-      background-color: darken($cambridgeLightBlue, 20%);
-      color: white;
-    }
-  }
-
-  li.active a, li.active a:hover, li.active a:focus {
-    border: 4px solid $cambridgeBorder;
-    background: white;
-=======
       background-color: $cambridgeLightBlue;
     }
   }
@@ -37,7 +23,6 @@
       color: $cambridgeDarkerBlue;
       background-color: $cambridgeLightBlue;
     }
->>>>>>> 582bbe2dd0b95905a5ce81b2c993049671f86b4a
   }
 }
 
