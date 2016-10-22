@@ -1,4 +1,4 @@
-define(['jquery', 'geojson', 'json!vendor/EARLY_VOTING_AddressPoints.geojson', 'moment', 'momentrange'], function($, GeoJSON, earlyPollJSON,  moment, momentRange) {
+define(['jquery', 'geojson', 'json!vendor/EARLY_VOTING_AddressPoints.geojson', 'moment'], function($, GeoJSON, earlyPollJSON,  moment) {
     'use strict';
 	
 	var earlyPolls = new GeoJSON(earlyPollJSON),
@@ -35,7 +35,7 @@ define(['jquery', 'geojson', 'json!vendor/EARLY_VOTING_AddressPoints.geojson', '
                         isOpen : false,
                         lat : geoJsonObject.position.lat(),
                         lng : geoJsonObject.position.lng(),
-                        title : currentLabel + ": " +geoJsonObject.geojsonProperties.StName,
+                        title : currentLabel + ": " +geoJsonObject.geojsonProperties.LOCATION,
                         table : "",
                         URI : getAddressURI(geoJsonObject.geojsonProperties.Full_Addr + "Cambridge, MA"),
                         hoursArray : geoJsonObject.geojsonProperties.hours

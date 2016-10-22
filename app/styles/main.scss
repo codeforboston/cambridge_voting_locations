@@ -258,12 +258,13 @@ a.maps-app-link{
     height: 60px;
     border-bottom: 1px solid #CCC;
     margin-bottom: 10px;
+    position: relative;
 }
 
 .poll-header h3{
-    float: left;
-    display: inline-block;
-    vertical-align: text-bottom;
+    font-size: 18px;
+    max-width: 200px;
+    min-width: 150px;
 }
 .poll-header h3::first-letter{
     text-transform: uppercase;
@@ -272,13 +273,15 @@ a.maps-app-link{
 
 
    .poll-status{
-       float: right;
+       position: absolute;
+       right: 10px;
+       top: 10px;
        padding: 8px;
        border: 1px solid black;
        border-radius: 2px;
        color: black;
        text-transform: uppercase;
-       vertical-align: bottom;
+       background: #FAFAFA;
     }
 
     .closed{

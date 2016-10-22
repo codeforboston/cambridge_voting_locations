@@ -1,4 +1,4 @@
-define(['jquery', 'geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'json!vendor/ELECTIONS_PollingLocations.geojson', 'moment', 'momentrange'], function($, GeoJSON, precinctsJSON, locationsJSON, moment, momentRange) {
+define(['jquery', 'geojson', 'json!vendor/ELECTIONS_WardsPrecincts.geojson', 'json!vendor/ELECTIONS_PollingLocations.geojson', 'moment'], function($, GeoJSON, precinctsJSON, locationsJSON, moment) {
     'use strict';
 
     var precincts = new GeoJSON(precinctsJSON),

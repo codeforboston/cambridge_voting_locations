@@ -149,7 +149,7 @@ require(['jquery',
 
 	//making it available in the console line for testing purposes
     
-    /*
+    
     
 	window.pollModule = earlyPollCards;
 	
@@ -163,7 +163,7 @@ require(['jquery',
 			$('#currentTime').html(earlyPollCards.getTime());
 		}	
 	};
-*/
+
 	
     
 	$('.current-location').on('click', function(){
@@ -217,58 +217,7 @@ require(['jquery',
 
         // clear details pane
         $('#directions').empty();
-		
-		geocoder.geocode({
-            address: address,
-            componentRestrictions: {
-                administrativeArea: 'Massachusetts',
-                country: 'US'
-            }
-        }, processGeocode);
-                
-        function processGeocode(results, status){
-                //filter cambridge only result if there are multiple ones.
-                var cambridgeResult = filterResults(results);
-            
-            //if it didn't process a defined result, try again.
-            if(!processResult(cambridgeResult)){
-            
-               geocoder.geocode({ address: address + ' Cambridge, MA' }, function(results, status){
-                    var secondTryResult = filterResults(results);
-                   
-                   //if the second try also failed, display error.
-                   if(!processResult(secondTryResult)){
-                       $('#notice')
-                                .addClass('error')
-                                .html($('#noLocation').text());   
-                   };
-
-               }); 
-                
-            }
-            
-        }
-
-        //If there are multiple results, filter the cambridge only one and return it.        
-        function filterResults(results){
-            // if there are multiple results, look for Cambridge-specific street results
-			var result = $.grep(results, addressIsCambridgeStreetAddress);
-            //return the cambridge only result
-            return result;
-        }
-        
-        function processResult(result){
-            
-            //if result is defined, display it, otherwise display error
-            if(result[0]){
-                displaySearchResults(result);
-                google.maps.event.trigger(map, 'resize');
-                return true;
-            }else{
-                return false;
-            } 
-        }
-        
+		        
         // go right to the first result if there's only one, or display a list if there are multiples
         function displaySearchResults(results) {
             
@@ -315,10 +264,6 @@ require(['jquery',
             return isInCambridge && isStreetAddress;
         }
         
-        /*
-<<<<<<< HEAD
-				
-=======
 
         geocoder.geocode({
             address: address,
@@ -349,10 +294,6 @@ require(['jquery',
                 google.maps.event.trigger(map, 'resize');
             }
         });
->>>>>>> upstream/master
-            */
-
-
 
 
     }
