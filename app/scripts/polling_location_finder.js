@@ -1,21 +1,13 @@
-define(['jquery', 'geojson', 
-        'json!vendor/ELECTIONS_WardsPrecincts.geojson', 
+define(['jquery', 'geojson',
+        'json!vendor/ELECTIONS_WardsPrecincts.geojson',
         'json!vendor/ELECTIONS_PollingLocations.geojson',
-        'map_service'], 
+        'map_service'],
     function($, GeoJSON, precinctsJSON, locationsJSON, mapService) {
-    
+
     'use strict';
 
     var precincts = new GeoJSON(precinctsJSON),
         pollingLocations = new GeoJSON(locationsJSON);
- 
-
-    // function showResults() {
-    //     $('.voting-result').show();
-    // }
-
-    // // keep track of user precinct across calls so we can erase previous precincts if necessary
-    // var userPrecinct;
 
 
     function getUserPrecinct(latLng) {
@@ -64,9 +56,7 @@ define(['jquery', 'geojson',
         } else {
             var pollingLocation = getPollingLocation(userPrecinct);
             $('.result').addClass('success');
-           // showResults();
-            // highlight the precinct on the map
-      
+
             var destination = pollingLocation.geojsonProperties.Address + ', Cambridge, MA';
             mapService.displayNewPollingPlace(latLng, destination, userPrecinct, successCallback, errorCallback);
             // userPrecinct.setMap(map);
@@ -76,9 +66,6 @@ define(['jquery', 'geojson',
             $('#info .location').text(pollingLocation.geojsonProperties.LOCATION);
             $('#info .notes').text(pollingLocation.geojsonProperties.LOCATION_NOTE);
 
-         
-
-            // show step-by-step directions
         }
     };
 });
