@@ -95,7 +95,6 @@ require(['jquery',
       $('.cambridge-tabs a[href='+ window.location.hash +']').parent().addClass("active");
 
       if (window.location.hash == "#early-voting") {
-
         mapService.displayEarlyPollingMarkers();
       } else if (window.location.hash == "#election-day") {
 
