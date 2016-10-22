@@ -1,5 +1,5 @@
-define(['geojson', 
-        'json!vendor/EARLY_VOTING_AddressPoints.geojson'], 
+define(['geojson',
+        'json!vendor/EARLY_VOTING_AddressPoints.geojson'],
         function(GeoJSON,  earlyPollingJSON) {
 
     var DEFAULT_ZOOM_LEVEL = 13;
@@ -22,6 +22,7 @@ define(['geojson',
             panel: document.getElementById('directions')
         });
 
+    var markerEventListeners = [];
 
     var userInputs = {
         "precinct": null,
@@ -41,6 +42,11 @@ define(['geojson',
 
     }
 
+    function fireMarkerEvent(eventType, marker) {
+      markerEventListeners.forEach(function(cb) {
+        cb(eventType, marker);
+      });
+    }
 
     function createEarlyPollingMarkers() {
 
@@ -48,6 +54,9 @@ define(['geojson',
 
             var earlyVotingMarker = new google.maps.Marker({
                 position: earlyPollingLocations[i].position
+            });
+            earlyVotingMarker.addListener('click', function() {
+              fireMarkerEvent('click', earlyVotingMarker);
             });
 
             earlyPollingMarkers.push(earlyVotingMarker);
@@ -58,14 +67,14 @@ define(['geojson',
 
         for (var i = 0; i < earlyPollingMarkers.length; i++) {
             earlyPollingMarkers[i].setMap(null);
-        }       
+        }
     }
 
 
 
     function clearPollingLocation() {
 
-  
+
         if (userInputs.precinct) {
             userInputs.precinct.setMap(null);
         }
@@ -125,12 +134,12 @@ define(['geojson',
             //clearPollingLocation();
             if (earlyPollingMarkers.length <= 0) {
                 createEarlyPollingMarkers();
-            } 
-            
+            }
+
             for (var i = 0; i < earlyPollingMarkers.length; i++) {
                     earlyPollingMarkers[i].setMap(map);
             }
-            
+
 
         },
 
@@ -148,8 +157,12 @@ define(['geojson',
             }
         },
 
+        subscribeToMarkerEvents: function(cb) {
+          markerEventListeners.push(cb);
+        },
+
         displayNewPollingPlace: function(latLng, destination, precinct, successCallback, errorCallback) {
-        
+
             clearEarlyMarkers();
             clearPollingLocation();
             clearUserInputs();
@@ -157,7 +170,7 @@ define(['geojson',
             userInputs.precinct = precinct;
             userInputs.homeAddress = latLng;
             userInputs.destination = destination;
-            
+
 
             userInputs.precinct.setMap(map);
             map.fitBounds(userInputs.precinct.getBounds());
