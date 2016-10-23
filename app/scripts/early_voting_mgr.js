@@ -3,7 +3,7 @@ define(
     'jquery', 'moment', 'ejs', 'geojson',
     'map_service',
     'json!vendor/EARLY_VOTING_AddressPoints.geojson',
-    'text!templates/early_voting_sidebar.ejs', 'scrollTo', 'moment_range', 'bootstrap', 'bootstrap_min'
+    'text!templates/early_voting_sidebar.ejs', 'scrollTo', 'moment_range', 'bootstrapCollapse'
   ],
   function($, moment, ejs, GeoJSON, mapService, earlyVotingJSON, earlyVotingSidebarTmpl) {
     'use strict';

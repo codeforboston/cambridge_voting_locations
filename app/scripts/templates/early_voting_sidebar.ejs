@@ -22,12 +22,12 @@
               var startDate = moment(dates[0]);
               var endDate = moment(dates[1]);
             %>
-            <li>     
-            <%if ( startDate.diff(moment(new Date()), 'days')==0 ) { %>
+            <li>
+            <%if ( startDate.isSame(new Date(), 'days') ) { %>
               <b> 
             <% } %>
             <%= startDate.format('MMM Do, h:mma') %> - <%= endDate.format('h:mma') %>
-            <%if ( startDate.diff(moment(new Date()), 'days')==0 ) { %>
+            <%if ( startDate.isSame(new Date(), 'days') ) { %>
               </b> 
             <% } %>
             </li>
