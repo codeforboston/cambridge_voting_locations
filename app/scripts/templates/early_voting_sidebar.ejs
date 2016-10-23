@@ -11,7 +11,15 @@
         var startDate = moment(dates[0]);
         var endDate = moment(dates[1]);
       %>
-      <li><%= startDate.format('MMM Do, h:mma') %> - <%= endDate.format('h:mma') %></li>
+      <li>     
+       <%if ( startDate.diff(moment(new Date()), 'days')==0 ) { %>
+        <b> 
+       <% } %>
+      <%= startDate.format('MMM Do, h:mma') %> - <%= endDate.format('h:mma') %>
+      <%if ( startDate.diff(moment(new Date()), 'days')==0 ) { %>
+        </b> 
+       <% } %>
+      </li>
     <% }) %>
     </ul>
   </div>
