@@ -37,7 +37,8 @@ define(
         $el.find('#early-voting-sidebar').html(ejs.render(earlyVotingSidebarTmpl, {
           moment: moment,
           locations: earlyVotingLocations,
-          getDirections: getDirections
+          getDirections: getDirections,
+          earlyPollingMarkers: mapService.getEarlyPollingMarkers()
         }));
 
         mapService.subscribeToMarkerEvents(whenMarkerEventsHappen);

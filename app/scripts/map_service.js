@@ -49,9 +49,12 @@ define(['geojson',
     }
 
     function createEarlyPollingMarkers() {
+      var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      var labelIndex = 0;
       earlyPollingLocations.forEach(function(location) {
         var earlyVotingMarker = new google.maps.Marker({
-          position: location.position
+          position: location.position,
+          label: labels[labelIndex++ % labels.length]
         });
         earlyVotingMarker.addListener('click', function() {
           fireMarkerEvent('click', earlyVotingMarker);
@@ -154,6 +157,10 @@ define(['geojson',
 
         subscribeToMarkerEvents: function(cb) {
           markerEventListeners.push(cb);
+        },
+
+        getEarlyPollingMarkers: function() {
+            return earlyPollingMarkers;
         },
 
         displayNewPollingPlace: function(latLng, destination, precinct, successCallback, errorCallback) {
