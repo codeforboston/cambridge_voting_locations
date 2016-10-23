@@ -85,7 +85,6 @@ main > .row {
     font-weight: 700;
     text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.4);
     color: $cambridgeDarkerBlue;
-
     &:hover {
         background: linear-gradient(lighten($cambridgeDarkBlue, 7%), $cambridgeDarkBlue);
         text-shadow: none;
@@ -212,7 +211,7 @@ main > .row {
 #directions {
     padding-left: 5px;
     padding-right: 5px;
-    padding-bottom: 30px;
+    padding-bottom: 15px;
 
     .location-choices a {
         cursor: pointer;
@@ -222,6 +221,107 @@ main > .row {
         // width: 100%;
     }
 }
+
+/*--mine  */
+.infoCard{
+        background: #FAFAFA;
+        border: 1px solid #CCC;
+        padding: 5px;
+        margin: 5px;
+        text-align: left;
+        display: none;
+        overflow: auto;
+    }
+
+.infoCard p{
+    margin-top: 5px;
+    clear: both;
+}
+
+
+.poll-card{
+    background: #FFF;
+    border: 1px solid #CCC;
+    height: 60px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+.poll-card-active{
+    height: 100%;   
+}
+
+.poll-card-content{
+    padding: 10px 15px;   
+}
+
+a.maps-app-link{
+    font-family: inherit;
+    font-weight: bold;
+    display: block;
+    width: 155px;
+    text-decoration: none;
+    margin: 10px auto;
+}
+
+
+.poll-header{
+    width: 100%;
+    background: #FAFAFA;
+    padding: 10px 10px;
+    height: 60px;
+    border-bottom: 1px solid #CCC;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.poll-header h3{
+    font-size: 18px;
+    max-width: 200px;
+    min-width: 150px;
+}
+.poll-header h3::first-letter{
+    text-transform: uppercase;
+    color: red;
+}
+
+
+   .poll-status{
+       position: absolute;
+       right: 10px;
+       top: 10px;
+       padding: 8px;
+       border: 1px solid black;
+       border-radius: 2px;
+       color: black;
+       text-transform: uppercase;
+       background: #FAFAFA;
+    }
+
+    .closed{
+        border-color: red;
+        color: red;
+    }
+    .open{
+        border-color: #2eb82e;
+        color: #2eb82e;
+    }
+    .closing{
+        border-color: #ff9900 ;
+        color: #ff9900 ;
+    }
+
+
+
+
+.poll-card table{
+    min-width: 100%;   
+}
+.poll-card table tr:nth-child(2){
+    font-weight: bold;
+    color: green;
+}
+
+
 
 
 @media (min-width: $screen-sm) {
