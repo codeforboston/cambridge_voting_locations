@@ -56,8 +56,26 @@ define(['json!vendor/EARLY_VOTING_AddressPoints.geojson'],
       var earlyVotingMarker = new google.maps.Marker({
         position: poll.getGeometry().get()
       });
+<<<<<<< HEAD
       earlyVotingMarker.addListener('click', function() {
         fireMarkerEvent('click', earlyVotingMarker);
+=======
+    }
+
+    function createEarlyPollingMarkers() {
+      var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      var labelIndex = 0;
+      earlyPollingLocations.forEach(function(location) {
+        var earlyVotingMarker = new google.maps.Marker({
+          position: location.position,
+          label: labels[labelIndex++ % labels.length]
+        });
+        earlyVotingMarker.addListener('click', function() {
+          fireMarkerEvent('click', earlyVotingMarker);
+        });
+
+        earlyPollingMarkers.push(earlyVotingMarker);
+>>>>>>> 553901e... Added label to early voting locations
       });
       earlyPollingMarkers.push(earlyVotingMarker);
     });
@@ -162,9 +180,17 @@ define(['json!vendor/EARLY_VOTING_AddressPoints.geojson'],
         
     },
 
+<<<<<<< HEAD
     subscribeToMarkerEvents: function(cb) {
       markerEventListeners.push(cb);
     },
+=======
+        getEarlyPollingMarkers: function() {
+            return earlyPollingMarkers;
+        },
+
+        displayNewPollingPlace: function(latLng, destination, precinct, successCallback, errorCallback) {
+>>>>>>> 553901e... Added label to early voting locations
 
     displayNewPollingPlace: function(latLng, destination, precinct, successCallback, errorCallback) {
 
