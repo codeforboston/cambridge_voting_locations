@@ -1,7 +1,9 @@
 {
   "name": "cambridge-voting-locations",
   "version": "0.0.1",
-  "dependencies": {},
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  },
   "scripts": {
     "postinstall": "bower install",
     "start": "grunt server",

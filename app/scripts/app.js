@@ -19,7 +19,9 @@ require.config({
         ejs: '../bower_components/ejs/ejs',
         moment: '../bower_components/moment/moment',
         moment_range: '../bower_components/moment-range/dist/moment-range',
-        json: 'vendor/json'
+        json: 'vendor/json',
+        bootstrap: '../bower_components/bootstrap-sass/assets/javascripts/bootstrap',
+        bootstrap_min: '../bower_components/bootstrap-sass/assets/javascripts/bootstrap.min'
     },
     shim: {
         bootstrapAffix: {
@@ -66,6 +68,12 @@ require.config({
         },
         ejs: {
             exports: 'ejs'
+        },
+        bootstrap: {
+            exports: 'bootstrap'
+        },
+        bootstrap_min: {
+            exports: 'bootstrap_min'
         }
     }
 });
