@@ -1,18 +1,40 @@
-<% locations.forEach(function(location, i) { %>
-  <div class="early-voting-location" id="location<%= i %>">
-    <h4><%= location.geojsonProperties.LOCATION %></h4>
-    <div>
-      <a href="<%= getDirections(location.geojsonProperties.Full_Addr + ', Cambridge, MA') %>" target="_blank">Directions</a>
+<% locations.forEach(function(location, i) { %>    
+    <div class="early-voting-location" id="location<%= i %>">
+      <div id="heading<%= i %>" role="tab">
+        <h4>
+          <a role="button" data-toggle="collapse" data-parent="#early-voting-sidebar" href="#collapse<%= i %>" aria-expanded="false" aria-controls="collapse<%= i %>">
+            <%= location.geojsonProperties.LOCATION %>          
+          </a>
+        </h4>
+        </div>
+
+        <div id="collapse<%= i %>" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading<%= i %>">
+
+          <div>
+            <a href="<%= getDirections(location.geojsonProperties.Full_Addr + ', Cambridge, MA') %>" target="_blank">Directions
+            </a>
+          </div>
+
+          <ul>
+          <% location.geojsonProperties.hours.forEach(function(interval) { %>
+            <%
+              var dates = moment.range(interval).toDate();
+              var startDate = moment(dates[0]);
+              var endDate = moment(dates[1]);
+            %>
+            <li>
+            <%if ( startDate.isSame(new Date(), 'days') ) { %>
+              <b> 
+            <% } %>
+            <%= startDate.format('MMM Do, h:mma') %> - <%= endDate.format('h:mma') %>
+            <%if ( startDate.isSame(new Date(), 'days') ) { %>
+              </b> 
+            <% } %>
+            </li>
+          <% }) %>
+          </ul>
+
+        </div>
+
     </div>
-    <ul>
-    <% location.geojsonProperties.hours.forEach(function(interval) { %>
-      <%
-        var dates = moment.range(interval).toDate();
-        var startDate = moment(dates[0]);
-        var endDate = moment(dates[1]);
-      %>
-      <li><%= startDate.format('MMM Do, h:mma') %> - <%= endDate.format('h:mma') %></li>
-    <% }) %>
-    </ul>
-  </div>
 <% }) %>
