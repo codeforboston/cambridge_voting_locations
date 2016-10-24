@@ -226,7 +226,7 @@ require(['jquery',
 
             // if there are no results, try searching for Cambridge
             if (!results.length) {
-				if((/cambridge+/i).test(address)){
+				if((/cambridge, ma+/i).test(address)){
 					geocoder.geocode({ address: address + ' Cambridge, MA' }, function(results, status) {
                     results = $.grep(results, addressIsCambridgeStreetAddress);
                     if (!results.length) {
