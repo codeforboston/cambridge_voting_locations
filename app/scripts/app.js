@@ -226,7 +226,8 @@ require(['jquery',
 
             // if there are no results, try searching for Cambridge
             if (!results.length) {
-                geocoder.geocode({ address: address + ' Cambridge, MA' }, function(results, status) {
+				if((/cambridge+/i).test(address)){
+					geocoder.geocode({ address: address + ' Cambridge, MA' }, function(results, status) {
                     results = $.grep(results, addressIsCambridgeStreetAddress);
                     if (!results.length) {
                         $('#notice')
@@ -236,7 +237,12 @@ require(['jquery',
                         displaySearchResults(results);
                         google.maps.event.trigger(map, 'resize');
                     }
-                });
+                });	
+				}else{
+					 $('#notice')
+                            .addClass('error')
+                            .html($('#noLocation').text());
+				}
             } else {
                 displaySearchResults(results);
                 google.maps.event.trigger(map, 'resize');
