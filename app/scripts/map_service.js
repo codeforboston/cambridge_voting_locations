@@ -53,14 +53,22 @@ define(['geojson',
 
   function createEarlyPollingMarkers() {
     earlyPollingLocations.forEach(function(location) {
-      var earlyVotingMarker = new google.maps.Marker({
+      var marker = new google.maps.Marker({
         position: location.position
       });
-      earlyVotingMarker.addListener('click', function() {
-        fireMarkerEvent('click', earlyVotingMarker);
+      marker.addListener('click', function() {
+        fireMarkerEvent('click', marker);
       });
 
-      earlyPollingMarkers.push(earlyVotingMarker);
+      marker.addListener('mouseover', function() {
+        marker.setIcon(hoverIcon);
+      });
+
+      marker.addListener('mouseout', function() {
+        marker.setIcon(defaultIcon);
+      });
+
+      earlyPollingMarkers.push(marker);
     });
   }
 
