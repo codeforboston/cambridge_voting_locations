@@ -14,6 +14,13 @@ module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
 
     grunt.initConfig({
+		
+  		uglify: {
+			options: {
+			  mangle: false,
+			  compress: false
+			}
+  		},
         // configurable paths
         yeoman: {
             app: 'app',
@@ -296,7 +303,7 @@ module.exports = function (grunt) {
         'rev',
         'usemin'
     ]);
-
+	
     grunt.registerTask('default', [
         'jshint',
         'test',

@@ -1,8 +1,8 @@
-define(['jquery', 'geojson',
+define(['jquery',
         'json!vendor/ELECTIONS_WardsPrecincts.geojson',
         'json!vendor/ELECTIONS_PollingLocations.geojson',
         'map_service'],
-    function($, GeoJSON, precinctsJSON, locationsJSON, mapService) {
+    function($, precinctsJSON, locationsJSON, mapService) {
 
     'use strict';
     

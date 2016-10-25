@@ -1,6 +1,5 @@
-define(['geojson',
-        'json!vendor/EARLY_VOTING_AddressPoints.geojson'],
-        function(GeoJSON,  earlyPollingJSON) {
+define(['json!vendor/EARLY_VOTING_AddressPoints.geojson'],
+        function(earlyPollingJSON) {
 
   var hoverIcon = "https://mts.googleapis.com/maps/vt/icon/name=icons/spotlight/spotlight-waypoint-a.png&text=•&psize=30&font=fonts/Roboto-Regular.ttf&color=ff333333&ax=44&ay=48&scale=1"
   var defaultIcon = "https://mts.googleapis.com/maps/vt/icon/name=icons/spotlight/spotlight-waypoint-b.png&text=•&psize=30&font=fonts/Roboto-Regular.ttf&color=ff333333&ax=44&ay=48&scale=1"

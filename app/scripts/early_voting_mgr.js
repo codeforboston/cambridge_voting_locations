@@ -1,14 +1,14 @@
 define(
   [
-    'jquery', 'moment', 'ejs', 'geojson',
+    'jquery', 'moment', 'ejs',
     'map_service',
     'json!vendor/EARLY_VOTING_AddressPoints.geojson',
     'text!templates/early_voting_sidebar.ejs', 'scrollTo', 'moment_range', 'bootstrapCollapse'
   ],
-  function($, moment, ejs, GeoJSON, mapService, earlyVotingJSON, earlyVotingSidebarTmpl) {
+  function($, moment, ejs, mapService, earlyVotingJSON, earlyVotingSidebarTmpl) {
     'use strict';
 
-    var earlyVotingLocations = new GeoJSON(earlyVotingJSON);
+    var earlyVotingLocations = mapService.earlyPollsDataLayer.addGeoJson(earlyVotingJSON);
 
     var $el = $('#early-voting');
 
@@ -25,7 +25,7 @@ define(
     function whenMarkerEventsHappen(eventType, marker) {
       if (eventType === 'click') {
         for (var i = 0; i < earlyVotingLocations.length; i++) {
-          if (marker.getPosition().equals(earlyVotingLocations[i].getPosition())) {
+          if (marker.getPosition().equals(earlyVotingLocations[i].getGeometry().get())) {
             $el.scrollTo($('#location'+i), 800);
           }
         }
