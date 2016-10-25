@@ -43,7 +43,7 @@ define(['jquery', 'geojson',
 
     function getPollingLocation(precinct) {
         
-        var index = polyGons.indexOf(precinct);
+        var index = precinctsPolygons.indexOf(precinct);
         // find out which ward/precinct they're in using Point in Polygon
         var wardPrecinct = precincts[index].getProperty('WardPrecinct');
         if (wardPrecinct === "3-2A") {
