@@ -78,7 +78,6 @@ require(['jquery',
         function($, earlyVotingManager, findPollingLocationFor, mapService, earlyPollingJSON) {
     'use strict';
 
-
     window.location.hash = window.location.hash || 'early-voting';
 
     // Trigger the hashchange event if going to a different tab
@@ -108,7 +107,7 @@ require(['jquery',
 
 
     earlyVotingManager.init();
-
+	
 
     var $address = $('#address');
 
