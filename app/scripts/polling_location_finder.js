@@ -59,8 +59,6 @@ define(['jquery', 'geojson',
 
             var destination = pollingLocation.geojsonProperties.Address + ', Cambridge, MA';
             mapService.displayNewPollingPlace(latLng, destination, userPrecinct, successCallback, errorCallback);
-            // userPrecinct.setMap(map);
-            // map.fitBounds(userPrecinct.getBounds());
 
             // display location notes
             $('#info .location').text(pollingLocation.geojsonProperties.LOCATION);

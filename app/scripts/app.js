@@ -8,7 +8,6 @@ require.config({
         bootstrapCarousel: '../bower_components/bootstrap-sass/assets/javascripts/bootstrap/carousel',
         bootstrapCollapse: '../bower_components/bootstrap-sass/assets/javascripts/bootstrap/collapse',
         bootstrapDropdown: '../bower_components/bootstrap-sass/assets/javascripts/bootstrap/dropdown',
-        bootstrapModal: '../bower_components/bootstrap-sass/assets/javascripts/bootstrap/modal',
         bootstrapPopover: '../bower_components/bootstrap-sass/assets/javascripts/bootstrap/popover',
         bootstrapScrollspy: '../bower_components/bootstrap-sass/assets/javascripts/bootstrap/scrollspy',
         bootstrapTab: '../bower_components/bootstrap-sass/assets/javascripts/bootstrap/tab',
@@ -39,9 +38,6 @@ require.config({
         },
         bootstrapDropdown: {
             deps: ['jquery']
-        },
-        bootstrapModal: {
-            deps: ['jquery', 'bootstrapTransition']
         },
         bootstrapPopover: {
             deps: ['jquery', 'bootstrapTooltip']
@@ -189,7 +185,6 @@ require(['jquery',
                     var link = $('<a>').text(result.formatted_address).data('location', result.geometry.location).on('click', addressClickHandler);
                     $('<li>').append(link).appendTo($ul);
                 }
-                $('.modal').modal('hide');
             }
         }
 
