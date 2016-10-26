@@ -1,8 +1,8 @@
 define(['json!vendor/EARLY_VOTING_AddressPoints.geojson'],
         function(earlyPollingJSON) {
 
-  var hoverIcon = "https://mts.googleapis.com/maps/vt/icon/name=icons/spotlight/spotlight-waypoint-a.png&text=•&psize=30&font=fonts/Roboto-Regular.ttf&color=ff333333&ax=44&ay=48&scale=1"
-  var defaultIcon = "https://mts.googleapis.com/maps/vt/icon/name=icons/spotlight/spotlight-waypoint-b.png&text=•&psize=30&font=fonts/Roboto-Regular.ttf&color=ff333333&ax=44&ay=48&scale=1"
+  var hoverIcon = "https://mts.googleapis.com/maps/vt/icon/name=icons/spotlight/spotlight-waypoint-a.png&text=&psize=30&font=fonts/Roboto-Regular.ttf&color=ff333333&ax=44&ay=48&scale=1"
+  var defaultIcon = "https://mts.googleapis.com/maps/vt/icon/name=icons/spotlight/spotlight-waypoint-b.png&text=&psize=30&font=fonts/Roboto-Regular.ttf&color=ff333333&ax=44&ay=48&scale=1"
 
 
   var DEFAULT_ZOOM_LEVEL = 13;
@@ -34,6 +34,7 @@ define(['json!vendor/EARLY_VOTING_AddressPoints.geojson'],
   }
 
 
+  var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   var earlyPollingMarkers = [];
 
 
@@ -52,30 +53,16 @@ define(['json!vendor/EARLY_VOTING_AddressPoints.geojson'],
   }
 
   function createEarlyPollingMarkers() {
+      
+      var labelIndex = 0;
       earlyPollingLocations.forEach(function(poll, index) {
       var earlyVotingMarker = new google.maps.Marker({
-        position: poll.getGeometry().get()
+        position: poll.getGeometry().get(),
+        label: labels[labelIndex++ % labels.length],
+        animation: google.maps.Animation.DROP
       });
-<<<<<<< HEAD
       earlyVotingMarker.addListener('click', function() {
         fireMarkerEvent('click', earlyVotingMarker);
-=======
-    }
-
-    function createEarlyPollingMarkers() {
-      var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-      var labelIndex = 0;
-      earlyPollingLocations.forEach(function(location) {
-        var earlyVotingMarker = new google.maps.Marker({
-          position: location.position,
-          label: labels[labelIndex++ % labels.length]
-        });
-        earlyVotingMarker.addListener('click', function() {
-          fireMarkerEvent('click', earlyVotingMarker);
-        });
-
-        earlyPollingMarkers.push(earlyVotingMarker);
->>>>>>> 553901e... Added label to early voting locations
       });
       earlyPollingMarkers.push(earlyVotingMarker);
     });
@@ -158,10 +145,17 @@ define(['json!vendor/EARLY_VOTING_AddressPoints.geojson'],
 
 
     changeMarkerColor:function(index, color) {
+    var defaultState = "background: url("+defaultIcon+") no-repeat;height:40px;";
+    var hoverState = "background: url("+hoverIcon+") no-repeat;height:40px;";
+
       if (color === "hover") {
-        earlyPollingMarkers[index].setIcon(hoverIcon);
+        earlyPollingMarkers[index].setIcon( hoverIcon );
+        earlyPollingMarkers[index].setLabel("");
+        document.getElementById('marker_'+index).setAttribute('style', hoverState);
       } else if (color === "default") {
-        earlyPollingMarkers[index].setIcon(defaultIcon);
+        earlyPollingMarkers[index].setIcon();
+        earlyPollingMarkers[index].setLabel(labels[index]);
+        document.getElementById('marker_'+index).setAttribute('style', defaultState);
       }
     },
 
@@ -180,17 +174,13 @@ define(['json!vendor/EARLY_VOTING_AddressPoints.geojson'],
         
     },
 
-<<<<<<< HEAD
     subscribeToMarkerEvents: function(cb) {
       markerEventListeners.push(cb);
     },
-=======
-        getEarlyPollingMarkers: function() {
-            return earlyPollingMarkers;
-        },
-
-        displayNewPollingPlace: function(latLng, destination, precinct, successCallback, errorCallback) {
->>>>>>> 553901e... Added label to early voting locations
+    
+    getEarlyPollingMarkers: function() {
+        return earlyPollingMarkers;
+    },
 
     displayNewPollingPlace: function(latLng, destination, precinct, successCallback, errorCallback) {
 
