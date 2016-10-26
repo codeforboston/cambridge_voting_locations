@@ -70,10 +70,8 @@ define(['jquery',
 
     return function(latLng, successCallback, errorCallback) {
 
-
         var userPrecinct = getUserPrecinct(latLng);
-
-
+ 
         if (!userPrecinct) {
             $('#notice')
                 .addClass('error')

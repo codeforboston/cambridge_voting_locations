@@ -201,9 +201,9 @@ require(['jquery',
                 zipCode = zipCodeComponent && zipCodeComponent.short_name;
 
             var isInCambridge = ($.inArray(zipCode, ['02138', '02139', '02140', '02141', '02142', '02238'])) > -1,
-                isStreetAddress = ($.inArray('street_address', address.types)) > -1;
+                isNotPO = ($.inArray('post_box', address.types)) == -1;
 
-            return isInCambridge && isStreetAddress;
+            return isInCambridge && isNotPO;
         }
 
         geocoder.geocode({
@@ -216,7 +216,6 @@ require(['jquery',
 
             // if there are multiple results, look for Cambridge-specific street results
             results = $.grep(results, addressIsCambridgeStreetAddress);
-
             // if there are no results, try searching for Cambridge
             if (!results.length) {
                 geocoder.geocode({ address: address + ' Cambridge, MA' }, function(results, status) {
