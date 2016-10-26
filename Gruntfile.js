@@ -296,7 +296,7 @@ module.exports = function (grunt) {
         'rev',
         'usemin'
     ]);
-
+	
     grunt.registerTask('default', [
         'jshint',
         'test',

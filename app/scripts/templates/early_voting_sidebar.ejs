@@ -3,7 +3,7 @@
       <div id="heading<%= i %>" role="tab">
         <h4>
           <a id="#collapse-toggle<%= i %>" role="button" data-toggle="collapse" data-parent="#early-voting-sidebar" href="#collapse<%= i %>" aria-expanded="false" aria-controls="collapse<%= i %>">
-            <%= location.geojsonProperties.LOCATION %>          
+            <%= location.getProperty('LOCATION') %>         
           </a>
         </h4>
         </div>
@@ -11,12 +11,12 @@
         <div id="collapse<%= i %>" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading<%= i %>">
 
           <div>
-            <a href="<%= getDirections(location.geojsonProperties.Full_Addr + ', Cambridge, MA') %>" target="_blank">Directions
+            <a href="<%= getDirections(location.getProperty('Full_Addr') + ', Cambridge, MA') %>" target="_blank">Directions
             </a>
           </div>
 
           <ul>
-          <% location.geojsonProperties.hours.forEach(function(interval) { %>
+          <% location.getProperty('hours').forEach(function(interval) { %>
             <%
               var dates = moment.range(interval).toDate();
               var startDate = moment(dates[0]);

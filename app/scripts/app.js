@@ -14,7 +14,6 @@ require.config({
         bootstrapTooltip: '../bower_components/bootstrap-sass/assets/javascripts/bootstrap/tooltip',
         bootstrapTransition: '../bower_components/bootstrap-sass/assets/javascripts/bootstrap/transition',
         text: '../bower_components/requirejs-text/text',
-        geojson: '../bower_components/geojson-google-maps/GeoJSON',
         ejs: '../bower_components/ejs/ejs',
         moment: '../bower_components/moment/moment',
         moment_range: '../bower_components/moment-range/dist/moment-range',
@@ -74,7 +73,6 @@ require(['jquery',
         function($, earlyVotingManager, findPollingLocationFor, mapService, earlyPollingJSON) {
     'use strict';
 
-
     window.location.hash = window.location.hash || 'early-voting';
 
     // Trigger the hashchange event if going to a different tab
@@ -104,7 +102,7 @@ require(['jquery',
 
 
     earlyVotingManager.init();
-
+	
 
     var $address = $('#address');
 
