@@ -69,12 +69,12 @@ require.config({
     }
 });
 
-
-
 require(['jquery',
-        'early_voting_mgr', 'polling_location_finder', 'map_service',
-        'json!vendor/EARLY_VOTING_AddressPoints.geojson'],
-        function($, earlyVotingManager, findPollingLocationFor, mapService, earlyPollingJSON) {
+         'map_service',
+		 'polling_location_finder',
+		 'early_voting_mgr'],
+        function($, mapService, findPollingLocationFor, earlyVotingManager) {
+	
     'use strict';
 
     window.location.hash = window.location.hash || 'early-voting';
@@ -187,7 +187,6 @@ require(['jquery',
                     var link = $('<a>').text(result.formatted_address).data('location', result.geometry.location).on('click', addressClickHandler);
                     $('<li>').append(link).appendTo($ul);
                 }
-                $('.modal').modal('hide');
             }
         }
 

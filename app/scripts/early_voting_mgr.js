@@ -2,14 +2,11 @@ define(
   [
     'jquery', 'moment', 'ejs',
     'map_service',
-    'json!vendor/EARLY_VOTING_AddressPoints.geojson',
     'text!templates/early_voting_sidebar.ejs', 'scrollTo', 'moment_range', 'bootstrapCollapse'
   ],
-  function($, moment, ejs, mapService, earlyVotingJSON, earlyVotingSidebarTmpl) {
+  function($, moment, ejs, mapService, earlyVotingSidebarTmpl) {
     'use strict';
-
-    var earlyVotingLocations = mapService.earlyPollsDataLayer.addGeoJson(earlyVotingJSON);
-
+	  
     var $el = $('#early-voting');
 
     function getDirections(destination) {
@@ -24,11 +21,12 @@ define(
 
     function whenMarkerEventsHappen(eventType, marker) {
       if (eventType === 'click') {
-        for (var i = 0; i < earlyVotingLocations.length; i++) {
-          if (marker.getPosition().equals(earlyVotingLocations[i].getGeometry().get())) {
+        for (var i = 0; i < mapService.earlyPollingLocations.length; i++) {
+			var currentEarlyPoll = mapService.earlyPollingLocations[i].getGeometry().get();
+          if (marker.getPosition().equals(currentEarlyPoll)) {
             $el.scrollTo($('#location'+i), 800);
           }
-        }
+        } 
       }
     }
 
@@ -51,7 +49,7 @@ define(
       init: function() {
         $el.find('#early-voting-sidebar').html(ejs.render(earlyVotingSidebarTmpl, {
           moment: moment,
-          locations: earlyVotingLocations,
+          locations: mapService.earlyPollingLocations,
           getDirections: getDirections
         }));
 

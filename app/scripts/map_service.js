@@ -1,10 +1,11 @@
-define(['json!vendor/EARLY_VOTING_AddressPoints.geojson'],
-        function(earlyPollingJSON) {
+define(['json!vendor/EARLY_VOTING_AddressPoints.geojson',
+		'json!vendor/ELECTIONS_WardsPrecincts.geojson',
+        'json!vendor/ELECTIONS_PollingLocations.geojson'],
+        function(earlyPollingJSON, precinctsJSON, locationsJSON) {
 
   var hoverIcon = "https://mts.googleapis.com/maps/vt/icon/name=icons/spotlight/spotlight-waypoint-a.png&text=•&psize=30&font=fonts/Roboto-Regular.ttf&color=ff333333&ax=44&ay=48&scale=1"
   var defaultIcon = "https://mts.googleapis.com/maps/vt/icon/name=icons/spotlight/spotlight-waypoint-b.png&text=•&psize=30&font=fonts/Roboto-Regular.ttf&color=ff333333&ax=44&ay=48&scale=1"
-
-
+ 
   var DEFAULT_ZOOM_LEVEL = 13;
   var DEFAULT_CENTER_POSITION = new google.maps.LatLng(42.3736, -71.1106); // Cambridge
 
@@ -16,8 +17,12 @@ define(['json!vendor/EARLY_VOTING_AddressPoints.geojson'],
   var earlyPollsDataLayer = new google.maps.Data(),
       precinctsDataLayer = new google.maps.Data(),
       electionPollsDataLayer = new google.maps.Data(),
-      earlyPollingLocations = earlyPollsDataLayer.addGeoJson(earlyPollingJSON);    
-
+      precincts = earlyPollsDataLayer.addGeoJson(precinctsJSON),
+      pollingLocations = electionPollsDataLayer.addGeoJson(locationsJSON),
+	  earlyPollingLocations = earlyPollsDataLayer.addGeoJson(earlyPollingJSON),
+	  precinctsPolygons = createPolygons();
+	
+	
   var directionsService = new google.maps.DirectionsService(),
       directionsDisplay = new google.maps.DirectionsRenderer({
           map: map,
@@ -31,12 +36,31 @@ define(['json!vendor/EARLY_VOTING_AddressPoints.geojson'],
     "precinct": null,
     "homeAddress": null,
     "destination": null
-  }
-
+  };
 
   var earlyPollingMarkers = [];
-
-
+	
+//function that populates the array with polygons representing each precinct, because data.polygon has little to no useful methods.
+  function createPolygons(){
+ 
+        var i = 0,
+            len = precincts.length,
+			polygons = [];
+	  
+        for(i; i<len; i++){
+         
+            var currentFeature = precincts[i],
+                currentPolygon = new google.maps.Polygon({
+                                paths: currentFeature.getGeometry().getAt(0).getArray(),
+                                clickable: false
+                                });
+                                                       
+            polygons.push(currentPolygon);
+        } 
+	
+	  	return polygons;
+    }
+	
   function clearUserInputs() {
       
     userInputs.precinct = null;
@@ -182,10 +206,10 @@ define(['json!vendor/EARLY_VOTING_AddressPoints.geojson'],
       displayDirections(latLng, destination, successCallback, errorCallback);
 
     },
-	googleMap : map,
-    precinctsDataLayer : precinctsDataLayer,
-    earlyPollsDataLayer : earlyPollsDataLayer,
-    electionPollsDataLayer : electionPollsDataLayer
-      
-  };
+	  googleMap : map,
+	  precincts : precincts,
+	  precinctsPolygons : precinctsPolygons,
+	  pollingLocations : pollingLocations,
+	  earlyPollingLocations : earlyPollingLocations,
+  	};
 });
