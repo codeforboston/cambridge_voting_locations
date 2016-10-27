@@ -53,11 +53,11 @@ main > .row {
   }
 }
 
-#directions-link, #view_directions{
+#directions-link, #view-directions{
     // display:inline-block;
     font-size: 1em;
 }
-#view_directions {
+#view-directions {
     margin-right: 8px;
 }
 
@@ -226,7 +226,7 @@ main > .row {
 
 @media (min-width: $screen-sm) {
     #streetview { display: none; }
-    #view_directions{ display: none; }
+    #view-directions{ display: none; }
 }
 
 @media (max-width: $screen-xs) {

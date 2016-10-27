@@ -80,10 +80,10 @@ define(['jquery',
                 .text("We can't find your precinct! Sorry. Try again?");
         } else {
             var pollingLocation = getPollingLocation(userPrecinct);
-            $('.result').addClass('success');
 
             var destination = pollingLocation.getProperty('Address') + ', Cambridge, MA';
             mapService.displayNewPollingPlace(latLng, destination, userPrecinct, successCallback, errorCallback);
+            $('.navigation-result').addClass('success').show();
             // userPrecinct.setMap(map);
             // map.fitBounds(userPrecinct.getBounds());
 

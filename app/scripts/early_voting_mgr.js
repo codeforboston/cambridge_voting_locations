@@ -55,6 +55,14 @@ define(
           getDirections: getDirections
         }));
 
+        $('.early-voting-location-details .tab-header a', $el).click(function() {
+          var content = $(this).attr('href');
+          var container = $(this).closest('.early-voting-location-details');
+          $('.tab-contents', container).hide();
+          $('.tab-contents.' + content, container).show();
+          return false;
+        });
+
         listenToSidebarEvents();
         mapService.subscribeToMarkerEvents(whenMarkerEventsHappen);
       }

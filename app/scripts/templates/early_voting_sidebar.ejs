@@ -3,36 +3,54 @@
       <div id="heading<%= i %>" role="tab">
         <h4>
           <a role="button" data-toggle="collapse" data-parent="#early-voting-sidebar" href="#collapse<%= i %>" aria-expanded="false" aria-controls="collapse<%= i %>">
-            <%= location.getProperty('LOCATION') %>          
+            <h4><%= location.getProperty('LOCATION') %></h4>
+            <%= location.getProperty('Full_Addr') %>
           </a>
         </h4>
         </div>
 
         <div id="collapse<%= i %>" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading<%= i %>">
 
-          <div>
-            <a href="<%= getDirections(location.getProperty('Full_Addr') + ', Cambridge, MA') %>" target="_blank">Directions
-            </a>
-          </div>
+          <div class="early-voting-location-details">
+            <ul class="tab-header nav cambridge-tabs no-padding">
+              <li class="active">
+                <a href="hours">Hours</a>
+              </li>
+              <li>
+                <a href="directions">Directions</a>
+              </li>
+            </ul>
 
-          <ul>
-          <% location.getProperty('hours').forEach(function(interval) { %>
-            <%
-              var dates = moment.range(interval).toDate();
-              var startDate = moment(dates[0]);
-              var endDate = moment(dates[1]);
-            %>
-            <li>
-            <%if ( startDate.isSame(new Date(), 'days') ) { %>
-              <b> 
-            <% } %>
-            <%= startDate.format('MMM Do, h:mma') %> - <%= endDate.format('h:mma') %>
-            <%if ( startDate.isSame(new Date(), 'days') ) { %>
-              </b> 
-            <% } %>
-            </li>
-          <% }) %>
-          </ul>
+            <div class="tab-contents hours">
+              <ul>
+                <% location.getProperty('hours').forEach(function(interval) { %>
+                <%
+                  var dates = moment.range(interval).toDate();
+                  var startDate = moment(dates[0]);
+                  var endDate = moment(dates[1]);
+                %>
+                <li>
+                  <%if ( startDate.isSame(new Date(), 'days') ) { %>
+                  <b>
+                    <% } %>
+                    <%= startDate.format('MMM Do, h:mma') %> - <%= endDate.format('h:mma') %>
+                    <%if ( startDate.isSame(new Date(), 'days') ) { %>
+                  </b>
+                  <% } %>
+                </li>
+                <% }) %>
+              </ul>
+            </div>
+
+            <div class="tab-contents directions">
+
+              <div>
+                <a href="<%= getDirections(location.getProperty('Full_Addr') + ', Cambridge, MA') %>" target="_blank">Directions
+                </a>
+              </div>
+
+            </div>
+          </div>
 
         </div>
 

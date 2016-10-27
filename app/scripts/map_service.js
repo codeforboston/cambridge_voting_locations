@@ -79,7 +79,7 @@ define(['json!vendor/EARLY_VOTING_AddressPoints.geojson'],
     directionsDisplay.setDirections({routes: []});
 
     // TODO move UI interaction into its own module
-    $('.result').removeClass('success');
+    $('.navigation-result').removeClass('success');
     $('#notice').removeClass('error').empty();
     $('#info .location, #info .notes').empty();
     $('#directions-link').removeAttr('href');
