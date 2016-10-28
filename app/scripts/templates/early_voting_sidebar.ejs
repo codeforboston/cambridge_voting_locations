@@ -43,15 +43,10 @@
             </div>
 
             <div class="tab-contents directions">
-
-              <div class="early-voting-directions" data-location="<%= i %>"></div>
-
               <div>
-                <a href="<%= getDirections(location.getProperty('Full_Addr') + ', Cambridge, MA') %>" target="_blank">
-                  Directions
-                </a>
+                <a class="btn" href="<%= getDirections(location.getProperty('Full_Addr') + ', Cambridge, MA') %>" target="_blank" title="Open navigation"><span class="icon-compass"></span> View in Map app</a>
               </div>
-
+              <div class="early-voting-directions" data-location="<%= i %>"></div>
             </div>
           </div>
 
