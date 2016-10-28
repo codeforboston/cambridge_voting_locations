@@ -4,7 +4,7 @@
         <h4>
           <a role="button" data-toggle="collapse" data-parent="#early-voting-sidebar" href="#collapse<%= i %>" aria-expanded="false" aria-controls="collapse<%= i %>">
             <h4><%= location.getProperty('LOCATION') %></h4>
-            <%= location.getProperty('Full_Addr') %>
+            <small><%= location.getProperty('Full_Addr') %></small>
           </a>
         </h4>
         </div>
@@ -44,8 +44,11 @@
 
             <div class="tab-contents directions">
 
+              <div class="early-voting-directions" data-location="<%= i %>"></div>
+
               <div>
-                <a href="<%= getDirections(location.getProperty('Full_Addr') + ', Cambridge, MA') %>" target="_blank">Directions
+                <a href="<%= getDirections(location.getProperty('Full_Addr') + ', Cambridge, MA') %>" target="_blank">
+                  Directions
                 </a>
               </div>
 

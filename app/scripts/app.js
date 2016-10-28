@@ -117,7 +117,7 @@ require(['jquery',
       bounds: defaultBounds
     });
 
-    autocomplete.addListener('place_changed', searchForAddress);
+    autocomplete.addListener('place_changed', updateElectionDayDirections);
 
 
     $('#view-directions').on('click', function () {
@@ -163,86 +163,25 @@ require(['jquery',
       }
     });
 
-    function searchForAddress() {
+    function updateElectionDayDirections() {
       var address = $address.val();
-      var geocoder = new google.maps.Geocoder();
 
+      var panel = $('#directions');
       // clear details pane
-      $('#directions').empty();
+      panel.empty();
 
-      // go right to the first result if there's only one, or display a list if there are multiples
-      function displaySearchResults(results) {
-        var addressClickHandler = function () {
-          var location = $(this).data('location');
-          $('#directions').empty();
-          findPollingLocationFor(location);
-        };
-        if (results.length === 1) {
-          findPollingLocationFor(results[0].geometry.location);
-        } else {
-          var $ul = $('<ul>').addClass('location-choices').appendTo('#directions');
-          for (var i = 0; i < results.length; i++) {
-            var result = results[i];
-            var link = $('<a>').text(result.formatted_address).data('location', result.geometry.location).on('click', addressClickHandler);
-            $('<li>').append(link).appendTo($ul);
-          }
-          $('.modal').modal('hide');
-        }
-      }
-
-      // only valid Cambridge street addresses, please
-      function addressIsCambridgeStreetAddress(address) {
-        var zip_index = -1;
-
-        var addr_components = address.address_components;
-        for (var i = 0; i < addr_components.length; i++) {
-          if (addr_components[i].types[0] == "postal_code") {
-            zip_index = i;
-          }
-        }
-
-        var zipCodeComponent = addr_components[zip_index],
-          zipCode = zipCodeComponent && zipCodeComponent.short_name;
-
-        var isInCambridge = ($.inArray(zipCode, ['02138', '02139', '02140', '02141', '02142', '02238'])) > -1,
-          isStreetAddress = ($.inArray('street_address', address.types)) > -1;
-
-        return isInCambridge && isStreetAddress;
-      }
-
-      geocoder.geocode({
-        address: address,
-        componentRestrictions: {
-          administrativeArea: 'Massachusetts',
-          country: 'US'
-        }
-      }, function (results, status) {
-
-        // if there are multiple results, look for Cambridge-specific street results
-        results = $.grep(results, addressIsCambridgeStreetAddress);
-
-        // if there are no results, try searching for Cambridge
-        if (!results.length) {
-          geocoder.geocode({address: address + ' Cambridge, MA'}, function (results, status) {
-            results = $.grep(results, addressIsCambridgeStreetAddress);
-            if (!results.length) {
-              $('#notice')
-                .addClass('error')
-                .html($('#noLocation').text());
-            } else {
-              displaySearchResults(results);
-              google.maps.event.trigger(map, 'resize');
-            }
-          });
-        } else {
-          displaySearchResults(results);
-          google.maps.event.trigger(map, 'resize');
-        }
+      mapService.searchAddress(address, function(results) {
+        mapService.displaySearchResults(results, panel, findPollingLocationFor);
+        google.maps.event.trigger(map, 'resize');
+      }, function() {
+        $('#notice')
+          .addClass('error')
+          .html($('#noLocation').text());
       });
     }
 
     $('form').on('submit', function (e) {
       e.preventDefault(); // don't submit form
-      searchForAddress();
+      updateElectionDayDirections();
     });
   });
