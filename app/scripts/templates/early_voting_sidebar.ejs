@@ -2,8 +2,8 @@
     <div class="early-voting-location" id="location<%= i %>">
       <div id="heading<%= i %>" role="tab">
         <h4>
-          <a role="button" data-toggle="collapse" data-parent="#early-voting-sidebar" href="#collapse<%= i %>" aria-expanded="false" aria-controls="collapse<%= i %>">
-            <%= location.getProperty('LOCATION') %>          
+          <a id="#collapse-toggle<%= i %>" role="button" data-toggle="collapse" data-parent="#early-voting-sidebar" href="#collapse<%= i %>" aria-expanded="false" aria-controls="collapse<%= i %>">
+            <%= location.getProperty('LOCATION') %>         
           </a>
         </h4>
         </div>
