@@ -25,7 +25,7 @@ define(
     function whenMarkerEventsHappen(eventType, marker) {
       if (eventType === 'click') {
         for (var i = 0; i < earlyVotingLocations.length; i++) {
-          if (marker.getPosition().equals(earlyVotingLocations[i].getGeometry().get())) {
+          if (marker.getPosition().equals(earlyVotingLocations[i].getGeometry().get())) {            
             $el.scrollTo($('#location'+i), 800);
           }
         }

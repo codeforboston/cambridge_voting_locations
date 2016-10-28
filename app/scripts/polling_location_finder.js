@@ -82,8 +82,6 @@ define(['jquery',
 
             var destination = pollingLocation.getProperty('Address') + ', Cambridge, MA';
             mapService.displayNewPollingPlace(latLng, destination, userPrecinct, successCallback, errorCallback);
-            // userPrecinct.setMap(map);
-            // map.fitBounds(userPrecinct.getBounds());
 
             // display location notes
             $('#info .location').text(pollingLocation.getProperty('LOCATION'));
