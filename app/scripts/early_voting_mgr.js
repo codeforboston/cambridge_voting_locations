@@ -25,15 +25,7 @@ define(
     function whenMarkerEventsHappen(eventType, marker) {
       if (eventType === 'click') {
         for (var i = 0; i < earlyVotingLocations.length; i++) {
-
-          if (marker.getPosition().equals(earlyVotingLocations[i].getGeometry().get())) {
-            
-            var collapsedToggle = Boolean(document.getElementById('#collapse-toggle'+i).getAttribute("aria-expanded"));
-
-            if (collapsedToggle) {
-              $('#collapse'+i).collapse('show');       
-            } 
-            
+          if (marker.getPosition().equals(earlyVotingLocations[i].getGeometry().get())) {            
             $el.scrollTo($('#location'+i), 800);
           }
         }
