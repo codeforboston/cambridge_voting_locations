@@ -57,22 +57,9 @@ define(['jquery',
         }
     }
 
-    function getDirections(destination) {
-        var url;
-        if (navigator.userAgent.match(/iPhone|iPad|iPod/)) {
-            url = "http://maps.apple.com/?saddr=Current+Location&daddr=";
-        } else {
-            url = "https://maps.google.com/maps?daddr=";
-        }
-        return encodeURI(url + destination);
-    }
-
-
     return function(latLng, successCallback, errorCallback) {
 
-
         var userPrecinct = getUserPrecinct(latLng);
-
 
         if (!userPrecinct) {
             $('#notice')

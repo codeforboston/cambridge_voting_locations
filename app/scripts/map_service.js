@@ -31,6 +31,7 @@ define(['json!vendor/EARLY_VOTING_AddressPoints.geojson'],
 
     var earlyPollingMarkers = [];
 
+    var electionDayRenderer = getDirectionsRenderer(document.getElementById('directions'));
 
     function clearUserInputs() {
 
@@ -79,7 +80,7 @@ define(['json!vendor/EARLY_VOTING_AddressPoints.geojson'],
 
       }
 
-      clearDirectionsRenderer(document.getElementById('directions'));
+      clearDirectionsRenderer(electionDayRenderer);
 
       // TODO move UI interaction into its own module
       $('.navigation-result').removeClass('success');
@@ -88,8 +89,8 @@ define(['json!vendor/EARLY_VOTING_AddressPoints.geojson'],
       $('#directions-link').removeAttr('href');
     }
 
-    function clearDirectionsRenderer(panel) {
-      getDirectionsRenderer(panel).setDirections({routes: []});
+    function clearDirectionsRenderer(renderer) {
+      renderer.setDirections({routes: []});
     }
 
     function getDirections(destination) {
@@ -102,7 +103,7 @@ define(['json!vendor/EARLY_VOTING_AddressPoints.geojson'],
       return encodeURI(url + destination);
     }
 
-    function displayDirections(latLng, destination, panel, successCallback, errorCallback) {
+    function displayDirections(latLng, destination, renderer, successCallback, errorCallback) {
       var request = {
         origin: latLng,
         destination: destination,
@@ -110,8 +111,7 @@ define(['json!vendor/EARLY_VOTING_AddressPoints.geojson'],
       };
       directionsService.route(request, function (result, status) {
         if (status === google.maps.DirectionsStatus.OK) {
-          var directionsDisplay = getDirectionsRenderer(panel);
-          directionsDisplay.setDirections(result);
+          renderer.setDirections(result);
           if (successCallback) {
             successCallback({result: result, status: status});
           }
@@ -208,6 +208,10 @@ define(['json!vendor/EARLY_VOTING_AddressPoints.geojson'],
 
       displayDirections: displayDirections,
 
+      clearDirectionsRenderer: clearDirectionsRenderer,
+
+      getDirectionsRenderer: getDirectionsRenderer,
+
       displayEarlyPollingMarkers: function () {
 
         clearPollingLocation();
@@ -240,11 +244,9 @@ define(['json!vendor/EARLY_VOTING_AddressPoints.geojson'],
         clearEarlyMarkers();
 
         if (userInputs.precinct && userInputs.homeAddress && userInputs.destination) {
-          var panel = document.getElementById('directions');
-
           userInputs.precinct.setMap(map);
           map.fitBounds(userInputs.precinct.getBounds());
-          displayDirections(userInputs.homeAddress, userInputs.destination, panel);
+          displayDirections(userInputs.homeAddress, userInputs.destination, electionDayRenderer);
 
         }
 
@@ -255,15 +257,13 @@ define(['json!vendor/EARLY_VOTING_AddressPoints.geojson'],
       },
 
       displayNewPollingPlace: function (latLng, destination, precinct, successCallback, errorCallback) {
-
-        var panel = document.getElementById('directions');
         clearEarlyMarkers();
         clearPollingLocation();
         clearUserInputs();
 
         drawPrecinct(latLng, destination, precinct);
 
-        displayDirections(latLng, destination, panel, successCallback, errorCallback);
+        displayDirections(latLng, destination, electionDayRenderer, successCallback, errorCallback);
 
       },
       googleMap: map,

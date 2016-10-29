@@ -106,7 +106,6 @@ require(['jquery',
 
     earlyVotingManager.init();
 
-
     var $address = $('#address');
 
     var defaultBounds = new google.maps.LatLngBounds(
