@@ -13,6 +13,8 @@ define(['json!vendor/EARLY_VOTING_AddressPoints.geojson'],
       zoom: DEFAULT_ZOOM_LEVEL
     });
 
+    var userAddressMarker = null;
+
     var earlyPollsDataLayer = new google.maps.Data(),
       precinctsDataLayer = new google.maps.Data(),
       electionPollsDataLayer = new google.maps.Data(),
@@ -71,6 +73,9 @@ define(['json!vendor/EARLY_VOTING_AddressPoints.geojson'],
       earlyPollingMarkers.forEach(function (marker) {
         marker.setMap(null);
       });
+      if (userAddressMarker) {
+        userAddressMarker.setMap(null);
+      }
     }
 
     function clearPollingLocation() {
@@ -176,6 +181,7 @@ define(['json!vendor/EARLY_VOTING_AddressPoints.geojson'],
         results = $.grep(results, addressIsCambridgeStreetAddress);
 
         if (!results.length) {
+          // if there are no results, try searching for Cambridge
           geocoder.geocode({address: address + ' Cambridge, MA'}, function (results) {
             results = $.grep(results, addressIsCambridgeStreetAddress);
             if (!results.length) {
@@ -184,10 +190,20 @@ define(['json!vendor/EARLY_VOTING_AddressPoints.geojson'],
               successCallback(results);
             }
           });
-          // if there are no results, try searching for Cambridge
         } else {
           successCallback(results);
         }
+      });
+    }
+
+    function updateUserAddressMarker(address) {
+      if (userAddressMarker) {
+        userAddressMarker.setMap(null);
+      }
+      userAddressMarker = new google.maps.Marker({
+        position: address,
+        map: map,
+        icon: hoverIcon
       });
     }
 
@@ -211,6 +227,10 @@ define(['json!vendor/EARLY_VOTING_AddressPoints.geojson'],
       clearDirectionsRenderer: clearDirectionsRenderer,
 
       getDirectionsRenderer: getDirectionsRenderer,
+
+      updateUserAddressMarker: updateUserAddressMarker,
+
+      clearDirectionsRenderer: clearDirectionsRenderer,
 
       displayEarlyPollingMarkers: function () {
 

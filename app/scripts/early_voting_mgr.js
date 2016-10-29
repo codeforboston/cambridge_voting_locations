@@ -13,7 +13,7 @@ define(
     var renderers = [];
 
     var $el = $('#early-voting');
-    var userAddress = '';
+    var userAddressLatlng = '';
 
     var $address = $('#early-voting-address');
 
@@ -21,6 +21,7 @@ define(
       new google.maps.LatLng(42.360129, -71.148834),
       new google.maps.LatLng(42.389868, -71.075535)
     );
+
     var autocomplete = new google.maps.places.Autocomplete($address.get(0), {
       bounds: defaultBounds
     });
@@ -40,12 +41,10 @@ define(
         for (var i = 0; i < earlyVotingLocations.length; i++) {
           if (marker.getPosition().equals(earlyVotingLocations[i].getGeometry().get())) {
             var cardBody = $('#collapse' + i);
-            if (cardBody.hasClass('in')) {
-              cardBody.removeClass('in');
-            } else {
-              cardBody.addClass('in');
-            }
+            var panel = cardBody.find('.early-voting-directions');
+            toggleDirections(userAddressLatlng, panel);
 
+            cardBody.collapse('toggle');
             $el.scrollTo($('#location' + i), 800);
           }
         }
@@ -57,8 +56,9 @@ define(
 
       sidebarDivs.each(function (i, sb) {
         $(sb).click(function () {
-          var panel = $(this).closest('.early-voting-location').find('.early-voting-directions');
-          toggleDirections(userAddress, panel);
+          var container = $(this).closest('.early-voting-location');
+          var panel = container.find('.early-voting-directions');
+          toggleDirections(userAddressLatlng, panel);
         });
 
         $(sb).mouseover(function () {
@@ -72,12 +72,12 @@ define(
 
     }
 
-    function toggleDirections(address, panel) {
+    function toggleDirections(latlng, panel) {
       var isExpanded = panel.closest('.panel-collapse').hasClass('in');
       if (isExpanded) {
         clearDirections(panel);
       } else {
-        showDirections(address, panel);
+        showDirections(latlng, panel);
       }
     }
 
@@ -87,30 +87,41 @@ define(
       panel.empty();
     }
 
-    function showDirections(address, panel) {
+    function showDirections(latlng, panel) {
       var index = panel.data('location');
       var destination = earlyVotingLocations[index].getGeometry().get();
-      mapService.searchAddress(address, function (results) {
-        mapService.displaySearchResults(results, panel, function (result) {
-          mapService.displayDirections(result, destination, renderers[index]);
-        });
-      }, function () {
-        alert("Could not find the address");
-      });
+      panel.empty();
+      mapService.displayDirections(latlng, destination, renderers[index]);
     }
 
-    function updatePollingDirections(address) {
+    function updatePollingDirections(latlng) {
       $('.early-voting-directions').each(function () {
         var panel = $(this);
         var isExpanded = panel.closest('.panel-collapse').hasClass('in');
         if (isExpanded) {
           clearDirections(panel);
-          showDirections(address, panel);
+          showDirections(latlng, panel);
         }
       });
     }
 
+    function setActiveTab(panel) {
+      var tab = panel.closest('li');
+      tab.addClass('active');
+      tab.siblings('li').removeClass('active');
+      var content = panel.attr('href');
+      var container = panel.closest('.early-voting-location-details');
+      $('.tab-contents', container).hide();
+      $('.tab-contents.' + content, container).show();
+    }
+
     return {
+      clearDirections: function() {
+        $.each(renderers, function(index, renderer) {
+          mapService.clearDirectionsRenderer(renderer);
+        });
+      },
+
       init: function () {
         $el.find('#early-voting-sidebar').html(ejs.render(earlyVotingSidebarTmpl, {
           moment: moment,
@@ -119,13 +130,7 @@ define(
         }));
 
         $('.early-voting-location-details .tab-header a', $el).click(function () {
-          var tab = $(this).closest('li');
-          tab.addClass('active');
-          tab.siblings('li').removeClass('active');
-          var content = $(this).attr('href');
-          var container = $(this).closest('.early-voting-location-details');
-          $('.tab-contents', container).hide();
-          $('.tab-contents.' + content, container).show();
+          setActiveTab($(this));
           return false;
         });
 
@@ -134,13 +139,19 @@ define(
         mapService.subscribeToMarkerEvents(whenMarkerEventsHappen);
 
         renderers = $.map(earlyVotingLocations, function (location, index) {
-          var panel = $('.early-voting-directions, [data-location=' + index + ']');
+          var panel = $('.early-voting-directions[data-location=' + index + ']');
           return mapService.getDirectionsRenderer(panel[0]);
         });
 
+        $('.tab-contents.directions').hide();
+
         $address.siblings('button').click(function () {
-          userAddress = $address.val();
-          updatePollingDirections(userAddress);
+          var address = $address.val();
+          updatePollingDirections(address);
+          mapService.searchAddress(address, function (results) {
+            userAddressLatlng = results[0].geometry.location;
+            mapService.updateUserAddressMarker(userAddressLatlng);
+          })
         });
       }
     }
