@@ -10,13 +10,10 @@ define(
 
     var earlyVotingLocations = mapService.earlyPollsDataLayer.addGeoJson(earlyVotingJSON);
 
-    var renderers = $.map(earlyVotingLocations, function(location, index) {
-      var panel = $('.early-voting-directions, [data-location=' + index + ']');
-      return mapService.getDirectionsRenderer(panel[0]);
-    });
+    var renderers = [];
 
     var $el = $('#early-voting');
-    var userAddress = '145 Broadway';
+    var userAddress = '';
 
     function getDirections(destination) {
       var url;
@@ -81,7 +78,7 @@ define(
           mapService.displayDirections(result, destination, renderers[index]);
         });
       }, function () {
-        alert("An error occurred");
+        alert("Could not find the address");
       });
     }
 
@@ -116,9 +113,18 @@ define(
         });
 
         listenToSidebarEvents();
+
         mapService.subscribeToMarkerEvents(whenMarkerEventsHappen);
 
-        updatePollingDirections(userAddress);
+        renderers = $.map(earlyVotingLocations, function(location, index) {
+          var panel = $('.early-voting-directions, [data-location=' + index + ']');
+          return mapService.getDirectionsRenderer(panel[0]);
+        });
+
+        $('#early-voting-address').siblings('button').click(function() {
+          userAddress = $('#early-voting-address').val();
+          updatePollingDirections(userAddress);
+        });
       }
     }
   }
