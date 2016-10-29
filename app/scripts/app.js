@@ -92,10 +92,8 @@ require(['jquery',
       $('.cambridge-tabs a[href=' + window.location.hash + ']').parent().addClass("active");
 
       if (window.location.hash == "#early-voting") {
-
         mapService.displayEarlyPollingMarkers();
       } else if (window.location.hash == "#election-day") {
-
         mapService.displayUserPollingPlace();
       }
 
@@ -181,6 +179,10 @@ require(['jquery',
 
     $('form').on('submit', function (e) {
       e.preventDefault(); // don't submit form
+    });
+
+    $('#election-day form').on('submit', function () {
       updateElectionDayDirections();
     });
+
   });

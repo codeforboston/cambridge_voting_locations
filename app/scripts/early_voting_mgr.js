@@ -15,6 +15,16 @@ define(
     var $el = $('#early-voting');
     var userAddress = '';
 
+    var $address = $('#early-voting-address');
+
+    var defaultBounds = new google.maps.LatLngBounds(
+      new google.maps.LatLng(42.360129, -71.148834),
+      new google.maps.LatLng(42.389868, -71.075535)
+    );
+    var autocomplete = new google.maps.places.Autocomplete($address.get(0), {
+      bounds: defaultBounds
+    });
+
     function getDirections(destination) {
       var url;
       if (navigator.userAgent.match(/iPhone|iPad|iPod/)) {
@@ -29,6 +39,13 @@ define(
       if (eventType === 'click') {
         for (var i = 0; i < earlyVotingLocations.length; i++) {
           if (marker.getPosition().equals(earlyVotingLocations[i].getGeometry().get())) {
+            var cardBody = $('#collapse' + i);
+            if (cardBody.hasClass('in')) {
+              cardBody.removeClass('in');
+            } else {
+              cardBody.addClass('in');
+            }
+
             $el.scrollTo($('#location' + i), 800);
           }
         }
@@ -39,7 +56,7 @@ define(
       var sidebarDivs = $("#early-voting-sidebar").children();
 
       sidebarDivs.each(function (i, sb) {
-        $(sb).click(function() {
+        $(sb).click(function () {
           var panel = $(this).closest('.early-voting-location').find('.early-voting-directions');
           toggleDirections(userAddress, panel);
         });
@@ -116,13 +133,13 @@ define(
 
         mapService.subscribeToMarkerEvents(whenMarkerEventsHappen);
 
-        renderers = $.map(earlyVotingLocations, function(location, index) {
+        renderers = $.map(earlyVotingLocations, function (location, index) {
           var panel = $('.early-voting-directions, [data-location=' + index + ']');
           return mapService.getDirectionsRenderer(panel[0]);
         });
 
-        $('#early-voting-address').siblings('button').click(function() {
-          userAddress = $('#early-voting-address').val();
+        $address.siblings('button').click(function () {
+          userAddress = $address.val();
           updatePollingDirections(userAddress);
         });
       }

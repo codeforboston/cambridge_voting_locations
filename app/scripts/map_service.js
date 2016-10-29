@@ -56,7 +56,7 @@ define(['json!vendor/EARLY_VOTING_AddressPoints.geojson'],
     }
 
     function createEarlyPollingMarkers() {
-      earlyPollingLocations.forEach(function (poll, index) {
+      earlyPollingLocations.forEach(function (poll) {
         var earlyVotingMarker = new google.maps.Marker({
           position: poll.getGeometry().get()
         });
