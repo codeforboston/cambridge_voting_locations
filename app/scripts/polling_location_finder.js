@@ -5,32 +5,32 @@ define(['jquery',
     function($, precinctsJSON, locationsJSON, mapService) {
 
     'use strict';
-    
+
     var precincts = mapService.earlyPollsDataLayer.addGeoJson(precinctsJSON),
         pollingLocations = mapService.electionPollsDataLayer.addGeoJson(locationsJSON),
         precinctsPolygons = [];
-        
+
     createPolygons();
-    
+
     //function that populates the array with polygons representing each precinct, because data.polygon has little to no useful methods.
     function createPolygons(){
-        
+
         var i = 0,
             len = precincts.length;
-        
+
         for(i; i<len; i++){
-         
+
             var currentFeature = precincts[i],
                 currentPolygon = new google.maps.Polygon({
                                 paths: currentFeature.getGeometry().getAt(0).getArray(),
                                 clickable: false
                                 });
-                                                       
+
             precinctsPolygons.push(currentPolygon);
 
-        }    
+        }
     }
-    	
+
     function getUserPrecinct(latLng) {
 
         for (var i = 0, len1 = precinctsPolygons.length; i < len1; i++) {
@@ -38,11 +38,11 @@ define(['jquery',
                 return  precinctsPolygons[i];
             }
         }
-        
+
     }
 
     function getPollingLocation(precinct) {
-        
+
         var index = precinctsPolygons.indexOf(precinct);
         // find out which ward/precinct they're in using Point in Polygon
         var wardPrecinct = precincts[index].getProperty('WardPrecinct');
@@ -71,7 +71,7 @@ define(['jquery',
     return function(latLng, successCallback, errorCallback) {
 
         var userPrecinct = getUserPrecinct(latLng);
- 
+
         if (!userPrecinct) {
             $('#notice')
                 .addClass('error')
@@ -82,8 +82,8 @@ define(['jquery',
 
             var destination = pollingLocation.getProperty('Address') + ', Cambridge, MA';
             mapService.displayNewPollingPlace(latLng, destination, userPrecinct, successCallback, errorCallback);
-            // userPrecinct.setMap(map);
-            // map.fitBounds(userPrecinct.getBounds());
+
+            $('#election-day .voting-result').show();
 
             // display location notes
             $('#info .location').text(pollingLocation.getProperty('LOCATION'));
