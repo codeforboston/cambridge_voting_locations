@@ -200,7 +200,10 @@ main > .row {
 
 
 
-#map { min-height: 100vh; }
+#map, .col-sm-8{ 
+    min-height: 100vh;
+    overflow: visible !important; //overwrites bootstrap class ".col-sm-8"
+}
 
 
 #early-voting {
